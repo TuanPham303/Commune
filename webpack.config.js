@@ -12,7 +12,7 @@ module.exports = {
   devtool: 'source-map',
   // https://webpack.js.org/configuration/dev-server/
   devServer: {
-    contentBase: path.resolve(__dirname, 'public'),
+    contentBase: "path.resolve(__dirname, 'public')",
     host: '0.0.0.0'
   },
   module: {

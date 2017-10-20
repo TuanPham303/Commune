@@ -2,8 +2,11 @@
   "name": "commune",
   "version": "1.0.1",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server",
-    "webpack": "./node_modules/.bin/webpack"
+    "dev": "./node_modules/.bin/webpack-dev-server",
+    "prod": "./node_modules/.bin/webpack -p && node server.js",
+    "webpack": "./node_modules/.bin/webpack",
+    "dev:migrate": "NODE_ENV=development knex migrate:latest",
+    "prod:migrate": "NODE_ENV=production knex migrate:latest"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -12,6 +15,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.5",
+    "express": "^4.16.2",
     "node-sass": "^4.5.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

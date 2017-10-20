@@ -1,5 +1,6 @@
 const path = require('path');
 
+
 module.exports = {
   entry: './src/index.jsx',
   // https://webpack.js.org/configuration/output/

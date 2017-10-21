@@ -4,6 +4,15 @@ import React from 'react';
 import {render} from 'react-dom';
 import 'bootstrap';
 import 'jquery';
-import HomePage from './HomePage/HomePage.jsx';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import App from './App.jsx';
+import reducer from './redux/reducers/index.js';
 
-render(<HomePage />, document.getElementById('react-root'));
+const store = createStore(reducer);
+
+render(
+  <Provider store={ store }>
+    <App />
+  </Provider>, document.getElementById('react-root'));
+  

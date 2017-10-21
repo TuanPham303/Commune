@@ -8,11 +8,11 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import App from './App.jsx';
 import reducer from './redux/reducers/index.js';
+import Root from './root.jsx'
 
 const store = createStore(reducer);
 
 render(
-  <Provider store={ store }>
-    <App />
-  </Provider>, document.getElementById('react-root'));
+  <Root store={store} />,
+  document.getElementById('react-root'));
   

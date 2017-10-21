@@ -7,7 +7,6 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <NavBar />
         <HomePage_Banner />
         <HomePage_Events />
       </div>  

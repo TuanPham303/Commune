@@ -2,7 +2,7 @@ const path = require('path');
 
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: './src/index.js',
   // https://webpack.js.org/configuration/output/
   output: {
     path: path.resolve(__dirname, 'public'),

@@ -1,10 +1,9 @@
 .homePageBanner {
   margin: 0px;
-  // padding: 30px 5%;
-  vertical-align: middle;
   position: relative;
   .homePageBannerSearch {
     position: absolute;
+    z-index: 1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -12,22 +11,31 @@
       height: 70px;
       width: 600px;
       background-color: #000;
-      opacity: 0.8;
+      opacity: 0.75;
       color: #fff;
     }
     .homePageBannerSearchButton {
       height: 70px;
       background-color: #000;
-      opacity: 0.8;
+      opacity: 0.75;
       color: #fff;
     }
   }
+}
+
+.search-title {
+  color: gold;
+  text-align: center;
 }
 
 .clip {
  overflow: hidden;
  display: block;
  height: 60vh;
+}
+
+.clip video {
+  width: 100%;
 }
 
 .eventContainer {

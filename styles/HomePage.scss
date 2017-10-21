@@ -1,0 +1,73 @@
+.homePageBanner {
+  background-image: url('https://wallpaperscraft.com/image/spices_seasonings_red_pepper_black_pepper_pepper_star_anise_onion_ginger_garlic_walnuts_bay_leaf_78738_1920x1080.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0px;
+  padding: 0px !important;
+  height: 50vh;
+  position: relative;
+  .homePageBannerSearch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .homePageBannerSearchBox {
+      height: 70px;
+      width: 600px !important;
+      background-color: #000;
+      opacity: 0.7;
+      color: #fff;
+    }
+    .homePageBannerSearchButton {
+      height: 70px;
+      background-color: #000;
+      opacity: 0.7;
+      color: #fff;
+    }
+  }
+}
+
+.eventContainer {
+  .event {
+    height: 500px;
+    padding: 15px;
+    box-sizing: border-box;
+    .imgContainer {
+      height: 40%;
+      background-image: url("https://wallpaperscraft.com/image/spices_seasonings_red_pepper_black_pepper_pepper_star_anise_onion_ginger_garlic_walnuts_bay_leaf_78738_1920x1080.jpg");
+      .starIcon {
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        top: 30px;
+        right: 30px;
+      }
+    }
+    .eventDescription {
+      height: 60%;
+      border: 1px solid #111;
+      border-top: none;
+      padding: 10px 15px;
+      .hostAndDetailButton {
+        .avatarImg {
+          height: 70px;
+          border-radius: 50%;
+        }
+        .hostDetail {
+          padding: 0 15px;
+          p {
+            margin: 0;
+          }
+          .ratingContainer {
+            padding-left: 15px;
+            .rating {
+              padding: 0;
+              height: 25px;
+              width: 25px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

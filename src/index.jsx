@@ -2,6 +2,8 @@ require('../styles/main.scss');
 
 import React from 'react';
 import {render} from 'react-dom';
-import App from './App.jsx';
+import 'bootstrap';
+import 'jquery';
+import HomePage from './HomePage/HomePage.jsx';
 
-render(<App />, document.getElementById('react-root'));
+render(<HomePage />, document.getElementById('react-root'));

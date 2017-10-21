@@ -1,5 +1,4 @@
-$brand-color: tomato;
+@import "navBar";
+@import "HomePage";
+@import "~bootstrap/scss/bootstrap";
 
-h1 {
-  color: $brand-color;
-}

@@ -1,0 +1,51 @@
+.reset {
+  padding: 0;
+}
+
+.eventBanner {
+  padding-top: 100px;
+  .image {
+    img {
+      height: auto;
+      width: 100%;
+    }
+  }
+  .eventDetail {
+    margin-top: 80px;
+    .eventTitle {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .hostImages {
+      box-sizing: border-box;
+      height: 60vh;
+      padding: 0;
+      .imagesSlider {
+        height: 300px;
+        width: 300px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .eventInfo {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .eventMap {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      img {
+        width: 400px;
+        height: auto;
+      }
+    }
+  }
+}
+
+.menuContainer {
+  text-align: center;
+}

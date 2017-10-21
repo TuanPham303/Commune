@@ -21,6 +21,7 @@ module.exports = {
       poll: 1000,
       ignored: /node_modules/
     },
+    historyApiFallback: true, // send back the index if 404 occurs
     proxy: {
       "/api": "http://localhost:3001"
     }

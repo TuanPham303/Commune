@@ -21,10 +21,10 @@ module.exports = {
       poll: 1000,
       ignored: /node_modules/
     },
+    historyApiFallback: true,
     proxy: {
       "/api": "http://localhost:3001"
-    },
-    historyApiFallback: true
+    }
   },
   module: {
     rules: [

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 class NavBar extends Component {
   render() {
@@ -20,7 +21,9 @@ class NavBar extends Component {
               <a className="nav-link" href="#">Become a Host <span className="sr-only">(current)</span></a>
             </li>
             <li className="nav-item">
-              <div className="nav-link">User's Name</div>
+              <Link to='/events'>
+                <div className="nav-link">User's Name</div>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">Log out</a>

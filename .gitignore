@@ -4,6 +4,7 @@ dist
 .DS_Store
 bundle.js
 bundle.js.map
+.vscode
 
 ### PhpStorm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm

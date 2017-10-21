@@ -20,6 +20,9 @@ module.exports = {
       aggregateTimeout: 300,
       poll: 1000,
       ignored: /node_modules/
+    },
+    proxy: {
+      "/api": "http://localhost:3001"
     }
   },
   module: {

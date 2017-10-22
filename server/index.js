@@ -39,7 +39,7 @@ app.use(
 );
 
 //Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+// app.use("/api/users", usersRoutes(knex));
 app.use("/api/events", eventsRoutes(knex));
 
 

@@ -7,7 +7,7 @@ const cookieSession = require('cookie-session');
 const userHelpersFunction = require("../helpers/eventHelpers");
 
 module.exports = knex => {
-  const userhelpers = userHelpersFunction(knex);
+  const userHelpers = userHelpersFunction(knex);
 
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
@@ -19,29 +19,22 @@ module.exports = knex => {
 
   });
 
-  // book an event for a user (add to user_events & user_event_roles tables)
-  // requires role id in body as 'role', user id from cookie, event id from url
+  // book an event for a user to attend as a guest
+  // (add to user_events & user_event_roles tables)
+  // doesnt allow duplicates
+  // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
     if (/* req.session.id */ true) {
-      knex
-          .insert({
-            user_id: /*req.session.id*/ 30000,
-            event_id: req.params.id
+      const isBooked = userHelpers.userIsBooked(/*req.session.id*/30000, req.params.id)
+      .then(isBooked => {
+        if (!isBooked) {
+          userHelpers.addAsGuest(/*req.session.id*/ 30000, req.params.id)
+          .then(() => {
+            res.sendStatus(201);
           })
-          .into("user_events")
-          .returning('id')
-          .then(function (id) {
-            knex
-              .insert({
-                user_event_id: Number(id),
-                role_id: req.body.role
-              })
-              .into("user_event_roles")
-              .then(results => {
-                res.sendStatus(201);  // what to return?
-              });
-          });
-    }
+        } else res.sendStatus(400);
+      })
+    } else res.sendStatus(400);
   });
 
   // get details about a particular event

@@ -2,7 +2,7 @@
 
 
 //Creating helper functions to bridge data to the website
-module.exports = function makeUserHelpers(knex) {
+module.exports = function makeEventHelpers(knex) {
 
   function userIsBooked(userID, eventID) {
     const userIsBookedPromise = new Promise((resolve,reject) => {

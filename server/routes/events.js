@@ -4,10 +4,10 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');
-const userHelpersFunction = require("../helpers/eventHelpers");
+const eventHelpersFunction = require("../helpers/eventHelpers");
 
 module.exports = knex => {
-  const userHelpers = userHelpersFunction(knex);
+  const eventHelpers = eventHelpersFunction(knex);
 
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
@@ -25,10 +25,10 @@ module.exports = knex => {
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
     if (/* req.session.id */ true) {
-      const isBooked = userHelpers.userIsBooked(/*req.session.id*/30000, req.params.id)
+      const isBooked = eventHelpers.userIsBooked(/*req.session.id*/30000, req.params.id)
       .then(isBooked => {
         if (!isBooked) {
-          userHelpers.addAsGuest(/*req.session.id*/ 30000, req.params.id)
+          eventHelpers.addAsGuest(/*req.session.id*/ 30000, req.params.id)
           .then(() => {
             res.sendStatus(201);
           })

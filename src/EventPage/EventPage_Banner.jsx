@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 
 class EventPage_Banner extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   render() {
     return (
       <div className="eventBanner container-fluid">
@@ -18,7 +23,7 @@ class EventPage_Banner extends Component {
 
         <div className="eventDetail">
           <div className="eventTitle">
-            <h3>Fancy Dinner ($59)</h3>
+            <h3>{this.props.title} (${this.props.price})</h3>
           </div>
           <div className="row">
             <div className="hostImages col-4">
@@ -60,15 +65,15 @@ class EventPage_Banner extends Component {
               <div className="eventInfo">
                 <div className="date">
                   <strong>Date</strong>
-                  <p>Friday 13rd 2017, 8am - 8am</p>
+                  <p>{this.props.date}</p>
                 </div>
                 <div className="capacity">
                   <strong>Capacity</strong>
-                  <p>10 people</p>
+                  <p>{this.props.capacity} people</p>
                 </div>
                 <div className="description">
                   <strong>Description</strong>
-                  <p>hahahahahahahaha hehehehehehehehehe</p>
+                  <p>{this.props.description}</p>
                 </div>
                 <button className="btn btn-primary">Book now</button> 
               </div>

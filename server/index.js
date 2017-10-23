@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'))
 
-app.use("/api/users", usersRoutes(knex));
+// app.use("/api/users", usersRoutes(knex));
 app.use("/api/events", eventsRoutes(knex));
 
 

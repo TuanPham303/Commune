@@ -17,11 +17,25 @@ module.exports = function makeEventHelpers(knex) {
           }
         });
     });
-    return userIsBookedPromise
+    return userIsBookedPromise;
   }
 
-  function addAsGuest(userID, eventID) {
-    const addAsGuestPromise = new Promise((resolve,reject) => {
+  function eventHasSpace(eventID) {
+    const eventHasSpacePromise = new Promise((resolve,reject) => {
+      knex('user_events')
+        .join('events', 'user_events.event_id', '=', 'events.id')
+        .select(knex.raw('count(*) as usersCount, capacity'))
+        .where('event_id', 10000)
+        .groupBy('capacity')
+        .then(results => {
+          resolve(results[0].capacity > results[0].userscount);
+        });
+    });
+    return eventHasSpacePromise;
+  }
+
+  function addUserToEvent(userID, eventID, roleID) {
+    const addUserToEventPromise = new Promise((resolve,reject) => {
       knex
         .insert({
           user_id: userID,
@@ -33,7 +47,7 @@ module.exports = function makeEventHelpers(knex) {
           knex
             .insert({
               user_event_id: Number(id),
-              role_id: 1
+              role_id: roleID
             })
             .into('user_event_roles')
             .then(() => {
@@ -41,12 +55,13 @@ module.exports = function makeEventHelpers(knex) {
             });
         });
     });
-    return addAsGuestPromise
+    return addUserToEventPromise;
   }
 
   return {
     //export all functions
     userIsBooked,
-    addAsGuest
+    eventHasSpace,
+    addUserToEvent
   };
 };

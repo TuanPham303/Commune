@@ -14,7 +14,11 @@ module.exports = knex => {
 
   });
 
-  // add new event (post)
+  // add new event (add to events table, add host to user_events, etc)
+  // takes current_user (becomes host), title, address, date/time (optional),
+  //   description(optional), menu_description (optional), price, capacity
+  //   extra hosts/chefs?
+  //
   router.post('/new', (req, res) => {
 
   });
@@ -25,10 +29,13 @@ module.exports = knex => {
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
     if (/* req.session.id */ true) {
-      const isBooked = eventHelpers.userIsBooked(/*req.session.id*/30000, req.params.id)
-      .then(isBooked => {
-        if (!isBooked) {
-          eventHelpers.addAsGuest(/*req.session.id*/ 30000, req.params.id)
+      Promise.all([
+        eventHelpers.userIsBooked(/*req.session.id*/30000, req.params.id),
+        eventHelpers.eventHasSpace(req.params.id)
+      ])
+      .then(values => {
+        if (!values[0] && values[1]) {
+          eventHelpers.addUserToEvent(/*req.session.id*/30000, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })

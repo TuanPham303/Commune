@@ -14,7 +14,7 @@ module.exports = knex => {
 
   });
 
-  //add new event (post)
+  // add new event (post)
   router.post('/new', (req, res) => {
 
   });
@@ -38,7 +38,7 @@ module.exports = knex => {
               })
               .into("user_event_roles")
               .then(results => {
-                res.json(results);  // what to return?
+                res.sendStatus(201);  // what to return?
               });
           });
     }

@@ -15,7 +15,7 @@ const knexLogger = require("knex-logger");
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 const eventsRoutes = require("./routes/events");
-
+const searchesRoutes = require("./routes/searches");
 
 
 
@@ -28,6 +28,7 @@ app.use(express.static('public'))
 
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/events", eventsRoutes(knex));
+app.user("/api/events/search?", searchesRoutes(knex));
 
 
 app.listen(3001, () => {

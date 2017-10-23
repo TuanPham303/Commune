@@ -14,6 +14,15 @@ module.exports = function makeUserHelpers(knex) {
       .then(([user]) => user);
   }
 
+    //Find ID of user on login
+    function findById(id) {
+      return knex('users')
+        .select('*')
+        .where({id})
+        .limit(1)
+        .then(([user]) => user);
+    }
+
   //Authenticate our user for login - email and password fields
     function authenticateUser(email, password) {
       return findByEmail(email)
@@ -39,7 +48,7 @@ module.exports = function makeUserHelpers(knex) {
   }
 
   //Add new user on register
-  function addUser(first_name, last_name, email, username, password) {
+  function addUser(first_name, last_name, email, is_host, is_chef, password) {
     return (
       checkEmailUnique(email) //Is email unique?
       .then(() => bcrypt.hash(password, 10))
@@ -48,7 +57,8 @@ module.exports = function makeUserHelpers(knex) {
           first_name: first_name,
           last_name: last_name,
           email: email,
-          username: username,
+          is_host: false,
+          is_chef: false,
           password_digest: passwordDigest,
         })
         .then((user)=>{
@@ -58,10 +68,71 @@ module.exports = function makeUserHelpers(knex) {
       .catch((error) => console.log("Invalid register", error))
     )
   }
+
+  function becomeHost(email) {
+    return findByEmail(email)
+      .then((user) => {
+        return knex('users')
+        .update(user)
+        .where({is_host: true});
+      })
+  }
+
+  function findEventsByUserId(user_id) {
+    return knex('events')
+    .join('user_events', 'user_events.event_id', 'events.id')
+    .join('users', 'user_events.user_id', 'users.id')
+    .where('users.id', user_id)
+    .then((result) => result);
+  }
+
+  function findReviewsByUserId(user_id) {
+    return knex('reviews')
+    .join('user_events', 'user_events.id', 'reviews.user_event_id')
+    .join('users', 'users.id', 'user_events.user_id')
+    .join('events', 'events.id', 'user_events.event_id')
+    .where('users.id', user_id)
+    .then((result) => result);
+  }
+
+  function findReviewsPostedByUserId(user_id) {
+    return knex('reviews')
+    .join ('users', 'users.id', 'reviews.reviewer_id')
+    .where ('reviews.reviewer_id', user_id)
+    .then((result) => result);
+  }
+
+  function postReview(reviewerId, eventId, userId, rating, description) {
+    return (knex('user_events')
+    .select('id')
+    .where({
+      user_id: userId,
+      event_id: eventId
+    })
+    .then((userEvent) => {
+      console.log(userEvent);
+      knex('reviews')
+      .insert({
+        reviewer_id: reviewerId,
+        user_event_id: userEvent[0].id,
+        rating: rating,
+        description: description
+      }).then((reuslt) => result);
+    })
+    .catch((error) => console.log("Invalid Post", error))
+    )
+  }
+
   return {
   findByEmail,
+  findById,
   checkEmailUnique,
   authenticateUser,
-  addUser
+  addUser,
+  becomeHost,
+  findEventsByUserId,
+  findReviewsByUserId,
+  findReviewsPostedByUserId,
+  postReview
   };
 };

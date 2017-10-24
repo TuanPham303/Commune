@@ -14,11 +14,10 @@ import UserProfile from './UserProfile/UserProfile.jsx';
 ReactDOM.render((
   <Router>
     <div>
-      
       <Route exact path="/" component={HomePage}/>
       <Route path="/events/:id" component={EventPage}/>
-      <Route path="/user" component={UserProfile}/>
-      <Link to="/user">users</Link>
+      {/* <Route path="/user  " component={UserProfile}/> */}
+      
     </div>
   </Router>
 ), document.getElementById('react-root'));

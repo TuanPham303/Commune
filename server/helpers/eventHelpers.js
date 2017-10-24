@@ -4,6 +4,40 @@
 //Creating helper functions to bridge data to the website
 module.exports = function makeEventHelpers(knex) {
 
+  // makes a (single) call to google place api to determine neighbourhood and lat/long
+  function getLocationDetails(eventID, address) {
+
+  }
+
+  // creates an event and calls getLocationDetails()
+  function createEvent(details) {
+    const createEventPromise = new Promise((resolve,reject) => {
+      knex
+        .insert({
+          title: details.title, //required
+          address: details.address, //required
+          date: details.date,
+          description: details.description,
+          menu: details.menu,
+          price: details.price, //required
+          capacity: details.capacity //required
+        })
+        .into('events')
+        .returning('id')
+        .then((id) => {
+          details.users.forEach((user) => {
+            addUserToEvent(user.user, id, user.role);
+          })
+          .then(() => {
+              resolve();
+            });
+          //call getLocationDetails() - dont wait for this one before returning
+        });
+    });
+    return createEventPromise;
+  }
+
+  // returns true or false if a user has booked an event
   function userIsBooked(userID, eventID) {
     const userIsBookedPromise = new Promise((resolve,reject) => {
       knex('user_events')
@@ -20,6 +54,7 @@ module.exports = function makeEventHelpers(knex) {
     return userIsBookedPromise;
   }
 
+  // returns true or false if event has spaces
   function eventHasSpace(eventID) {
     const eventHasSpacePromise = new Promise((resolve,reject) => {
       knex('user_events')
@@ -34,6 +69,7 @@ module.exports = function makeEventHelpers(knex) {
     return eventHasSpacePromise;
   }
 
+  // adds user to event and adds user role
   function addUserToEvent(userID, eventID, roleID) {
     const addUserToEventPromise = new Promise((resolve,reject) => {
       knex
@@ -59,7 +95,7 @@ module.exports = function makeEventHelpers(knex) {
   }
 
   return {
-    //export all functions
+    createEvent,
     userIsBooked,
     eventHasSpace,
     addUserToEvent

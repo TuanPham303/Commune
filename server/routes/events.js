@@ -14,13 +14,29 @@ module.exports = knex => {
 
   });
 
+  //update event
+  router.post('/:id/edit', (req, res) => {
+
+  });
+
   // add new event (add to events table, add host to user_events, etc)
   // takes current_user (becomes host), title, address, date/time (optional),
   //   description(optional), menu_description (optional), price, capacity
-  //   extra hosts/chefs?
-  //
   router.post('/new', (req, res) => {
-
+    const details = {
+      users: /*req.body.usersHelping*/[{user: 30000, role: 2}], //required - an array of objects with user_id and role_id
+      title: req.body.title, //required
+      address: req.body.address, //required
+      date: req.body.date,
+      description: req.body.description,
+      menu: req.body.menu,
+      price: req.body.price, //required
+      capacity: req.body.capacity //required
+    }
+    eventHelpers.createEvent(details)
+    .then(() => {
+      res.sendStatus(201);
+    })
   });
 
   // book an event for a user to attend as a guest
@@ -28,14 +44,14 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    if (/* req.session.id */ true) {
+    if (/* req.session.user.id */ true) {
       Promise.all([
-        eventHelpers.userIsBooked(/*req.session.id*/30000, req.params.id),
+        eventHelpers.userIsBooked(/*req.session.user.id*/30000, req.params.id),
         eventHelpers.eventHasSpace(req.params.id)
       ])
       .then(values => {
         if (!values[0] && values[1]) {
-          eventHelpers.addUserToEvent(/*req.session.id*/30000, req.params.id, 1)
+          eventHelpers.addUserToEvent(/*req.session.user.id*/30000, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })

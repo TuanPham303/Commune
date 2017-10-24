@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
 import HomePage from './HomePage/HomePage.jsx';
 import EventPage from './EventPage/EventPage.jsx';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import App from './App.jsx';
 import UserProfile from './UserProfile/UserProfile.jsx';
 

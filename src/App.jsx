@@ -10,10 +10,6 @@ class App extends Component {
     }
   }
 
-  componentWillMount () {
-    let searchResults;
-  }
-
   getSearchResults = searchData => {
     console.log(searchData)
     $.ajax({

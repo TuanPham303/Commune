@@ -1,6 +1,23 @@
 import React, {Component} from 'react';
 
 class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchString: ''
+    }
+  }
+
+  changeHandler = event => {
+    this.setState({ searchString: event.target.value })
+  }
+
+  onSearch = event => {
+    event.preventDefault();
+    this.props.getSearchResults(this.state.searchString);
+    this.setState({ searchString: '' })
+  }
+  
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbarContainer">
@@ -23,8 +40,8 @@ class NavBar extends Component {
           </ul>
         </div>
 
-        <form className="form-inline my-2 my-lg-0" method="GET" action="/api/events/search">
-          <input className="form-control mr-sm-2" type="text" placeholder="Search" name="query" aria-label="Search"></input>
+        <form className="form-inline my-2 my-lg-0" onSubmit={this.onSearch} >
+          <input className="form-control mr-sm-2" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler}></input>
           <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </nav>

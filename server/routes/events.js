@@ -24,7 +24,7 @@ module.exports = knex => {
   });
 
   router.post('/test', (req, res) => {
-    eventHelpers.getLocationDetails(20, req.body.address);
+    eventHelpers.queryDB(20);
   });
 
   // add new event (add to events table, add host to user_events, etc)
@@ -74,8 +74,7 @@ module.exports = knex => {
 
   // get details about a particular event
   router.get('/:id', (req, res) => {
-    knex('events')
-      .where('id', req.params.id)
+    eventHelpers.queryDB(req.params.id)
       .then(results => {
           res.json(results);
         });

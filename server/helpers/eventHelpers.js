@@ -4,6 +4,23 @@
 //Creating helper functions to bridge data to the website
 module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
+  function queryDB(eventID) {
+    return new Promise((resolve, reject) => {
+      knex('events')
+        .join('user_events', 'user_events.event_id', '=', 'events.id')
+        .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
+        .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
+        .join('users', 'users.id', '=', 'user_events.user_id')
+        .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date',
+                'events.description', 'events.menu_description', 'events.price', 'events.image_url',
+                'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')
+        .where('events.id', 20)
+        .whereIn('role_name', ['host', 'chef'])
+        .then(results => {
+          resolve(results);
+        });
+    });
+  }
 
   // helper functions for getLocationDetals
   function findNeighborhood(data) {
@@ -132,6 +149,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
   }
 
   return {
+    queryDB,
     getLocationDetails,
     createEvent,
     userIsBooked,

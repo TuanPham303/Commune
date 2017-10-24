@@ -1,0 +1,38 @@
+.userProfileHeader {
+  margin-top: 80px;
+  height: 50vh;
+  border: 1px solid black;
+  .avatar {
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    img {
+      width: 250px;
+      height: auto;
+    }
+  }
+  .userInfo {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.reviews {
+  margin-top: 80px;
+  .review {
+    margin: 10px 0;
+    .avatar {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
+  
+}

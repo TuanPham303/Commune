@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'))
 
+
 app.use(
   cookieSession({
     name: "session",
@@ -39,7 +40,7 @@ app.use(
 );
 
 //Mount all resource routes
-// app.use("/api/users", usersRoutes(knex));
+app.use("/api/users", usersRoutes(knex));
 app.use("/api/events", eventsRoutes(knex));
 
 

@@ -10,8 +10,32 @@ module.exports = knex => {
   const userhelpers = userHelpersFunction(knex);
 
   // get details on all events that match the search term
-  router.get('/search', (req, res) => {
-
+  router.get('/search/:query', (req, res) => {
+    if (req.params.query.trim() === ''){ //Checks if query is empty
+      res.status(400);
+    } else {
+      knex
+      .raw(
+      `SELECT pid, p_title, p_description, p_price, p_capacity, p_neighbourhood, p_address
+      FROM ( SELECT events.id as pid,
+                    events.title as p_title,
+                    events.description as p_description,
+                    events.price as p_price,
+                    events.capacity as p_capacity,
+                    events.neighbourhood as p_neighbourhood,
+                    events.address as p_address,
+                    to_tsvector(events.title)
+                    || to_tsvector(events.description)
+                    || to_tsvector(events.menu_description)
+                    || to_tsvector(coalesce((string_agg(events.neighbourhood, ' ')), '')) as document
+                    FROM events
+                    GROUP BY events.id) p_search
+                    WHERE p_search.document @@ to_tsquery('${req.params.query}')`, req.query.search)
+      .then( (results) => {
+        console.log(results)
+        res.json(results);
+      });
+    };
   });
 
   // add new event (post)

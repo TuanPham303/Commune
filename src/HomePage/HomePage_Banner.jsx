@@ -15,8 +15,8 @@ class HomePage_Banner extends Component {
           </div>
           <div className="homePageBannerSearch">
             <h1 className="search-title">Experience Food as an Art Form</h1>
-            <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2 homePageBannerSearchBox" type="text" placeholder="Search" aria-label="Search"></input>
+            <form className="form-inline my-2 my-lg-0" method="GET" action="/api/events/search">
+            <input className="form-control mr-sm-2 homePageBannerSearchBox" type="text" name="query" placeholder="Search" aria-label="Search"></input>
             <button className="btn btn-outline-success my-2 my-sm-0 homePageBannerSearchButton" type="submit">Search</button>
           </form>
           </div>

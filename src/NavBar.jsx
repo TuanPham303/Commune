@@ -23,8 +23,8 @@ class NavBar extends Component {
           </ul>
         </div>
 
-        <form className="form-inline my-2 my-lg-0">
-          <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"></input>
+        <form className="form-inline my-2 my-lg-0" method="GET" action="/api/events/search">
+          <input className="form-control mr-sm-2" type="text" placeholder="Search" name="query" aria-label="Search"></input>
           <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </nav>

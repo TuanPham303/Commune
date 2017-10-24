@@ -12,6 +12,7 @@
     "prod:migrate": "NODE_ENV=production knex migrate:latest"
   },
   "dependencies": {
+    "@google/maps": "^0.4.5",
     "autoprefixer": "^7.1.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

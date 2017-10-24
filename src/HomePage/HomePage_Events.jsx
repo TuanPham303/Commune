@@ -7,9 +7,6 @@ class HomePage_Events extends Component {
     super(props);
   }
 
-  
- 
-
   render() {
     console.log('all events', this.props.previewEvents);
     const previewEvents = this.props.previewEvents.map( previewEvent => {
@@ -19,7 +16,7 @@ class HomePage_Events extends Component {
         description={previewEvent.description}
         neighbourhood={previewEvent.neighbourhood}
         capacity={previewEvent.capacity}
-        eventId={previewEvent.id}
+        eventId={previewEvent.event_id}
       />
       });
     return(

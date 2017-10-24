@@ -5,6 +5,10 @@
 module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   function queryDB(eventID) {
+    let compare;
+    console.log(!eventID);
+    !eventID ? compare = '>' : compare = '=';
+    console.log(compare);
     return new Promise((resolve, reject) => {
       knex('events')
         .join('user_events', 'user_events.event_id', '=', 'events.id')
@@ -14,7 +18,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date',
                 'events.description', 'events.menu_description', 'events.price', 'events.image_url',
                 'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')
-        .where('events.id', 20)
+        .where('events.id', compare, eventID)
         .whereIn('role_name', ['host', 'chef'])
         .then(results => {
           resolve(results);

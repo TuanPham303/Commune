@@ -82,7 +82,7 @@ module.exports = knex => {
 
   // get details on all events
   router.get('/', (req, res) => {
-    knex('events')
+    eventHelpers.queryDB(0)
       .then(results => {
           res.json(results);
         });

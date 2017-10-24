@@ -6,36 +6,29 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchResults: {
-        title: ''
-      }
+      searchResults: []
     }
   }
 
   componentWillMount () {
     let searchResults;
+  }
 
-    const getSearchResults = searchData => {
-      console.log(searchData)
-      $.ajax({
-        method: "GET",
-        url: `/api/events/search/${searchData}`
+  getSearchResults = searchData => {
+    console.log(searchData)
+    $.ajax({
+      method: "GET",
+      url: `/api/events/search/${searchData}`
+    })
+    .done(result => {
+      console.log(result);
+      this.setState({
+        searchResults: result
       })
-      .done(result => {
-        $(".search-results").empty();
-        $("<h3>")
-          .text("Results:")
-          .appendTo($(".search-results"));
-        result.fields.forEach(field => {
-          $("<a>")
-            .text(field.name)
-            .appendTo($(".search-results"));
-        });
-      })
-      .fail(e => {
-        console.error(e);
-      });
-    }
+    })
+    .fail(e => {
+      console.error(e);
+    });
   }
 
   render() {

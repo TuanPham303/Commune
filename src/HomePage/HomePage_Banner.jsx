@@ -1,6 +1,30 @@
 import React, {Component} from 'react';
 
 class HomePage_Banner extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchString: ''
+    }
+  }
+
+  componentWillMount () {
+    console.log(this.props)
+  }
+
+  changeHandler = event => {
+    this.setState({ searchString: event.target.value })
+    console.log(this.state)
+  }
+
+  onSearch = event => {
+    console.log("in onSearch", this.state)
+    event.preventDefault();
+    console.log("this is the event right? :", event);
+    this.props.getSearchResults(this.state.searchString);
+    event.target.value = ''
+  }
+
   render() {
     return (
       <div>
@@ -15,9 +39,9 @@ class HomePage_Banner extends Component {
           </div>
           <div className="homePageBannerSearch">
             <h1 className="search-title">Experience Food as an Art Form</h1>
-            <form className="form-inline my-2 my-lg-0" method="GET" action="/api/events/search">
-            <input className="form-control mr-sm-2 homePageBannerSearchBox" type="text" name="query" placeholder="Search" aria-label="Search"></input>
-            <button className="btn btn-outline-success my-2 my-sm-0 homePageBannerSearchButton" type="submit">Search</button>
+            <form className="form-inline my-2 my-lg-0" onSubmit={this.onSearch} >
+            <input className="form-control mr-sm-2 homePageBannerSearchBox" type="text" name="query" onChange={this.changeHandler} placeholder="Search"></input>
+            <button className="btn btn-outline-success my-2 my-sm-0 homePageBannerSearchButton" type="submit" value="Submit">Search</button>
           </form>
           </div>
           

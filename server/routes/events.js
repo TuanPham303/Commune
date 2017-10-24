@@ -10,7 +10,8 @@ module.exports = knex => {
   const userhelpers = userHelpersFunction(knex);
 
   // get details on all events that match the search term
-  router.get('/search/:query', (req, res) => {
+  router.get('search/:query', (req, res) => {
+    console.log(req.params.query);
     if (req.params.query.trim() === ''){ //Checks if query is empty
       res.status(400);
     } else {
@@ -30,7 +31,7 @@ module.exports = knex => {
                     || to_tsvector(coalesce((string_agg(events.neighbourhood, ' ')), '')) as document
                     FROM events
                     GROUP BY events.id) p_search
-                    WHERE p_search.document @@ to_tsquery('${req.params.query}')`, req.query.search)
+                    WHERE p_search.document @@ to_tsquery('${req.params.query}')`)
       .then( (results) => {
         console.log(results)
         res.json(results);

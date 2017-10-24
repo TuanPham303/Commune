@@ -4,49 +4,47 @@ import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
 
+const moment = require('moment');
+
 
 class EventPage extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      events: {
-        title: "",
-        capacity: "",
-        price: "",
-        description: "",
-        date: "",
-        menu: "",
+      eventDetail: {
+        title: '',
+        price: '',
+        date: '',
+        capacity: '',
+        description: '',
+        menu: '',
       }
     }
   }
 
   componentDidMount(){
-
-    const getEventDetail = () => {
-      const options = {  
-        weekday: "long", year: "numeric", month: "short",  
-        day: "numeric", hour: "2-digit", minute: "2-digit"  
-      };
+    const eventId = this.props.match.params.id;
+    const eventDetail = () => {
       $.ajax({
         method: "GET",
-        url: "/api/events",
+        url: `/api/events/${eventId}`,
         success: data => {
+          console.log('data', data);
           this.setState({
-            events: {
-              title: data.title,
-              capacity: data.capacity,
-              price: data.price,
-              description: data.description,
-              date: data.event_date,
-              menu: data.menu_description,
+            eventDetail: {
+              title: data[0].title,
+              price: data[0].price,
+              capacity: data[0].capacity,
+              date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
+              description: data[0].description,
+              menu: data[0].menu_description,
             }
           })
         }
       })
-    };
-    getEventDetail();
-
+    }
+    eventDetail();
   }
 
   render() {
@@ -54,14 +52,14 @@ class EventPage extends Component {
       <div>
         <NavBar />
         <EventPage_Banner 
-        title={this.state.events.title}
-        capacity={this.state.events.capacity}
-        price={this.state.events.price}
-        description={this.state.events.description}
-        date={this.state.events.date}
+          title={this.state.eventDetail.title}
+          price={this.state.eventDetail.price}
+          capacity={this.state.eventDetail.capacity}
+          date={this.state.eventDetail.date}
+          description={this.state.eventDetail.description}
          />   
         <EventPage_Menu 
-        menu={this.state.events.menu}
+          menu={this.state.eventDetail.menu}
         />
         <EventPage_Review />
       </div>

@@ -15,7 +15,7 @@ class HomePage_Banner extends Component {
   onSearch = event => {
     event.preventDefault();
     this.props.getSearchResults(this.state.searchString);
-    event.target.value = ''
+    this.setState({ searchString: '' })
   }
 
   render() {
@@ -33,7 +33,7 @@ class HomePage_Banner extends Component {
           <div className="homePageBannerSearch">
             <h1 className="search-title">Experience Food as an Art Form</h1>
             <form className="form-inline my-2 my-lg-0" onSubmit={this.onSearch} >
-            <input className="form-control mr-sm-2 homePageBannerSearchBox" type="text" name="query" onChange={this.changeHandler} placeholder="Search"></input>
+            <input className="form-control mr-sm-2 homePageBannerSearchBox" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler} placeholder="Search"></input>
             <button className="btn btn-outline-success my-2 my-sm-0 homePageBannerSearchButton" type="submit" value="Submit">Search</button>
           </form>
           </div>

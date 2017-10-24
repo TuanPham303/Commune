@@ -11,7 +11,6 @@ module.exports = knex => {
 
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
-    console.log(req.query.search);
     if (req.query.search.trim() === ''){ //Checks if query is empty
       res.status(400);
     } else {
@@ -33,8 +32,8 @@ module.exports = knex => {
                     GROUP BY events.id) p_search
                     WHERE p_search.document @@ to_tsquery('${req.query.search.split(' ').join(' | ')}')`)
       .then( (results) => {
-        console.log(results)
-        res.json(results);
+        console.log(results.rows)
+        res.json(results.rows);
       });
     }
   });

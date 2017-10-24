@@ -18,7 +18,7 @@ class App extends Component {
     console.log(searchData)
     $.ajax({
       method: "GET",
-      url: `/api/events/search/${searchData}`
+      url: `/api/events/search?search=${searchData}`
     })
     .done(result => {
       console.log(result);

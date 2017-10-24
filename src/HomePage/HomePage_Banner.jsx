@@ -8,19 +8,12 @@ class HomePage_Banner extends Component {
     }
   }
 
-  componentWillMount () {
-    console.log(this.props)
-  }
-
   changeHandler = event => {
     this.setState({ searchString: event.target.value })
-    console.log(this.state)
   }
 
   onSearch = event => {
-    console.log("in onSearch", this.state)
     event.preventDefault();
-    console.log("this is the event right? :", event);
     this.props.getSearchResults(this.state.searchString);
     event.target.value = ''
   }

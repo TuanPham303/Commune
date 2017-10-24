@@ -12,9 +12,10 @@ class App extends Component {
 
   getSearchResults = searchData => {
     console.log(searchData)
+    const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
     $.ajax({
       method: "GET",
-      url: `/api/events/search?search=${searchData}`
+      url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
       console.log(result);

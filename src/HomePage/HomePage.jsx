@@ -18,6 +18,7 @@ class HomePage extends Component {
         method: "GET",
         url: "/api/events",
         success: data => {
+          console.log(data);
           this.setState({
             previewEvents: this.state.previewEvents.concat(data)
           })

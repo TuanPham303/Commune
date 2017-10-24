@@ -16,7 +16,7 @@ ReactDOM.render((
     <div>
       <Route exact path="/" component={HomePage}/>
       <Route path="/events/:id" component={EventPage}/>
-      {/* <Route path="/user  " component={UserProfile}/> */}
+      <Route path="/user" component={UserProfile}/>
       
     </div>
   </Router>

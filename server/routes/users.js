@@ -89,7 +89,7 @@ module.exports = knex => {
     let description = req.body.description;
 
     userHelpers.postReview(reviewerId, eventId, userId, rating, description)
-    .then((result) => {
+    .then(() => {
       res.sendStatus(201);
     });
   });

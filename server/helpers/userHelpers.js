@@ -103,24 +103,26 @@ module.exports = function makeUserHelpers(knex) {
   }
 
   function postReview(reviewerId, eventId, userId, rating, description) {
-    return (knex('user_events')
-    .select('id')
-    .where({
-      user_id: userId,
-      event_id: eventId
-    })
-    .then((userEvent) => {
-      console.log(userEvent);
-      knex('reviews')
-      .insert({
-        reviewer_id: reviewerId,
-        user_event_id: userEvent[0].id,
-        rating: rating,
-        description: description
-      }).then((reuslt) => result);
-    })
-    .catch((error) => console.log("Invalid Post", error))
-    )
+    const postReviewPromise = new Promise((resolve, reject) => {
+      knex('user_events')
+      .select('id')
+      .where({
+        user_id: userId,
+        event_id: eventId
+      })
+      .then((userEvent) => {
+        knex('reviews')
+        .insert({
+          reviewer_id: reviewerId,
+          user_event_id: userEvent[0].id,
+          rating: rating,
+          description: description
+        }).then(() => {
+          resolve();
+        });
+      });
+    });
+    return postReviewPromise;
   }
 
   return {

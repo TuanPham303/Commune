@@ -2,7 +2,23 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
 class HomePage_Events extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      eventId: '',
+    }
+  }
+  handleEventDetail = (e) => {
+    
+    const eventId = e.target.dataset.eventId;
+    console.log(eventId);
+    this.setState({
+      eventId: eventId
+    })
+  }
+
   render() {
+    console.log('event id', this.state.eventId)
     return (
       <div className="container-fluid eventContainer">
         <div className="row">
@@ -32,9 +48,10 @@ class HomePage_Events extends Component {
                     </div>
                   </div>
                 </div>
-                <Link to="/event">
+                <Link to={`/event/${this.state.eventId}`}>
                   <div className="col-5">
-                    <button className="btn btn-success">Detail</button>
+                    this
+                    <button className="btn btn-success" data-event-id="10000" onClick={this.handleEventDetail}>Detail</button>
                   </div>
                 </Link>
               </div>

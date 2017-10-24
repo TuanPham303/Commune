@@ -30,16 +30,16 @@ class EventPage extends Component {
       };
       $.ajax({
         method: "GET",
-        url: "/api/events",
+        url: "/api/events/:id",
         success: data => {
           this.setState({
             events: {
-              title: data[0].title,
-              capacity: data[0].capacity,
-              price: data[0].price,
-              description: data[0].description,             
-              date: data[0].event_date,
-              menu: data[0].menu_description,
+              title: data.title,
+              capacity: data.capacity,
+              price: data.price,
+              description: data.description,
+              date: data.event_date,
+              menu: data.menu_description,
             }
           })
         }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
 class HomePage_Events extends Component {
   render() {
@@ -31,9 +32,11 @@ class HomePage_Events extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-5">
-                  <button className="btn btn-success">Detail</button>
-                </div>
+                <Link to="/event">
+                  <div className="col-5">
+                    <button className="btn btn-success">Detail</button>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -63,9 +66,11 @@ class HomePage_Events extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-5">
-                  <button className="btn btn-success">Detail</button>
-                </div>
+                <Link to="/event">
+                  <div className="col-5">
+                    <button className="btn btn-success">Detail</button>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -95,9 +100,11 @@ class HomePage_Events extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-5">
-                  <button className="btn btn-success">Detail</button>
-                </div>
+                <Link to="/event">
+                  <div className="col-5">
+                    <button className="btn btn-success">Detail</button>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

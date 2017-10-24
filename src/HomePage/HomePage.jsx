@@ -6,7 +6,7 @@ import HomePage_Events from './HomePage_Events.jsx';
 class HomePage extends Component {
   render() {
     return (
-      <div>
+      <div className="wrapper">
         <NavBar />
         <HomePage_Banner />
         <HomePage_Events />

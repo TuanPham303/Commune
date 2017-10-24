@@ -1,13 +1,17 @@
 "use strict";
 
-const express = require("express");
-const router = express.Router();
-const bodyParser = require("body-parser");
-const cookieSession = require('cookie-session');
+const express              = require("express");
+const router               = express.Router();
+const bodyParser           = require("body-parser");
+const cookieSession        = require('cookie-session');
 const eventHelpersFunction = require("../helpers/eventHelpers");
+const googleMapsClient     = require('@google/maps').createClient({
+  key: process.env.GOOGLE_MAPS_API_KEY,
+  Promise: Promise
+});
 
 module.exports = knex => {
-  const eventHelpers = eventHelpersFunction(knex);
+  const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
 
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
@@ -19,24 +23,32 @@ module.exports = knex => {
 
   });
 
+  router.post('/test', (req, res) => {
+    eventHelpers.getLocationDetails(20, req.body.address);
+  });
+
   // add new event (add to events table, add host to user_events, etc)
   // takes current_user (becomes host), title, address, date/time (optional),
-  //   description(optional), menu_description (optional), price, capacity
+  //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
   router.post('/new', (req, res) => {
-    const details = {
-      users: /*req.body.usersHelping*/[{user: 30000, role: 2}], //required - an array of objects with user_id and role_id
-      title: req.body.title, //required
-      address: req.body.address, //required
-      date: req.body.date,
-      description: req.body.description,
-      menu: req.body.menu,
-      price: req.body.price, //required
-      capacity: req.body.capacity //required
-    }
-    eventHelpers.createEvent(details)
-    .then(() => {
-      res.sendStatus(201);
-    })
+    const rb = req.body;
+    if (/*rb.users &&*/ rb.title && rb.address && rb.city && rb.price && rb.capacity) {
+      const details = {
+        users: /*rb.users*/[{user: 30000, role: 2}, {user: 10000, role: 1}], // an array of objects with user_id and role_id
+        title: rb.title,
+        address: `${rb.address} ${rb.city}`,
+        date: rb.date,
+        description: rb.description,
+        menu: rb.menu,
+        price: rb.price,
+        capacity: rb.capacity,
+        image: rb.image
+      }
+      eventHelpers.createEvent(details)
+      .then(() => {
+        res.sendStatus(201);
+      })
+    } else res.sendStatus(400);
   });
 
   // book an event for a user to attend as a guest

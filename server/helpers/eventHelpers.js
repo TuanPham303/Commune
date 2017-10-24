@@ -4,17 +4,18 @@
 //Creating helper functions to bridge data to the website
 module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
+  // returns event info and host/chef info for all or a particular event
+  // for a particular event, pass in the event id, for all events pass in number 0
   function queryDB(eventID) {
     let compare;
-    console.log(!eventID);
     !eventID ? compare = '>' : compare = '=';
-    console.log(compare);
     return new Promise((resolve, reject) => {
       knex('events')
         .join('user_events', 'user_events.event_id', '=', 'events.id')
         .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
         .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
         .join('users', 'users.id', '=', 'user_events.user_id')
+        .distinct('events.id')
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date',
                 'events.description', 'events.menu_description', 'events.price', 'events.image_url',
                 'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')
@@ -23,6 +24,54 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .then(results => {
           resolve(results);
         });
+    });
+  }
+
+  // helper function for normalized array
+  function isInNormalizedArray(element) {
+    return element >= 15;
+  }
+
+  // removes dupliacate event info when an event has multiple hosts/chefs
+  // accepts data in an array as formatted by queryDB
+  function normalizeData(data) {
+    return new Promise((resolve, reject) => {
+      const normalizedArray = []
+      new Promise((resolve, reject) => {
+        data.forEach((item) => {
+          const isInArray = normalizedArray.findIndex(x => x.event_id === item.event_id);
+          if (isInArray === -1) {
+            const newObj = {
+              event_id: item.event_id,
+              title: item.title,
+              neighbourhood: item.neighbourhood,
+              event_date: item.event_date,
+              description: item.description,
+              menu_description: item.menu_description,
+              price: item.price,
+              image_url: item.image_url,
+              capacity: item.capacity,
+              hosts_and_chefs: [{
+                user_id: item.user_id,
+                role_name: item.role_name,
+                first_name: item.first_name,
+                last_name: item.last_name
+              }]
+            };
+            normalizedArray.push(newObj);
+          } else {
+            const userObj = {
+              user_id: item.user_id,
+              role_name: item.role_name,
+              first_name: item.first_name,
+              last_name: item.last_name
+            };
+            normalizedArray[isInArray].hosts_and_chefs.push(userObj);
+          };
+        });
+        resolve();
+      });
+      resolve(normalizedArray);
     });
   }
 
@@ -154,6 +203,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   return {
     queryDB,
+    normalizeData,
     getLocationDetails,
     createEvent,
     userIsBooked,

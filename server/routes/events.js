@@ -76,7 +76,10 @@ module.exports = knex => {
   router.get('/:id', (req, res) => {
     eventHelpers.queryDB(req.params.id)
       .then(results => {
-          res.json(results);
+          eventHelpers.normalizeData(results)
+          .then(results => {
+            res.json(results);
+          });
         });
   });
 
@@ -84,7 +87,10 @@ module.exports = knex => {
   router.get('/', (req, res) => {
     eventHelpers.queryDB(0)
       .then(results => {
-          res.json(results);
+          eventHelpers.normalizeData(results)
+          .then(results => {
+            res.json(results);
+          });
         });
   });
 

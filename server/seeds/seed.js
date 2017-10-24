@@ -40,7 +40,7 @@ exports.seed = function(knex, Promise) {
   })
   .then(function () {
     return knex('user_event_roles').insert([
-      {id: 1 
+      {id: 10000, user_event_id: 10000 , role_id: 3},
       {id: 20000, user_event_id: 20000 , role_id: 2},
       {id: 30000, user_event_id: 30000 , role_id: 1},
       {id: 40000, user_event_id: 40000 , role_id: 3},

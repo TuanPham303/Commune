@@ -20,5 +20,3 @@ ReactDOM.render((
     </div>
   </Router>
 ), document.getElementById('react-root'));
-
-  

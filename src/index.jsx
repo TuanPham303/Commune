@@ -17,7 +17,6 @@ ReactDOM.render((
       <Route exact path="/" component={HomePage}/>
       <Route path="/events/:id" component={EventPage}/>
       <Route path="/users" component={UserProfile}/>
-      <Link to="/users">users</Link>
     </div>
   </Router>
 ), document.getElementById('react-root'));

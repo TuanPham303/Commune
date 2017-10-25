@@ -51,4 +51,11 @@ exports.seed = function(knex, Promise) {
       {id: 90000, user_event_id: 70000 , role_id: 2}
     ]);
   })
+  .then(function () {
+    return knex('reviews').insert([
+      {id: 10000, reviewer_id: 10000, user_event_id: 10000, rating: 4, description: 'good so far'},
+      {id: 20000, reviewer_id: 10000, user_event_id: 10000, rating: 4, description: 'bad so far'},
+      {id: 30000, reviewer_id: 10000, user_event_id: 10000, rating: 4, description: 'so so far'}
+    ])
+  })
 };

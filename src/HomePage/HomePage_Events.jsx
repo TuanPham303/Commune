@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import HomePage_PreviewEvent from "./HomePage_PreviewEvent.jsx";
+const uuid = require('uuid/v4');
 
 class HomePage_Events extends Component {
   constructor(props){
@@ -17,6 +18,7 @@ class HomePage_Events extends Component {
       })
       console.log(hosts);
       return <HomePage_PreviewEvent 
+        key={uuid()}
         title={previewEvent.title}
         price={previewEvent.price}
         description={previewEvent.description}

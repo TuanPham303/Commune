@@ -16,7 +16,7 @@ class HomePage_Events extends Component {
         description={previewEvent.description}
         neighbourhood={previewEvent.neighbourhood}
         capacity={previewEvent.capacity}
-        eventId={previewEvent.event_id}
+        event_id={previewEvent.event_id}
       />
       });
     return(

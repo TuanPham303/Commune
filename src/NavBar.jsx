@@ -14,6 +14,7 @@ class NavBar extends Component {
 
   onSearch = event => {
     event.preventDefault();
+    
     this.props.getSearchResults(this.state.searchString);
     this.setState({ searchString: '' })
   }

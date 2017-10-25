@@ -6,9 +6,27 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchResults: []
+      searchResults: [],
+      previewEvents: [],
     }
   }
+
+  componentDidMount(){
+    const previewEvents = () => {
+      $.ajax({
+        method: "GET",
+        url: "/api/events",
+        success: data => {
+          console.log(data);
+          this.setState({
+            previewEvents: this.state.previewEvents.concat(data)
+          })
+        }
+      })
+    }
+    previewEvents();
+  }
+
 
   getSearchResults = searchData => {
     console.log(searchData)
@@ -20,7 +38,7 @@ class App extends Component {
     .done(result => {
       console.log(result);
       this.setState({
-        searchResults: result
+        previewEvents: result
       })
     })
     .fail(e => {
@@ -30,7 +48,7 @@ class App extends Component {
 
   render() {
     return (
-      <HomePage getSearchResults={this.getSearchResults} />
+      <HomePage getSearchResults={this.getSearchResults} previewEvents={this.state.previewEvents} />
     );
   }
 }

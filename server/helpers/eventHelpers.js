@@ -6,21 +6,20 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   function queryDB(eventID) {
     let compare;
-    console.log(!eventID);
     !eventID ? compare = '>' : compare = '=';
-    console.log(compare);
     return new Promise((resolve, reject) => {
       knex('events')
-        .join('user_events', 'user_events.event_id', '=', 'events.id')
-        .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
-        .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
-        .join('users', 'users.id', '=', 'user_events.user_id')
+        .leftOuterJoin('user_events', 'user_events.event_id', '=', 'events.id')
+        .leftOuterJoin('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
+        .leftOuterJoin('roles', 'roles.id', '=', 'user_event_roles.role_id')
+        .leftOuterJoin('users', 'users.id', '=', 'user_events.user_id')
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date',
                 'events.description', 'events.menu_description', 'events.price', 'events.image_url',
                 'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')
         .where('events.id', compare, eventID)
         .whereIn('role_name', ['host', 'chef'])
         .then(results => {
+          console.log(results);
           resolve(results);
         });
     });

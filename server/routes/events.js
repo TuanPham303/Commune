@@ -23,14 +23,14 @@ module.exports = knex => {
     } else {
       knex
       .raw(
-      `SELECT pid, p_title, p_description, p_price, p_capacity, p_neighbourhood, p_address
-      FROM ( SELECT events.id as pid,
-                    events.title as p_title,
-                    events.description as p_description,
-                    events.price as p_price,
-                    events.capacity as p_capacity,
-                    events.neighbourhood as p_neighbourhood,
-                    events.address as p_address,
+      `SELECT event_id, title, description, price, capacity, neighbourhood, address
+      FROM ( SELECT events.id as event_id,
+                    events.title as title,
+                    events.description as description,
+                    events.price as price,
+                    events.capacity as capacity,
+                    events.neighbourhood as neighbourhood,
+                    events.address as address,
                     to_tsvector(events.title)
                     || to_tsvector(events.description)
                     || to_tsvector(events.menu_description)

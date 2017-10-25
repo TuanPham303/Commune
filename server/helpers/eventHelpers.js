@@ -44,6 +44,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
             let newEventObj = Object.assign({}, item);
             ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
+            if (!newEventObj.image) {
+              newEventObj.image = '/event_default.jpg';
+            }
             newEventObj.hosts_and_chefs = [createUserObject(item)];
             normalizedArray.push(newEventObj);
           } else { // if event is in normalizedArray, reformat and add only host and chef data

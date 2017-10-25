@@ -19,6 +19,7 @@ class EventPage extends Component {
         capacity: '',
         description: '',
         menu: '',
+        reviews: []
       }
     }
   }
@@ -39,12 +40,28 @@ class EventPage extends Component {
               date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
               description: data[0].description,
               menu: data[0].menu_description,
+              reviews: []
             }
           })
         }
       })
     }
     eventDetail();
+
+    const getReview = () => {
+      $.ajax({
+        method: "GET",
+        url: `/api/events/${eventId}/reviews`,
+        success: data => {
+          this.setState({
+            eventDetail: {
+              reviews: this.state.eventDetail.reviews.concat(data)
+            }
+          })
+        }
+      })
+    }
+    getReview();
   }
 
   render() {
@@ -61,7 +78,10 @@ class EventPage extends Component {
         <EventPage_Menu 
           menu={this.state.eventDetail.menu}
         />
-        <EventPage_Review />
+        <EventPage_Review 
+          reviews={this.state.eventDetail.reviews}
+          handleReview={this.handleReview}
+        />
       </div>
      
     );

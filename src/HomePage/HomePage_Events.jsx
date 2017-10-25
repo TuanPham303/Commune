@@ -9,14 +9,12 @@ class HomePage_Events extends Component {
   }
 
   render() {
-    console.log('all events', this.props.previewEvents);
     
     const previewEvents = this.props.previewEvents.map( previewEvent => {
       let hosts = new Set();
       previewEvent.hosts_and_chefs.forEach( person => {
         hosts.add(`${person.first_name} ${person.last_name}`)
       })
-      console.log(hosts);
       return <HomePage_PreviewEvent 
         key={uuid()}
         title={previewEvent.title}

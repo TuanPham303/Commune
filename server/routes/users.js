@@ -22,7 +22,7 @@ module.exports = knex => {
         return res.status(403).send("Bad credentials");
       }
       req.session.user = user;
-      res.redirect("/");
+      res.json(user)
     });
   });
 
@@ -36,7 +36,7 @@ module.exports = knex => {
     userHelpers.addUser(first_name, last_name, email, username, password).then((result) => {
       let user = result;
       req.session.user = user;
-      res.redirect("/");
+      res.json(user);
     })
     .catch((error) => console.log(error));
   });
@@ -81,18 +81,18 @@ module.exports = knex => {
     });
   });
 
-  router.post('/:id/reviews', (req,res) => {
-    let reviewerId = req.body.reviewerId;
-    let eventId = req.body.eventId;
-    let userId = req.params.id;
-    let rating = req.body.rating;
-    let description = req.body.description;
+  // router.post('/:id/reviews', (req,res) => {
+  //   let reviewerId = req.body.reviewerId;
+  //   let eventId = req.body.eventId;
+  //   let userId = req.params.id;
+  //   let rating = req.body.rating;
+  //   let description = req.body.description;
 
-    userHelpers.postReview(reviewerId, eventId, userId, rating, description)
-    .then(() => {
-      res.sendStatus(201);
-    });
-  });
+  //   userHelpers.postReview(reviewerId, eventId, userId, rating, description)
+  //   .then(() => {
+  //     res.sendStatus(201);
+  //   });
+  // });
 
   return router;
 }

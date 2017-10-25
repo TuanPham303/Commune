@@ -14,6 +14,19 @@ const googleMapsClient     = require('@google/maps').createClient({
 module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
 
+  router.post('/:id/reviews', (req,res) => {
+    let reviewerId = req.body.reviewerId;
+    let eventId = req.params.id;
+    let userId = req.body.user_id;
+    let rating = req.body.rating;
+    let description = req.body.description;
+
+    eventHelpers.postReview(reviewerId, eventId, userId, rating, description)
+    .then(() => {
+      res.sendStatus(201);
+    });
+  });
+
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
 

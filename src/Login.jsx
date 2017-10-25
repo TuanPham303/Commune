@@ -11,15 +11,26 @@ class Login extends Component {
 
   handleLogin = event => {
 
-    console.log(event);
+    const loginData = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
     event.preventDefault();
+
     $.ajax({
       method: "POST",
       url: "/api/users/login",
-      success: data => {
-        console.log(data);
-  
-      }
+      data: loginData
+    })
+    .done(user => {
+      this.setState({
+        email: '',
+        password: ''
+      })
+    })
+    .fail(err => {
+      console.log('Failed to Login', err);
     })
   }
 
@@ -27,6 +38,7 @@ class Login extends Component {
     this.setState({
       email: event.target.value
     })
+    
   }
 
   passwordChange = event => {
@@ -34,7 +46,6 @@ class Login extends Component {
       password: event.target.value
     })
   }
-  
   
   render() {
     return (

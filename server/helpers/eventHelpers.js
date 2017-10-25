@@ -203,6 +203,14 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  function getReviewsByEvent(eventId) {
+    return knex('reviews')
+    .join('user_events', 'user_events.id', 'reviews.user_event_id')
+    .join('events', 'events.id', 'user_events.event_id')
+    .where('events.id', eventId)
+    .then((result) => result);
+  }
+
   return {
     queryDB,
     normalizeData,
@@ -210,6 +218,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     createEvent,
     userIsBooked,
     eventHasSpace,
-    addUserToEvent
+    addUserToEvent,
+    getReviewsByEvent
   };
 };

@@ -90,5 +90,12 @@ module.exports = knex => {
         });
   });
 
+  router.get('/:id/reviews' (req, res) => {
+    eventHelpers.getReviewsByEvent(req.params.id)
+    .then(result => {
+      res.json(result);
+    });
+  })
+
   return router;
 }

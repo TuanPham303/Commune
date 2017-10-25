@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 exports.seed = function(knex, Promise) {
   return Promise.all([
     knex('users').del(),
@@ -8,9 +10,9 @@ exports.seed = function(knex, Promise) {
   ])
   .then(function () {
     return knex('users').insert([
-      {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', password_digest: '$2b$10$W14VaQnoeuZH0vweAy4V9ecYMK5T93Vvni9EqMl817VU5ZmHf2.HS', is_host: true},
-      {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', password_digest: '$2b$10$W14VaQnoeuZH0vweAy4V9ecYMK5T93Vvni9EqMl817VU5ZmHf2.HS', is_host: true, is_chef: true},
-      {id: 30000, first_name: 'Beruse', last_name: 'Jones', email: 'bj@example.com', password_digest: '$2b$10$W14VaQnoeuZH0vweAy4V9ecYMK5T93Vvni9EqMl817VU5ZmHf2.HS'}
+      {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', password_digest: bcrypt.hashSync('password', 10), is_host: true},
+      {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', password_digest: bcrypt.hashSync('password', 10), is_host: true, is_chef: true},
+      {id: 30000, first_name: 'Beruse', last_name: 'Jones', email: 'bj@example.com', password_digest: bcrypt.hashSync('password', 10),}
     ])
   })
   .then(function () {

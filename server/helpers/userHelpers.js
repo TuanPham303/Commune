@@ -27,8 +27,9 @@ module.exports = function makeUserHelpers(knex) {
     function authenticateUser(email, password) {
       return findByEmail(email)
         .then((user) => {
+          console.log(user);
           if(!user) return false;
-          return bcrypt.compare(password, user.password)
+          return bcrypt.compare(password, user.password_digest)
           .then((matches) => {
             if(!matches) return false;
             return user;

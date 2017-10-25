@@ -6,12 +6,58 @@ import Login from './Login.jsx';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: ''
+      }
+    }
+  }
+
+  getCurrentUser = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/current"
+    })
+    .done(result => {
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name
+        }
+      });
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
+
+  componentDidMount() {
+    this.getCurrentUser()
+  }
+
+  clearUser = event => {
+    this.setState({
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: ''
+      }
+    });
+  }
+
+
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar currentUser={this.state.currentUser} clearUser={this.clearUser}/>
         <HomePage />
-        <Login />
+        <Login getCurrentUser={this.getCurrentUser}/>
       </div>
     );
   }

@@ -4,6 +4,25 @@
 //Creating helper functions to bridge data to the website
 module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
+  function postReview(reviewerId, eventId, userId, rating, description) {
+    return knex('user_events')
+      .select('id')
+      .where({
+        user_id: userId,
+        event_id: eventId
+      })
+      .then((userEvent) => {
+        return knex('reviews')
+        .insert({
+          reviewer_id: reviewerId,
+          user_event_id: userEvent[0].id,
+          rating: rating,
+          description: description
+        });
+      });
+    
+  }
+
   // returns event info and host/chef info for all or a particular event
   // for a particular event, pass in the event id, for all events pass in number 0
   function queryDB(eventID) {
@@ -215,6 +234,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   return {
     queryDB,
+    postReview,
     normalizeData,
     getLocationDetails,
     createEvent,

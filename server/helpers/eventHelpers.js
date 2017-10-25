@@ -109,13 +109,13 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     return new Promise((resolve, reject) => {
       knex
         .insert({
-          title: details.title, //required
-          address: details.address, //required
+          title: details.title,
+          address: details.address,
           event_date: details.date,
           description: details.description,
           menu_description: details.menu,
-          price: details.price, //required
-          capacity: details.capacity, //required
+          price: details.price,
+          capacity: details.capacity,
           image_url: details.image
         })
         .into('events')
@@ -210,8 +210,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .where('events.id', eventID)
         .where('user_event_roles.role_id', 1) //role id 1 => guest
         .then(results => {
-          // const newCapacity = (eventData.capacity && eventData.capacity >= results[0].usersRegistered) ? eventData.capacity : undefined
-          // console.log('results', results);
           const newAddress = (eventData.address && eventData.city) ? `${eventData.address} ${eventData.city}` : undefined;
           const details = {
             title: eventData.title,
@@ -220,7 +218,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             description: eventData.description,
             menu_description: eventData.menu,
             price: eventData.price,
-            // capacity: (eventData.capacity && eventData.capacity >= results.capacity) ? eventData.capacity : results[0].capacity,
             image: eventData.image
           };
           if (newAddress) {
@@ -232,11 +229,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             .then(() => {
               resolve();
             });
-
-          // console.log('details', details);
-          // call function to update address
         })
-      // .update()
     });
   }
 

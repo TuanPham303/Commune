@@ -39,9 +39,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       const normalizedArray = []
       new Promise((resolve, reject) => {
         data.forEach((item) => {
-          const isInArray = normalizedArray.findIndex(x => x.event_id === item.event_id);
-          if (isInArray === -1) {
-            const newObj = {
+          const arrIndex = normalizedArray.findIndex(x => x.event_id === item.event_id);
+          if (arrIndex === -1) {
+            const newEventObj = {
               event_id: item.event_id,
               title: item.title,
               neighbourhood: item.neighbourhood,
@@ -51,22 +51,24 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
               price: item.price,
               image_url: item.image_url,
               capacity: item.capacity,
-              hosts_and_chefs: [{
-                user_id: item.user_id,
-                role_name: item.role_name,
-                first_name: item.first_name,
-                last_name: item.last_name
-              }]
+              hosts_and_chefs: [
+                {
+                  user_id: item.user_id,
+                  role_name: item.role_name,
+                  first_name: item.first_name,
+                  last_name: item.last_name
+                }
+              ]
             };
-            normalizedArray.push(newObj);
+            normalizedArray.push(newEventObj);
           } else {
-            const userObj = {
+            const newUserObj = {
               user_id: item.user_id,
               role_name: item.role_name,
               first_name: item.first_name,
               last_name: item.last_name
             };
-            normalizedArray[isInArray].hosts_and_chefs.push(userObj);
+            normalizedArray[arrIndex].hosts_and_chefs.push(newUserObj);
           };
         });
         resolve();
@@ -201,6 +203,15 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  function getReviewsByEvent(eventId) {
+    return knex('reviews')
+    .join('user_events', 'user_events.id', 'reviews.user_event_id')
+    .join('events', 'events.id', 'user_events.event_id')
+    .join('users', 'users.id', 'reviews.reviewer_id')
+    .where('events.id', eventId)
+    .then((result) => result);
+  }
+
   return {
     queryDB,
     normalizeData,
@@ -208,6 +219,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     createEvent,
     userIsBooked,
     eventHasSpace,
-    addUserToEvent
+    addUserToEvent,
+    getReviewsByEvent
   };
 };

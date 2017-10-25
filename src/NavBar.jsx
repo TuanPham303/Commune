@@ -14,6 +14,9 @@ class NavBar extends Component {
             <li className="nav-item active">
               <a className="nav-link" href="#">Become a Host <span className="sr-only">(current)</span></a>
             </li>
+            <li className="nav-item" data-toggle="modal" data-target="#loginModal">
+              <div className="nav-link">Login</div>
+            </li>
             <li className="nav-item">
               <div className="nav-link">User's Name</div>
             </li>

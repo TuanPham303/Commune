@@ -31,7 +31,6 @@ class HomePage extends Component {
   render() {
     return (
       <div className="wrapper">
-        <NavBar />
         <HomePage_Banner />
         <HomePage_Events 
           previewEvents={this.state.previewEvents}

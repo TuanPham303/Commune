@@ -20,7 +20,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           description: description
         });
       });
-    
+
   }
 
   // returns event info and host/chef info for all or a particular event
@@ -34,7 +34,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
         .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
         .join('users', 'users.id', '=', 'user_events.user_id')
-        .distinct('events.id')
+        .distinct('events.id')                                                        //is this really necessary?
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date',
                 'events.description', 'events.menu_description', 'events.price', 'events.image_url',
                 'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')
@@ -46,9 +46,10 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
-  // helper function for normalized array
-  function isInNormalizedArray(element) {
-    return element >= 15;
+  // helper function for normalizeData
+  function createUserObject(userData) {
+    return (({user_id, role_name, first_name, last_name}) =>
+            ({user_id, role_name, first_name, last_name}))(userData);
   }
 
   // removes dupliacate event info when an event has multiple hosts/chefs
@@ -59,34 +60,16 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       new Promise((resolve, reject) => {
         data.forEach((item) => {
           const arrIndex = normalizedArray.findIndex(x => x.event_id === item.event_id);
-          if (arrIndex === -1) {
-            const newEventObj = {
-              event_id: item.event_id,
-              title: item.title,
-              neighbourhood: item.neighbourhood,
-              event_date: item.event_date,
-              description: item.description,
-              menu_description: item.menu_description,
-              price: item.price,
-              image_url: item.image_url,
-              capacity: item.capacity,
-              hosts_and_chefs: [
-                {
-                  user_id: item.user_id,
-                  role_name: item.role_name,
-                  first_name: item.first_name,
-                  last_name: item.last_name
-                }
-              ]
-            };
+          if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
+            let newEventObj = Object.assign({}, item);
+            ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
+            if (!newEventObj.image) {
+              newEventObj.image = '/event_default.jpg';
+            }
+            newEventObj.hosts_and_chefs = [createUserObject(item)];
             normalizedArray.push(newEventObj);
-          } else {
-            const newUserObj = {
-              user_id: item.user_id,
-              role_name: item.role_name,
-              first_name: item.first_name,
-              last_name: item.last_name
-            };
+          } else { // if event is in normalizedArray, reformat and add only host and chef data
+            const newUserObj = createUserObject(item);
             normalizedArray[arrIndex].hosts_and_chefs.push(newUserObj);
           };
         });
@@ -96,7 +79,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
-  // helper functions for getLocationDetals
+  // 3 helper functions for getLocationDetals
   function findNeighborhood(data) {
     return data.types[0] === 'neighborhood';
   }
@@ -129,6 +112,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             address: results.formatted_address,
             neighbourhood: getAreaString(results.address_components)
           })
+          .then(() => {
+            console.log('Location details updated');
+          });
       })
       .catch((err) => {
         // if the api request fails, wait 30 sec then try again
@@ -142,13 +128,13 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     return new Promise((resolve, reject) => {
       knex
         .insert({
-          title: details.title, //required
-          address: details.address, //required
+          title: details.title,
+          address: details.address,
           event_date: details.date,
           description: details.description,
           menu_description: details.menu,
-          price: details.price, //required
-          capacity: details.capacity, //required
+          price: details.price,
+          capacity: details.capacity,
           image_url: details.image
         })
         .into('events')
@@ -232,6 +218,50 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     .then((result) => result);
   }
 
+  // returns if a user has edit permissions for an event
+  function hasEditPermssion(eventData, userID) {
+    let returnVar = false;
+    eventData.forEach((event) => {
+      if (event.user_id === userID) {
+        returnVar = true;
+      }
+    });
+    return returnVar;
+  }
+
+  // allow them to update title, address, date/time, description, menu, capacity (but not less then the current amount of users, imageurl)
+  function updateEvent(eventID, eventData) {
+    return new Promise((resolve, reject) => {
+      knex('events')
+        .join('user_events', 'user_events.event_id', '=', 'events.id')
+        .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
+        .select(knex.raw('count(*) as usersRegistered'))
+        .where('events.id', eventID)
+        .where('user_event_roles.role_id', 1) //role id 1 => guest
+        .then(results => {
+          const newAddress = (eventData.address && eventData.city) ? `${eventData.address} ${eventData.city}` : undefined;
+          const details = {
+            title: eventData.title,
+            address: newAddress,
+            event_date: eventData.date,
+            description: eventData.description,
+            menu_description: eventData.menu,
+            price: eventData.price,
+            image: eventData.image
+          };
+          if (newAddress) {
+            getLocationDetails(eventID, newAddress)
+          };
+          knex('events')
+            .where('id', eventID)
+            .update(details)
+            .then(() => {
+              resolve();
+            });
+        })
+    });
+  }
+
   return {
     queryDB,
     postReview,
@@ -241,6 +271,8 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     userIsBooked,
     eventHasSpace,
     addUserToEvent,
-    getReviewsByEvent
+    getReviewsByEvent,
+    hasEditPermssion,
+    updateEvent
   };
 };

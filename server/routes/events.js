@@ -23,10 +23,6 @@ module.exports = knex => {
 
   });
 
-  router.post('/test', (req, res) => {
-    eventHelpers.queryDB(20);
-  });
-
   // add new event (add to events table, add host to user_events, etc)
   // takes current_user (becomes host), title, address, date/time (optional),
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)

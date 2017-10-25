@@ -7,7 +7,7 @@ class UserProfile_Header extends Component {
         <div className="userProfileHeader row">
           <div className="col-4">
             <div className="avatar">
-              <img src="http://costumefail.com/wordpress/wp-content/uploads/2012/02/avatar-navi-sexy-costume.jpg" alt=""/>  
+              <img src="https://media.vanityfair.com/photos/58c2f5aa0a144505fae9e9ee/master/pass/avatar-sequels-delayed.jpg" alt=""/>  
             </div>
           </div>
           <div className="col-8">

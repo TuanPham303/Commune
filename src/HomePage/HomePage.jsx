@@ -8,8 +8,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="wrapper">
-        <NavBar getSearchResults = {this.props.getSearchResults} />
-        <HomePage_Banner getSearchResults = {this.props.getSearchResults}  />
+        <HomePage_Banner />
         <HomePage_Events 
           previewEvents={this.props.previewEvents}
         />

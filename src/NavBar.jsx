@@ -29,6 +29,22 @@ class NavBar extends Component {
     this.setState({ searchString: '' })
   }
   
+
+  
+  
+  handleLogout = event => {
+    $.ajax({
+      method: "POST",
+      url: "/api/users/logout",
+      success: () => {
+        this.props.clearUser()
+      }
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
+
   render() {
     const isSearching = this.state.isSearching;
 
@@ -44,11 +60,14 @@ class NavBar extends Component {
             <li className="nav-item active">
               <a className="nav-link" href="#">Become a Host <span className="sr-only">(current)</span></a>
             </li>
-            <li className="nav-item">
-              <div className="nav-link">User's Name</div>
+            <li className="nav-item" data-toggle="modal" data-target="#loginModal">
+              <div className="nav-link">Login</div>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Log out</a>
+              <div className="nav-link">{this.props.currentUser.first_name} {this.props.currentUser.last_name}</div>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" onClick={this.handleLogout}>Logout</a>
             </li>
           </ul>
         </div>

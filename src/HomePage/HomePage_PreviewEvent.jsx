@@ -26,7 +26,7 @@ class HomePage_PreviewEvent extends Component {
                 <img src="http://akns-images.eonline.com/eol_images/Entire_Site/2017210/rs_300x300-170310083229-600.avatar-1.31017.jpg?downsize=300:*&crop=300:300;left,top" alt="" className="avatarImg"/>
               </div>
               <div className="col-8 hostDetail">
-                <p>Host Name</p>
+                <p>{this.props.host}</p>
                 <div className="row ratingContainer">
                   <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
                   <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>

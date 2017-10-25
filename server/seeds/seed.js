@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 exports.seed = function(knex, Promise) {
   return Promise.all([
     knex('users').del(),
@@ -8,9 +10,9 @@ exports.seed = function(knex, Promise) {
   ])
   .then(function () {
     return knex('users').insert([
-      {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', password_digest: 'password', is_host: true},
-      {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', password_digest: 'password', is_host: true, is_chef: true},
-      {id: 30000, first_name: 'Beruse', last_name: 'Jones', email: 'bj@example.com', password_digest: 'password'}
+      {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', password_digest: bcrypt.hashSync('password', 10), is_host: true},
+      {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', password_digest: bcrypt.hashSync('password', 10), is_host: true, is_chef: true},
+      {id: 30000, first_name: 'Beruse', last_name: 'Jones', email: 'bj@example.com', password_digest: bcrypt.hashSync('password', 10),}
     ])
   })
   .then(function () {
@@ -69,5 +71,12 @@ exports.seed = function(knex, Promise) {
       {id: 150000, user_event_id: 120000 , role_id: 2},
       {id: 160000, user_event_id: 130000 , role_id: 2}
     ]);
+  })
+  .then(function () {
+    return knex('reviews').insert([
+      {id: 10000, reviewer_id: 10000, user_event_id: 10000, rating: 4, description: 'good so far'},
+      {id: 20000, reviewer_id: 10000, user_event_id: 10000, rating: 4, description: 'bad so far'},
+      {id: 30000, reviewer_id: 10000, user_event_id: 10000, rating: 4, description: 'so so far'}
+    ])
   })
 };

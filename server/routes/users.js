@@ -8,7 +8,7 @@ const userHelpersFunction = require("../helpers/userHelpers");
 module.exports = knex => {
   const userHelpers = userHelpersFunction(knex);
 
-  router.get('/logout', (req, res) => {
+  router.post('/logout', (req, res) => {
     req.session = null;
     res.redirect("/");
   });
@@ -22,7 +22,7 @@ module.exports = knex => {
         return res.status(403).send("Bad credentials");
       }
       req.session.user = user;
-      res.redirect("/");
+      res.json(user);
     });
   });
 
@@ -36,9 +36,14 @@ module.exports = knex => {
     userHelpers.addUser(first_name, last_name, email, username, password).then((result) => {
       let user = result;
       req.session.user = user;
-      res.redirect("/");
+      res.json(user);
     })
     .catch((error) => console.log(error));
+  });
+  
+  router.get('/current', (req,res) => {
+    let user = req.session.user;
+    res.json(user);
   });
 
   // Update user's is_host boolean in DB to true
@@ -81,18 +86,19 @@ module.exports = knex => {
     });
   });
 
-  router.post('/:id/reviews', (req,res) => {
-    let reviewerId = req.body.reviewerId;
-    let eventId = req.body.eventId;
-    let userId = req.params.id;
-    let rating = req.body.rating;
-    let description = req.body.description;
 
-    userHelpers.postReview(reviewerId, eventId, userId, rating, description)
-    .then(() => {
-      res.sendStatus(201);
-    });
-  });
+  // router.post('/:id/reviews', (req,res) => {
+  //   let reviewerId = req.body.reviewerId;
+  //   let eventId = req.body.eventId;
+  //   let userId = req.params.id;
+  //   let rating = req.body.rating;
+  //   let description = req.body.description;
+
+  //   userHelpers.postReview(reviewerId, eventId, userId, rating, description)
+  //   .then(() => {
+  //     res.sendStatus(201);
+  //   });
+  // });
 
   return router;
 }

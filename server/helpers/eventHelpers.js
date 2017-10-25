@@ -4,6 +4,25 @@
 //Creating helper functions to bridge data to the website
 module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
+  function postReview(reviewerId, eventId, userId, rating, description) {
+    return knex('user_events')
+      .select('id')
+      .where({
+        user_id: userId,
+        event_id: eventId
+      })
+      .then((userEvent) => {
+        return knex('reviews')
+        .insert({
+          reviewer_id: reviewerId,
+          user_event_id: userEvent[0].id,
+          rating: rating,
+          description: description
+        });
+      });
+    
+  }
+
   // returns event info and host/chef info for all or a particular event
   // for a particular event, pass in the event id, for all events pass in number 0
   function queryDB(eventID) {
@@ -237,9 +256,20 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       // .update()
     });
   }
+  
+  function getReviewsByEvent(eventId) {
+    return knex('reviews')
+    .select('users.first_name', 'users.last_name', 'reviews.rating', 'reviews.description')
+    .join('user_events', 'user_events.id', 'reviews.user_event_id')
+    .join('events', 'events.id', 'user_events.event_id')
+    .join('users', 'users.id', 'reviews.reviewer_id')
+    .where('events.id', eventId)
+    .then((result) => result);
+  }
 
   return {
     queryDB,
+    postReview,
     normalizeData,
     getLocationDetails,
     createEvent,
@@ -247,6 +277,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     eventHasSpace,
     addUserToEvent,
     hasEditPermssion,
-    updateEvent
+    updateEvent,
+    getReviewsByEvent
   };
 };

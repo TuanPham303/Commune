@@ -15,9 +15,10 @@ import UserProfile from './UserProfile/UserProfile.jsx';
 ReactDOM.render((
   <Router>
     <div>
-      <Route exact path="/" component={App}/>
-      <Route path="/event" component={EventPage}/>
+      <Route exact path="/" component={ App }/>
+      <Route path="/events/:id" component={EventPage}/>
       <Route path="/user" component={UserProfile}/>
+      
     </div>
   </Router>
 ), document.getElementById('react-root'));

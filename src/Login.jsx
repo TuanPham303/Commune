@@ -61,11 +61,11 @@ class Login extends Component {
             <div className="modal-body">
               <form onSubmit={ this.handleLogin }>
                 <div className="form-group">
-                  <label for="loginEmail">EMAIL</label>
+                  <label htmlFor="loginEmail">EMAIL</label>
                   <input type="email" className="form-control" id="loginEmail" placeholder="email@example.com" value ={this.state.email} onChange={this.emailChange}></input>
                 </div>
                 <div className="form-group">
-                  <label for="loginPassword">PASSWORD</label>
+                  <label htmlFor="loginPassword">PASSWORD</label>
                   <input type="password" className="form-control" id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.passwordChange}></input>
                 </div>
                 <button type="submit" className="btn btn-primary" >Login</button>

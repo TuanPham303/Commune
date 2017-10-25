@@ -44,12 +44,14 @@ class NavBar extends Component {
           </ul>
         </div>
         <div className="btn-group search-button">
-          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Search
           </button>
-          <div className="dropdown-menu dropdown-menu-right">
-            <form className="form-inline my-2 my-lg-0" onSubmit={this.onSearch} >
-              <input className="form-control mr-sm-2" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler}></input>
+          <div className="dropdown-menu" id="dropdown-menu">
+            <form className="px-4 py-3" onSubmit={this.onSearch} >
+              <div className="form-group">
+                <input className="form-control" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler}></input>
+              </div>
               <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               <div>
                 The user is <b>{isSearching ? 'now' : ''}</b> searching.

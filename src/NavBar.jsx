@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import NavBar_Events from './NavBar/NavBar_Events.jsx';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isSearching: false,
-      searchString: ''
+      searchString: '',
     }
   }
 
@@ -59,7 +60,9 @@ class NavBar extends Component {
             <form className="px-4 py-3" onSubmit={this.onSearch} >
               <div className="form-group">
                 <input className="form-control" id="navbar-searchbox" ref="query" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler} onBlur={this.blurHandler}></input>
-                <button className="dropdown-item" type="button">Action</button>
+                <NavBar_Events 
+                  navbarEvents={this.props.navbarEvents}
+                />
               </div>
               <div>
                 The user is <b>{isSearching ? 'now' : ''}</b> searching.

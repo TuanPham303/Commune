@@ -6,7 +6,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      previewEvents: []
+      previewEvents: [],
+      navbarEvents: [],
     }
   }
 
@@ -37,7 +38,8 @@ class App extends Component {
     .done(result => {
       console.log(result);
       this.setState({
-        previewEvents: result
+        previewEvents: result,
+        navbarEvents: result
       })
     })
     .fail(e => {

@@ -15,7 +15,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
         .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
         .join('users', 'users.id', '=', 'user_events.user_id')
-        .distinct('events.id')                                                        //is this really necessary?
+        // .distinct('events.id')                                                        //is this really necessary?
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date',
                 'events.description', 'events.menu_description', 'events.price', 'events.image_url',
                 'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')

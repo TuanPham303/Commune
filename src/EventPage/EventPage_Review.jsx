@@ -9,11 +9,18 @@ class EventPage_Review extends Component {
   
   submitReview = (e) => {
     e.preventDefault();
-    console.log('haha')
+    const reviewContent = $(e.target).parent().find("textarea").val();
+    $.post(`api/events/${this.props.eventId}/reviews`,
+      {
+        reviewerId: 10000,
+        user_id: 10000,
+        rating: 3,
+        description: reviewContent
+      }
+    )
   }
   
   render() {
-
     const reviews = this.props.reviews.map( review => {
       return <p key={uuid()}><strong>{review.first_name} {review.last_name}: </strong>{review.description}</p>
     })

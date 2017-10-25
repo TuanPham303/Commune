@@ -19,49 +19,48 @@ class EventPage extends Component {
         capacity: '',
         description: '',
         menu: '',
-        reviews: []
+        reviews: [],
+        eventId: ''
       }
     }
   }
 
   componentDidMount(){
     const eventId = this.props.match.params.id;
-    const eventDetail = () => {
-      $.ajax({
-        method: "GET",
-        url: `/api/events/${eventId}`,
-        success: data => {
-          console.log('data', data);
-          this.setState({
-            eventDetail: {
-              title: data[0].title,
-              price: data[0].price,
-              capacity: data[0].capacity,
-              date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
-              description: data[0].description,
-              menu: data[0].menu_description,
-              reviews: []
-            }
-          })
-        }
-      })
-    }
-    eventDetail();
 
-    const getReview = () => {
-      $.ajax({
-        method: "GET",
-        url: `/api/events/${eventId}/reviews`,
-        success: data => {
-          this.setState({
-            eventDetail: {
-              reviews: this.state.eventDetail.reviews.concat(data)
-            }
-          })
-        }
-      })
-    }
-    getReview();
+    $.ajax({
+      method: "GET",
+      url: `/api/events/${eventId}`,
+      success: data => {
+        console.log('data', data);
+        this.setState({
+          eventDetail: {
+            title: data[0].title,
+            price: data[0].price,
+            capacity: data[0].capacity,
+            date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
+            description: data[0].description,
+            menu: data[0].menu_description,
+            eventId: eventId,
+            reviews: [ ...this.state.eventDetail.reviews ]
+          }
+        })
+      }
+    });
+
+    $.ajax({
+      method: "GET",
+      url: `/api/events/${eventId}/reviews`,
+      success: data => {
+        this.setState({
+          eventDetail: {
+            ...this.state.eventDetail,
+             reviews: this.state.eventDetail.reviews.concat(data)
+          }
+        })
+      }
+    });
+
   }
 
   render() {
@@ -79,6 +78,7 @@ class EventPage extends Component {
           menu={this.state.eventDetail.menu}
         />
         <EventPage_Review 
+          eventId={this.state.eventDetail.eventId}
           reviews={this.state.eventDetail.reviews}
           handleReview={this.handleReview}
         />

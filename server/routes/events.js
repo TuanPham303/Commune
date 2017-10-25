@@ -38,7 +38,15 @@ module.exports = knex => {
 
   //update event
   router.post('/:id/edit', (req, res) => {
-
+    eventHelpers.queryDB(req.params.id)
+      .then((eventData) => {
+        if (eventHelpers.hasEditPermssion(eventData, 10000)) {
+          eventHelpers.updateEvent(req.params.id, req.body)
+          .then(() => {
+            res.sendStatus(200);
+          })
+        }
+      })
   });
 
   // add new event (add to events table, add host to user_events, etc)

@@ -47,11 +47,15 @@ module.exports = knex => {
 
   //update event
   router.post('/:id/edit', (req, res) => {
-
-  });
-
-  router.post('/test', (req, res) => {
-    eventHelpers.queryDB(20);
+    eventHelpers.queryDB(req.params.id)
+      .then((eventData) => {
+        if (eventHelpers.hasEditPermssion(eventData, 10000)) {
+          eventHelpers.updateEvent(req.params.id, req.body)
+          .then(() => {
+            res.sendStatus(200);
+          })
+        }
+      })
   });
 
   // add new event (add to events table, add host to user_events, etc)
@@ -103,7 +107,10 @@ module.exports = knex => {
   router.get('/:id', (req, res) => {
     eventHelpers.queryDB(req.params.id)
       .then(results => {
-          res.json(results);
+          eventHelpers.normalizeData(results)
+          .then(results => {
+            res.json(results);
+          });
         });
   });
 
@@ -111,7 +118,10 @@ module.exports = knex => {
   router.get('/', (req, res) => {
     eventHelpers.queryDB(0)
       .then(results => {
-          res.json(results);
+          eventHelpers.normalizeData(results)
+          .then(results => {
+            res.json(results);
+          });
         });
   });
 

@@ -10,7 +10,15 @@ class NavBar extends Component {
   }
 
   changeHandler = event => {
-    this.setState({ searchString: event.target.value, isSearching: true })
+    this.setState({ searchString: event.target.value })
+  }
+
+  blurHandler = event => {
+    this.setState({ isSearching: true })
+  }
+
+  clickHandler = event => {
+    this.refs.query.focus();
   }
 
   onSearch = event => {
@@ -44,15 +52,15 @@ class NavBar extends Component {
           </ul>
         </div>
         <div className="btn-group search-button">
-          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" onClick={this.clickHandler} aria-haspopup="true" aria-expanded="false">
             Search
           </button>
           <div className="dropdown-menu" id="dropdown-menu">
             <form className="px-4 py-3" onSubmit={this.onSearch} >
               <div className="form-group">
-                <input className="form-control" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler}></input>
+                <input className="form-control" id="navbar-searchbox" ref="query" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler} onBlur={this.blurHandler}></input>
+                <button className="dropdown-item" type="button">Action</button>
               </div>
-              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               <div>
                 The user is <b>{isSearching ? 'now' : ''}</b> searching.
               </div>

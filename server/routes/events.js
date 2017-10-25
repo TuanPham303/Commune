@@ -23,8 +23,12 @@ module.exports = knex => {
 
     eventHelpers.postReview(reviewerId, eventId, userId, rating, description)
     .then(() => {
-      res.sendStatus(201);
-    });
+      return res.sendStatus(201);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      return res.sendStatus(500);
+    })
   });
 
   // get details on all events that match the search term

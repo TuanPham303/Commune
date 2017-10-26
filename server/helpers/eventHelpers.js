@@ -20,7 +20,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           description: description
         });
       });
-    
+
   }
 
   // returns event info and host/chef info for all or a particular event
@@ -63,6 +63,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
             let newEventObj = Object.assign({}, item);
             ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
+            if (!newEventObj.image) {
+              newEventObj.image = '/event_default.jpg';
+            }
             newEventObj.hosts_and_chefs = [createUserObject(item)];
             normalizedArray.push(newEventObj);
           } else { // if event is in normalizedArray, reformat and add only host and chef data
@@ -115,7 +118,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       })
       .catch((err) => {
         // if the api request fails, wait 30 sec then try again
-        console.log('Google Places API error: ', err);
+        console.error('Google Places API error: ', err);
         setTimeout(getLocationDetails, 30000, eventID, address);
       });
   }
@@ -125,13 +128,13 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     return new Promise((resolve, reject) => {
       knex
         .insert({
-          title: details.title, //required
-          address: details.address, //required
+          title: details.title,
+          address: details.address,
           event_date: details.date,
           description: details.description,
           menu_description: details.menu,
-          price: details.price, //required
-          capacity: details.capacity, //required
+          price: details.price,
+          capacity: details.capacity,
           image_url: details.image
         })
         .into('events')
@@ -147,7 +150,10 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             getLocationDetails(Number(id), details.address)
             resolve();
           });
-        });
+        })
+        .catch(err) => {
+          reject('Error saving event. Please make sure all required fields are filled out')
+        }
     });
   }
 
@@ -225,43 +231,47 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     return returnVar;
   }
 
+  function howManyUsersBooked(eventID) {
+    return knex('events')
+            .join('user_events', 'user_events.event_id', '=', 'events.id')
+            .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
+            .select(knex.raw('count(*) as usersRegistered'))
+            .where('events.id', eventID)
+            .where('user_event_roles.role_id', 1) //role id 1 => guest
+  }
+
   // allow them to update title, address, date/time, description, menu, capacity (but not less then the current amount of users, imageurl)
   function updateEvent(eventID, eventData) {
     return new Promise((resolve, reject) => {
-      knex('events')
-        .join('user_events', 'user_events.event_id', '=', 'events.id')
-        .join('user_event_roles', 'user_event_roles.user_event_id', '=', 'user_events.id')
-        .select(knex.raw('count(*) as usersRegistered'))
-        .where('events.id', eventID)
-        .where('user_event_roles.role_id', 1) //role id 1 => guest
+      howManyUsersBooked(eventID)
         .then(results => {
-          // const newCapacity = (eventData.capacity && eventData.capacity >= results[0].usersRegistered) ? eventData.capacity : undefined
-          // console.log('results', results);
-          const newAddress = (eventData.address && eventData.city) ? `${eventData.address} ${eventData.city}` : undefined;
-          const details = {
-            title: eventData.title,
-            address: newAddress,
-            event_date: eventData.date,
-            description: eventData.description,
-            menu_description: eventData.menu,
-            price: eventData.price,
-            // capacity: (eventData.capacity && eventData.capacity >= results.capacity) ? eventData.capacity : results[0].capacity,
-            image: eventData.image
-          };
-          if (newAddress) {
-            getLocationDetails(eventID, newAddress)
-          };
+          if (Object.keys(eventData).length === 0) {
+            reject('You cannot update nothing!');
+          }
+          if (eventData.capacity < results[0].usersRegistered) {
+            reject('You cannot have a capacity smaller than the number of users registered.');
+          }
+          if (eventData.address || eventData.city) {
+            reject('To update the location of your event, please provide both a street address and city.');
+          }
+          if (eventData.address && eventData.city) {
+            getLocationDetails(eventID, `${eventData.address} ${eventData.city}`);
+          }
           knex('events')
             .where('id', eventID)
-            .update(details)
+            .update({
+              title: eventData.title,
+              event_date: eventData.date,
+              description: eventData.description,
+              menu_description: eventData.menu,
+              price: eventData.price,
+              capacity: eventData.capacity,
+              image: eventData.image
+              })
             .then(() => {
               resolve();
             });
-
-          // console.log('details', details);
-          // call function to update address
         })
-      // .update()
     });
   }
 

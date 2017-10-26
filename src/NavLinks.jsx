@@ -17,8 +17,8 @@ function NavLinks({ currentUser, handleLogout }) {
   } else {
     return(
       <ul className="navbar-nav mr-auto navbar-float-right">
-        <li className="nav-item">
-          <a className="nav-link" href="#">Become a Host</a>
+        <li className="nav-item" data-toggle="modal" data-target="#newEventModal">
+          <div className="nav-link">Become a Host</div>
         </li>
         <li className="nav-item">
           <div className="nav-link">{first_name} {last_name}</div>

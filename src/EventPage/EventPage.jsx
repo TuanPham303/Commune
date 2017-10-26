@@ -8,6 +8,9 @@ const moment = require('moment');
 
 
 class EventPage extends Component {
+  static contextTypes = {
+    getSearchResults: React.PropTypes.func
+  }
 
   constructor(props){
     super(props);
@@ -50,7 +53,7 @@ class EventPage extends Component {
   render() {
     return (
       <div>
-        <NavBar getSearchResults={this.props.getSearchResults} />
+        <NavBar getSearchResults={this.context.getSearchResults} />
         <EventPage_Banner 
           title={this.state.eventDetail.title}
           price={this.state.eventDetail.price}

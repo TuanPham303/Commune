@@ -11,7 +11,7 @@ class NavBar extends Component {
         id: null,
         first_name: '',
         last_name: ''
-      }
+      },
     }
   }
 
@@ -37,6 +37,25 @@ class NavBar extends Component {
     this.props.getSearchResults(this.state.searchString); 
     this.setState({ searchString: '' })
   }
+
+  getSearchResults = searchData => {
+    console.log(searchData)
+    const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
+    $.ajax({
+      method: "GET",
+      url: `/api/events/search?search=${searchValue}`
+    })
+    .done(result => {
+      console.log("my result from search is", result[0].title);
+      this.setState({
+        previewEvents: result,
+      })
+    })
+    .fail(e => {
+      console.error(e);
+    });
+  }
+
 
   getCurrentUser = () => {
     $.ajax({

@@ -45,7 +45,7 @@ class App extends Component {
       url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
-      console.log("my result from search is", result);
+      console.log("my result from search is", result[0].title);
       this.setState({
         previewEvents: result,
       })

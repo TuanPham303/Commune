@@ -109,13 +109,13 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     return new Promise((resolve, reject) => {
       knex
         .insert({
-          title: details.title, //required
-          address: details.address, //required
+          title: details.title,
+          address: details.address,
           event_date: details.date,
           description: details.description,
           menu_description: details.menu,
-          price: details.price, //required
-          capacity: details.capacity, //required
+          price: details.price,
+          capacity: details.capacity,
           image_url: details.image
         })
         .into('events')

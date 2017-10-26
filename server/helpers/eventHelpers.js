@@ -131,7 +131,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             getLocationDetails(Number(id), details.address)
             resolve();
           });
-        });
+        })
         .catch(err) => {
           reject('Error saving event. Please make sure all required fields are filled out')
         }

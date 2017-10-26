@@ -17,16 +17,16 @@ function NavLinks({ currentUser, handleLogout }) {
   } else if(is_host) {
       return (
         <ul className="navbar-nav mr-auto navbar-float-right">
-        <li className="nav-item" data-toggle="modal" data-target="#newEventModal">
-          <div className="nav-link">New event</div>
-        </li>
-        <li className="nav-item">
-          <div className="nav-link">{first_name} {last_name}</div>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" onClick={handleLogout}>Logout</a>
-        </li>
-      </ul>
+          <li className="nav-item">
+            <div className="nav-link">Hello {first_name} {last_name}!</div>
+          </li>  
+          <li className="nav-item">
+            <a className="nav-link" onClick={handleLogout}>Logout</a>
+          </li>
+          <li className="nav-item" data-toggle="modal" data-target="#newEventModal">
+            <div className="nav-link">Create new event</div>
+          </li>
+        </ul>
       )
   } else {
     return(

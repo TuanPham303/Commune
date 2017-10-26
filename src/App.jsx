@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import HomePage from './HomePage/HomePage.jsx';
 import NavBar from './NavBar.jsx';
 import Login from './Login.jsx';
+import Register from './Register.jsx';
 
 
 class App extends Component {
@@ -52,12 +53,14 @@ class App extends Component {
   }
 
 
+
   render() {
     return (
       <div>
         <NavBar currentUser={this.state.currentUser} clearUser={this.clearUser}/>
         <HomePage />
-        <Login getCurrentUser={this.getCurrentUser}/>
+        <Login getCurrentUser={this.getCurrentUser} />
+        <Register getCurrentUser={this.getCurrentUser} />
       </div>
     );
   }

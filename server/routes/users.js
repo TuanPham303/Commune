@@ -30,11 +30,12 @@ module.exports = knex => {
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
-    let username = req.body.username;
+    let is_host= false;
+    let is_chef= false;
     let password = req.body.password;
 
-    userHelpers.addUser(first_name, last_name, email, username, password).then((result) => {
-      let user = result;
+    userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password).then((user) => {
+      console.log(user);
       req.session.user = user;
       res.json(user);
     })

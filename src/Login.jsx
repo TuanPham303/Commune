@@ -35,16 +35,9 @@ class Login extends Component {
     })
   }
 
-  emailChange = event => {
+  handleChange = key => {
     this.setState({
-      email: event.target.value
-    })
-    
-  }
-
-  passwordChange = event => {
-    this.setState({
-      password: event.target.value
+      [key]: this.refs[key].value
     })
   }
   
@@ -63,11 +56,11 @@ class Login extends Component {
               <form onSubmit={ this.handleLogin }>
                 <div className="form-group">
                   <label htmlFor="loginEmail">EMAIL</label>
-                  <input type="email" className="form-control" id="loginEmail" placeholder="email@example.com" value ={this.state.email} onChange={this.emailChange}></input>
+                  <input type="email" className="form-control" ref="email"id="loginEmail" placeholder="email@example.com" value ={this.state.email} onChange={this.handleChange.bind(this, 'email')}></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="loginPassword">PASSWORD</label>
-                  <input type="password" className="form-control" id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.passwordChange}></input>
+                  <input type="password" className="form-control" ref="password"id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
                 </div>
                 <button type="submit" className="btn btn-primary" >Login</button>
               </form>

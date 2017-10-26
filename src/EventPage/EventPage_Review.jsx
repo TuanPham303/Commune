@@ -2,6 +2,17 @@ import React, {Component} from 'react';
 
 
 class EventPage_Review extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  submitReview = () => {
+    $ajax
+  }
+  
   render() {
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
@@ -12,7 +23,7 @@ class EventPage_Review extends Component {
         </div>
         <form action="" className="col-8">
           <textarea className="form-control" id="exampleTextarea" rows="3"></textarea><br/>
-          <button className="btn btn-primary">Submit</button>
+          <button className="btn btn-primary" onClick={this.submitReview}>Submit</button>
         </form>
       </div>
     );

@@ -14,6 +14,23 @@ const googleMapsClient     = require('@google/maps').createClient({
 module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
 
+  router.post('/:id/reviews', (req,res) => {
+    let reviewerId = req.body.reviewerId;
+    let eventId = req.params.id;
+    let userId = req.body.user_id;
+    let rating = req.body.rating;
+    let description = req.body.description;
+
+    eventHelpers.postReview(reviewerId, eventId, userId, rating, description)
+    .then(() => {
+      return res.sendStatus(201);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      return res.sendStatus(500);
+    })
+  });
+
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
 
@@ -64,7 +81,9 @@ module.exports = knex => {
       .catch(err => {
         res.status(400).send(err);
       })
-    } else res.status(400).send('Please fill out the required fields');
+    } else {
+      res.status(400).send('Please fill out the required fields');
+    }
   });
 
   // book an event for a user to attend as a guest
@@ -109,6 +128,13 @@ module.exports = knex => {
           });
         });
   });
+
+  router.get('/:id/reviews', (req, res) => {
+    eventHelpers.getReviewsByEvent(req.params.id)
+    .then(result => {
+      res.json(result);
+    });
+  })
 
   return router;
 }

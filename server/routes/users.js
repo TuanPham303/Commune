@@ -8,7 +8,7 @@ const userHelpersFunction = require("../helpers/userHelpers");
 module.exports = knex => {
   const userHelpers = userHelpersFunction(knex);
 
-  router.get('/logout', (req, res) => {
+  router.post('/logout', (req, res) => {
     req.session = null;
     res.redirect("/");
   });
@@ -22,7 +22,7 @@ module.exports = knex => {
         return res.status(403).send("Bad credentials");
       }
       req.session.user = user;
-      res.json(user)
+      res.json(user);
     });
   });
 
@@ -39,6 +39,11 @@ module.exports = knex => {
       res.json(user);
     })
     .catch((error) => console.log(error));
+  });
+  
+  router.get('/current', (req,res) => {
+    let user = req.session.user;
+    res.json(user);
   });
 
   // Update user's is_host boolean in DB to true
@@ -80,6 +85,7 @@ module.exports = knex => {
       res.json(result);
     });
   });
+
 
   // router.post('/:id/reviews', (req,res) => {
   //   let reviewerId = req.body.reviewerId;

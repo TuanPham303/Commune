@@ -1,6 +1,22 @@
 import React, {Component} from 'react';
 
 class NavBar extends Component {
+
+  
+  
+  handleLogout = event => {
+    $.ajax({
+      method: "POST",
+      url: "/api/users/logout",
+      success: () => {
+        this.props.clearUser()
+      }
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbarContainer">
@@ -18,10 +34,10 @@ class NavBar extends Component {
               <div className="nav-link">Login</div>
             </li>
             <li className="nav-item">
-              <div className="nav-link">User's Name</div>
+              <div className="nav-link">{this.props.currentUser.first_name} {this.props.currentUser.last_name}</div>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Log out</a>
+              <a className="nav-link" onClick={this.handleLogout}>Logout</a>
             </li>
           </ul>
         </div>

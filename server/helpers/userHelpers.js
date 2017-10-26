@@ -74,12 +74,21 @@ module.exports = function makeUserHelpers(knex) {
     )
   }
 
-  function becomeHost(email) {
-    return findByEmail(email)
+  function becomeHost(id) {
+    return findById(id)
       .then((user) => {
         return knex('users')
         .update(user)
         .where({is_host: true});
+      })
+  }
+
+  function becomeChef(id) {
+    return findById(id)
+      .then((user) => {
+        return knex('users')
+        .update(user)
+        .where({is_chef: true});
       })
   }
 
@@ -140,6 +149,7 @@ module.exports = function makeUserHelpers(knex) {
   findEventsByUserId,
   findReviewsByUserId,
   findReviewsPostedByUserId,
-  postReview
+  becomeChef
+  // postReview
   };
 };

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 function NavLinks({ currentUser, handleLogout }) {
-  const { id, first_name, last_name } = currentUser;
+  const { id, first_name, last_name } = currentUser || {};
 
   if (id === null) {
     return(

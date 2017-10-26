@@ -76,16 +76,16 @@ module.exports = function makeUserHelpers(knex) {
 
   function becomeHost(id) {
     return knex('users')
-    .where('user_id', id)
-    .update({is_host: true});
-
+    .where('id', id)
+    .update({is_host: true})
   }
 
   function becomeChef(id) {
     return knex('users')
-    .where('user_id', id)
-    .update({is_chef: true});
+    .where('id', id)
+    .update({is_chef: true})
   }
+
 
   function findEventsByUserId(user_id) {
     return knex('events')

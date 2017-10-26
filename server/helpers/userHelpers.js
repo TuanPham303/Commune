@@ -58,8 +58,8 @@ module.exports = function makeUserHelpers(knex) {
           first_name: first_name,
           last_name: last_name,
           email: email,
-          is_host: false,
-          is_chef: false,
+          is_host: is_host,
+          is_chef: is_chef,
           password_digest: passwordDigest,
         })
         .then((user)=>{

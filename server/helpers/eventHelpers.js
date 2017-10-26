@@ -278,4 +278,5 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     hasEditPermssion,
     updateEvent
   };
-};
+}
+

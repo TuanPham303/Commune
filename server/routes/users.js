@@ -35,11 +35,10 @@ module.exports = knex => {
     let password = req.body.password;
 
     userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password).then((user) => {
-      console.log(user);
-      req.session.user = user;
+      req.session.user = user[0];
       res.json(user);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
   });
   
   router.get('/current', (req,res) => {

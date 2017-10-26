@@ -27,6 +27,14 @@ module.exports = knex => {
           .then(() => {
             res.sendStatus(200);
           })
+          .catch(err => {
+            console.log(err);
+            res.status(400).send(err);
+          })
+        }
+        else {
+          console.log('no perms');
+          res.status(400).send('You don\'t have permission');
         }
       })
   });
@@ -36,9 +44,9 @@ module.exports = knex => {
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
   router.post('/new', (req, res) => {
     const rb = req.body;
-    if (/*rb.users &&*/ rb.title && rb.address && rb.city && rb.price && rb.capacity) {
+    if (rb.users && rb.title && rb.address && rb.city && rb.price && rb.capacity) {
       const details = {
-        users: /*rb.users*/[{user: 30000, role: 2}, {user: 10000, role: 1}], // an array of objects with user_id and role_id
+        users: rb.users, // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
         date: rb.date,
@@ -52,7 +60,10 @@ module.exports = knex => {
       .then(() => {
         res.sendStatus(201);
       })
-    } else res.sendStatus(400);
+      .catch(err => {
+        res.status(400).send(err);
+      })
+    } else res.status(400).send('Please fill out the required fields');
   });
 
   // book an event for a user to attend as a guest

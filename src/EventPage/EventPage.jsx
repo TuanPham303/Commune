@@ -22,17 +22,16 @@ class EventPage extends Component {
         reviews: [],
         eventId: ''
       }
-    }
+    };
+    this.submitReview = this.submitReview.bind(this);
   }
-
+  
   componentDidMount(){
     const eventId = this.props.match.params.id;
-
     $.ajax({
       method: "GET",
       url: `/api/events/${eventId}`,
       success: data => {
-        console.log('data', data);
         this.setState({
           eventDetail: {
             title: data[0].title,
@@ -46,7 +45,8 @@ class EventPage extends Component {
           }
         })
       }
-    });
+    })
+
 
     $.ajax({
       method: "GET",
@@ -61,6 +61,35 @@ class EventPage extends Component {
       }
     });
 
+  }
+
+  submitReview = (reviewContent) => {
+    $.ajax({
+      context: this,
+      method: "POST",
+      url: `http://localhost:3000/api/events/${this.state.eventDetail.eventId}/reviews`,
+      data: {
+        reviewerId: 20000,
+        user_id: 10000,
+        rating: 3,
+        description: reviewContent
+      },
+      success: data => {
+        console.log(data);
+        $.ajax({
+          method: "GET",
+          url: `/api/events/${this.state.eventDetail.eventId}/reviews`,
+          success: data => {
+            this.setState({
+              eventDetail: {
+                ...this.state.eventDetail,
+                reviews: this.state.eventDetail.reviews.concat(data)
+              }
+            })
+          }
+        });
+      }
+    })  
   }
 
   render() {
@@ -80,7 +109,7 @@ class EventPage extends Component {
         <EventPage_Review 
           eventId={this.state.eventDetail.eventId}
           reviews={this.state.eventDetail.reviews}
-          handleReview={this.handleReview}
+          submitReview={this.submitReview}
         />
       </div>
      

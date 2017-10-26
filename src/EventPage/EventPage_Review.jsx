@@ -7,17 +7,11 @@ class EventPage_Review extends Component {
     super(props);
   }
   
-  submitReview = (e) => {
+  handleReview = (e) => {
     e.preventDefault();
     const reviewContent = $(e.target).parent().find("textarea").val();
-    $.post(`api/events/${this.props.eventId}/reviews`,
-      {
-        reviewerId: 10000,
-        user_id: 10000,
-        rating: 3,
-        description: reviewContent
-      }
-    )
+    this.props.submitReview(reviewContent);
+    $(e.target).parent().find("textarea").val('')
   }
   
   render() {
@@ -27,13 +21,13 @@ class EventPage_Review extends Component {
 
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
-        <div className="reviews col-8">
+        <div className="reviews col-8 reviewsWrap">
           <h3>Reviews:</h3>
           { reviews }
         </div>
         <form action="" className="col-8">
           <textarea className="form-control" id="exampleTextarea" rows="3"></textarea><br/>
-          <button className="btn btn-primary" onClick={this.submitReview}>Submit</button>
+          <button className="btn btn-primary" onClick={this.handleReview}>Submit</button>
         </form>
       </div>
     );

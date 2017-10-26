@@ -12,14 +12,10 @@ export default class BecomeHost extends Component {
     e.preventDefault();
     let becomeHost = this.state.becomeHost;
     becomeHost = becomeHost === 'true'? true : false;
-    console.log(becomeHost);
     
-    if (becomeHost === true){
-      console.log('becoming host');
-      
+    if (becomeHost === true){   
       $.post('/api/users/becomehost')
       .done(() => {
-        console.log('submitted');
         this.props.getCurrentUser();
         $('.xButton').click();
       })

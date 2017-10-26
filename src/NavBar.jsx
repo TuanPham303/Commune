@@ -7,7 +7,16 @@ class NavBar extends Component {
     this.state = {
       isSearching: false,
       searchString: '',
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: ''
+      }
     }
+  }
+
+  componentDidMount(){
+    this.getCurrentUser();
   }
 
   changeHandler = event => {
@@ -28,9 +37,25 @@ class NavBar extends Component {
     this.props.getSearchResults(this.state.searchString); 
     this.setState({ searchString: '' })
   }
-  
 
-  
+  getCurrentUser = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/current"
+    })
+    .done(result => {
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name
+        }
+      });
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
   
   handleLogout = event => {
     $.ajax({
@@ -64,7 +89,7 @@ class NavBar extends Component {
               <div className="nav-link">Login</div>
             </li>
             <li className="nav-item">
-              <div className="nav-link">{this.props.currentUser.first_name} {this.props.currentUser.last_name}</div>
+              <div className="nav-link">{this.state.currentUser.first_name} {this.state.currentUser.last_name}</div>
             </li>
             <li className="nav-item">
               <a className="nav-link" onClick={this.handleLogout}>Logout</a>

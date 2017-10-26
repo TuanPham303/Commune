@@ -7,6 +7,7 @@ class HomePage_PreviewEvent extends Component {
   }
 
   render() {
+    console.log(this.props.event_id)
     return (
       <div className="col-4 event">
         <div className="imgContainer">

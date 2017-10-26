@@ -10,10 +10,9 @@ import HomePage from './HomePage/HomePage.jsx';
 import EventPage from './EventPage/EventPage.jsx';
 import App from './App.jsx';
 import UserProfile from './UserProfile/UserProfile.jsx';
-import App from './App.jsx';
-
 
 ReactDOM.render((
+  <div>
   <Router>
     <div>
       <Route exact path="/" component={App}/>
@@ -21,4 +20,5 @@ ReactDOM.render((
       <Route path="/users" component={UserProfile}/>
     </div>
   </Router>
+  </div>
 ), document.getElementById('react-root'));

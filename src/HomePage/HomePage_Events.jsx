@@ -18,13 +18,13 @@ class HomePage_Events extends Component {
       })
       console.log(hosts);
       return <HomePage_PreviewEvent 
-        key={uuid()}
+        key={previewEvent.event_id}
         title={previewEvent.title}
         price={previewEvent.price}
         description={previewEvent.description}
         neighbourhood={previewEvent.neighbourhood}
         capacity={previewEvent.capacity}
-        eventId={previewEvent.event_id}
+        event_id={previewEvent.event_id}
         host={[...hosts].join(', ')}
       />
       });

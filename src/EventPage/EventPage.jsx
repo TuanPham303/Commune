@@ -19,7 +19,7 @@ class EventPage extends Component {
         capacity: '',
         description: '',
         menu: '',
-      }
+      },
     }
   }
 
@@ -50,7 +50,7 @@ class EventPage extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar getSearchResults={this.props.getSearchResults} />
         <EventPage_Banner 
           title={this.state.eventDetail.title}
           price={this.state.eventDetail.price}

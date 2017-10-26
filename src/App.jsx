@@ -45,10 +45,9 @@ class App extends Component {
       url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
-      console.log(result);
+      console.log("my result from search is", result);
       this.setState({
         previewEvents: result,
-        navbarEvents: result
       })
     })
     .fail(e => {
@@ -89,7 +88,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar currentUser={this.state.currentUser} clearUser={this.clearUser}/>
+        <NavBar currentUser={this.state.currentUser} clearUser={this.clearUser} getSearchResults={this.getSearchResults}/>
         <HomePage getSearchResults={this.getSearchResults} previewEvents={this.state.previewEvents} />
         <Login getCurrentUser={this.getCurrentUser}/>
       </div>

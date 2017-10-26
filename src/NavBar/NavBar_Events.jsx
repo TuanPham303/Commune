@@ -7,18 +7,22 @@ class NavBar_Events extends Component {
     super(props);
   }
 
-  render() {
-    console.log('all events', this.props.navbarEvents);
-    const navbarEvents = this.props.navbarEvents.map( navbarEvent => {
+  navbarEvents = () => {
+    if (navbarEvents === undefined) { return; }
+    this.props.navbarEvents.map( navbarEvent => {
       return <NavBar_PreviewEvent 
         title={navbarEvent.title}
         neighbourhood={navbarEvent.neighbourhood}
         event_id={navbarEvent.event_id}
       />
     });
+  }
+
+  render() {
+    console.log('all events', this.props.navbarEvents);
     return(
       <div>
-         { navbarEvents }
+         { this.navbarEvents }
       </div>
     );
   }

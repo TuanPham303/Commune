@@ -57,7 +57,10 @@ module.exports = knex => {
                     WHERE p_search.document @@ to_tsquery(?)`, searchValue)
       .then( (results) => {
         console.log(results.rows)
-        res.json(results.rows);
+        eventHelpers.normalizeData(results.rows)
+        .then(results => {
+          res.json(results);
+        });
       });
     }
   });

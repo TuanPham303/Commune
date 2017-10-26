@@ -19,32 +19,77 @@ class EventPage extends Component {
         capacity: '',
         description: '',
         menu: '',
+        reviews: [],
+        eventId: ''
       }
-    }
+    };
+    this.submitReview = this.submitReview.bind(this);
   }
-
+  
   componentDidMount(){
     const eventId = this.props.match.params.id;
-    const eventDetail = () => {
-      $.ajax({
-        method: "GET",
-        url: `/api/events/${eventId}`,
-        success: data => {
-          console.log('data', data);
-          this.setState({
-            eventDetail: {
-              title: data[0].title,
-              price: data[0].price,
-              capacity: data[0].capacity,
-              date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
-              description: data[0].description,
-              menu: data[0].menu_description,
-            }
-          })
-        }
-      })
-    }
-    eventDetail();
+    $.ajax({
+      method: "GET",
+      url: `/api/events/${eventId}`,
+      success: data => {
+        this.setState({
+          eventDetail: {
+            title: data[0].title,
+            price: data[0].price,
+            capacity: data[0].capacity,
+            date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
+            description: data[0].description,
+            menu: data[0].menu_description,
+            eventId: eventId,
+            reviews: [ ...this.state.eventDetail.reviews ]
+          }
+        })
+      }
+    })
+
+
+    $.ajax({
+      method: "GET",
+      url: `/api/events/${eventId}/reviews`,
+      success: data => {
+        this.setState({
+          eventDetail: {
+            ...this.state.eventDetail,
+             reviews: this.state.eventDetail.reviews.concat(data)
+          }
+        })
+      }
+    });
+
+  }
+
+  submitReview = (reviewContent) => {
+    $.ajax({
+      context: this,
+      method: "POST",
+      url: `http://localhost:3000/api/events/${this.state.eventDetail.eventId}/reviews`,
+      data: {
+        reviewerId: 20000,
+        user_id: 10000,
+        rating: 3,
+        description: reviewContent
+      },
+      success: data => {
+        console.log(data);
+        $.ajax({
+          method: "GET",
+          url: `/api/events/${this.state.eventDetail.eventId}/reviews`,
+          success: data => {
+            this.setState({
+              eventDetail: {
+                ...this.state.eventDetail,
+                reviews: this.state.eventDetail.reviews.concat(data)
+              }
+            })
+          }
+        });
+      }
+    })  
   }
 
   render() {
@@ -61,7 +106,11 @@ class EventPage extends Component {
         <EventPage_Menu 
           menu={this.state.eventDetail.menu}
         />
-        <EventPage_Review />
+        <EventPage_Review 
+          eventId={this.state.eventDetail.eventId}
+          reviews={this.state.eventDetail.reviews}
+          submitReview={this.submitReview}
+        />
       </div>
      
     );

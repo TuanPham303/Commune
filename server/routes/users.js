@@ -47,13 +47,28 @@ module.exports = knex => {
   });
 
   // Update user's is_host boolean in DB to true
-  router.post('/:id/host', (req, res) => {
+  router.post('/becomehost', (req, res) => {
     let user = req.session.user;
     if (!user) {
       return res.status(401).send("Must be logged in to become a host");
     } else {
-      userHelpers.becomeHost(user.email);
-      res.render("/")
+      userHelpers.becomeHost(user.id)
+      .then(() => {
+        res.sendStatus(201);
+      })
+    }
+  });
+
+  // Update user's is_chef boolean in DB to true
+  router.post('/becomechef', (req, res) => {
+    let user = req.session.user;
+    if (!user) {
+      return res.status(401).send("Must be logged in to become a host");
+    } else {
+      userHelpers.becomeChef(user.id)
+      .then(() => {
+        res.sendStatus(201);
+      })
     }
   });
 
@@ -85,7 +100,6 @@ module.exports = knex => {
       res.json(result);
     });
   });
-
 
   // router.post('/:id/reviews', (req,res) => {
   //   let reviewerId = req.body.reviewerId;

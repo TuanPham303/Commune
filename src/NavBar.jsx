@@ -34,7 +34,7 @@ class NavBar extends Component {
               <div className="nav-link">Login</div>
             </li>
             <li className="nav-item">
-              <div className="nav-link">{this.props.currentUser.first_name} {this.props.currentUser.last_name}</div>
+              {/* <div className="nav-link">{this.props.currentUser.first_name} {this.props.currentUser.last_name}</div> */}
             </li>
             <li className="nav-item">
               <a className="nav-link" onClick={this.handleLogout}>Logout</a>

@@ -205,7 +205,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
-<<<<<<< HEAD
   function getReviewsByEvent(eventId) {
     return knex('reviews')
     .select('users.first_name', 'users.last_name', 'reviews.rating', 'reviews.description')
@@ -214,7 +213,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     .join('users', 'users.id', 'reviews.reviewer_id')
     .where('events.id', eventId)
     .then((result) => result);
-=======
+  }
   // returns if a user has edit permissions for an event
   function hasEditPermssion(eventData, userID) {
     let returnVar = false;
@@ -264,7 +263,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         })
       // .update()
     });
->>>>>>> d07e2946d156410c074bccbfab24ff98bbe589ac
   }
 
   return {
@@ -276,11 +274,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     userIsBooked,
     eventHasSpace,
     addUserToEvent,
-<<<<<<< HEAD
-    getReviewsByEvent
-=======
+    getReviewsByEvent,
     hasEditPermssion,
     updateEvent
->>>>>>> d07e2946d156410c074bccbfab24ff98bbe589ac
   };
-};
+}
+

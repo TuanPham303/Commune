@@ -70,6 +70,9 @@ module.exports = knex => {
       .then(() => {
         res.sendStatus(201);
       })
+      .catch(err => {
+        res.status(400).send(err);
+      })
     } else res.sendStatus(400);
   });
 

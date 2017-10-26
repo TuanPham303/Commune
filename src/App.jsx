@@ -4,6 +4,7 @@ import HomePage from './HomePage/HomePage.jsx';
 import NavBar from './NavBar.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
+import NewEventForm from './NewEventForm.jsx';
 
 
 class App extends Component {
@@ -61,6 +62,7 @@ class App extends Component {
         <HomePage />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
+        <NewEventForm />
       </div>
     );
   }

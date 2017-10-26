@@ -63,7 +63,11 @@ export default class EventPage extends Component {
 
     return (
       <div>
-        <NavBar />
+        <NavBar 
+          currentUser={this.state.currentUser} 
+          clearUser={this.clearUser}
+          getCurrentUser={this.getCurrentUser}
+        />
         <EventPage_Banner 
           title={event.title}
           price={event.price}

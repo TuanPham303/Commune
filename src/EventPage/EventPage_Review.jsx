@@ -17,7 +17,7 @@ export default class EventPage_Review extends Component {
 
     this.setState({
       review: "",
-      rating: 0.0
+      rating: 0
     });
   }
 

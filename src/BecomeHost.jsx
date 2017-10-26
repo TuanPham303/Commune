@@ -14,13 +14,19 @@ export default class BecomeHost extends Component {
     becomeHost = becomeHost === 'true'? true : false;
     console.log(becomeHost);
     
-    // $.post('/api/events/new', newEventData)
-    // .then(() => {
-    //   $('span').click();
-    // })
-    // .fail(err => {
-    //   console.log('Failed to create new event ', err);
-    // })
+    if (becomeHost === true){
+      console.log('becoming host');
+      
+      $.post('/api/users/becomehost')
+      .done(() => {
+        console.log('submitted');
+        this.props.getCurrentUser();
+        $('.xButton').click();
+      })
+      .fail(err => {
+        console.log('Failed to become host', err);
+      })
+    }
   }
 
   handleChange = key => {
@@ -32,13 +38,13 @@ export default class BecomeHost extends Component {
 
   render(){
     return (
-      <div className="modal fade" id="newEventModal" tabIndex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
+      <div className="modal fade" id="becomeHostModal" tabIndex="-1" role="dialog" aria-labelledby="becomeHostModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="loginModalLabel">Do you want to become a host?</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true" className="xButton">&times;</span>
               </button>
             </div>
             <div className="modal-body">

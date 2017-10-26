@@ -42,8 +42,10 @@ module.exports = knex => {
   });
   
   router.get('/current', (req,res) => {
-    let user = req.session.user;
-    res.json(user);
+    userHelpers.findById(req.session.user.id)
+    .then(user => {
+      res.json(user);
+    })
   });
 
   // Update user's is_host boolean in DB to true

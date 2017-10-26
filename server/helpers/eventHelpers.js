@@ -151,9 +151,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             resolve();
           });
         })
-        .catch(err) => {
+        .catch((err) => {
           reject('Error saving event. Please make sure all required fields are filled out')
-        }
+        })
     });
   }
 

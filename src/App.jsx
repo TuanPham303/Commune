@@ -15,7 +15,9 @@ class App extends Component {
       currentUser: {
         id: null,
         first_name: '',
-        last_name: ''
+        last_name: '',
+        is_host: false,
+        is_chef: false
       }
     }
   }
@@ -26,11 +28,14 @@ class App extends Component {
       url: "/api/users/current"
     })
     .done(result => {
+      console.log(result.is_host);
       this.setState({
         currentUser: {
           id: result.id,
           first_name: result.first_name,
-          last_name: result.last_name
+          last_name: result.last_name,
+          is_host: result.is_host,
+          is_chef: result.is_chef
         }
       });
     })
@@ -48,7 +53,9 @@ class App extends Component {
       currentUser: {
         id: null,
         first_name: '',
-        last_name: ''
+        last_name: '',
+        is_host: false,
+        is_chef: false
       }
     });
   }
@@ -58,11 +65,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar currentUser={this.state.currentUser} clearUser={this.clearUser}/>
+        <NavBar 
+          currentUser={this.state.currentUser} 
+          clearUser={this.clearUser}
+          getCurrentUser={this.getCurrentUser}
+        />
         <HomePage />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
-        <BecomeHost />
+        <BecomeHost getCurrentUser={this.getCurrentUser}/>
       </div>
     );
   }

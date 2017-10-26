@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "scripts": {
     "dev:server": "./node_modules/.bin/webpack-dev-server",
-    "dev:api": "node server",
+    "dev:api": "node --inspect=5858 server",
     "prod:build": "NODE_ENV=production ./node_modules/.bin/webpack -p",
     "prod:server": "NODE_ENV=production node server",
     "webpack": "./node_modules/.bin/webpack",

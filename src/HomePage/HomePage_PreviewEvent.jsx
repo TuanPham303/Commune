@@ -11,7 +11,6 @@ class HomePage_PreviewEvent extends Component {
       <div className="col-4 event">
         <div className="imgContainer">
           <div className="imgContainerOpacity"></div>
-          <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="starIcon" className="starIcon"/>
         </div>
         <div className="eventDescription">
           <p><b>Event Title:</b> {this.props.title}(${this.props.price})</p>
@@ -27,11 +26,6 @@ class HomePage_PreviewEvent extends Component {
               </div>
               <div className="col-8 hostDetail">
                 <p>{this.props.host}</p>
-                <div className="row ratingContainer">
-                  <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
-                  <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
-                  <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
-                </div>
               </div>
             </div>
             <Link to={`/events/${this.props.eventId}`}>

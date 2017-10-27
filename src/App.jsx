@@ -28,7 +28,6 @@ class App extends Component {
       url: "/api/users/current"
     })
     .done(result => {
-      console.log(result.is_host);
       this.setState({
         currentUser: {
           id: result.id,

@@ -21,8 +21,6 @@ module.exports = knex => {
     let rating = req.body.rating;
     let description = req.body.description;
 
-    debugger;
-
     eventHelpers.postReview(reviewerId, eventId, userId, rating, description)
     .then(() => {
       return res.sendStatus(201);

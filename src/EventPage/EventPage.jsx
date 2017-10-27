@@ -7,6 +7,8 @@ import EventPage_Review from './EventPage_Review.jsx';
 import moment from 'moment';
 
 
+
+
 export default class EventPage extends Component {
 
   state = {

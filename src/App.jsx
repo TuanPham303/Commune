@@ -62,7 +62,7 @@ class App extends Component {
         <HomePage />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
-        <NewEventForm />
+        <NewEventForm currentUser={this.state.currentUser}/>
       </div>
     );
   }

@@ -6,30 +6,34 @@ export default class NewEventForm extends Component {
     this.state = {
       eventTitle: '',
       address: '',
+      city: '',
       date: '',
       description: '',
       menu: '',
       price: 0,
-      capacity: 0 
+      capacity: 0,
+      image: '',
     }
   }
 
   handleNewEvent = (e) => {
     e.preventDefault();
       const newEventData = {
-        eventTitle: this.state.eventTitle,
+        users: [{user: this.props.currentUser.id, role: 2}], //
+        title: this.state.eventTitle,
         address: this.state.address,
+        city: this.state.city, //
         date: this.state.date,
         description: this.state.description,
         menu: this.state.menu,
         price: this.state.price,
-        capacity: this.state.capacity 
+        capacity: this.state.capacity,
+        image: this.state.imageURL //
       }
-    console.log(newEventData);
-    
+
     $.post('/api/events/new', newEventData)
-    .then(() => {
-      $('span').click();
+    .then((id) => {
+      document.location.assign(`/events/${id}`);
     })
     .fail(err => {
       console.log('Failed to create new event ', err);
@@ -55,14 +59,18 @@ export default class NewEventForm extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form onSubmit={ this.handleNewEvent }> 
+              <form onSubmit={ this.handleNewEvent }>
                 <div className="form-group">
                   <label>Event Title</label>
-                  <input type="text" className="form-control" ref="eventTitle" value ={this.state.eventTitle} onChange={this.handleChange.bind(this, 'eventTitle')}></input>
+                  <input type="text" className="form-control" placeholder= 'Required' ref="eventTitle" value ={this.state.eventTitle} onChange={this.handleChange.bind(this, 'eventTitle')}></input>
                 </div>
                 <div className="form-group">
                   <label>Address</label>
-                  <input type="text" className="form-control" ref="address" value ={this.state.address} onChange={this.handleChange.bind(this, 'address')}></input>
+                  <input type="text" className="form-control" placeholder= 'Required' ref="address" value ={this.state.address} onChange={this.handleChange.bind(this, 'address')}></input>
+                </div>
+                <div className="form-group">
+                  <label>City</label>
+                  <input type="text" className="form-control" placeholder= 'Required' ref="city" value ={this.state.city} onChange={this.handleChange.bind(this, 'city')}></input>
                 </div>
                 <div className="form-group">
                   <label>Date</label>
@@ -78,11 +86,15 @@ export default class NewEventForm extends Component {
                 </div>
                 <div className="form-group">
                   <label>Price</label>
-                  <input type="number" className="form-control" min="0" value="0" ref="price" value ={this.state.price} onChange={this.handleChange.bind(this, 'price')}></input>
+                  <input type="number" className="form-control" placeholder= 'Required' min="0" ref="price" value ={this.state.price} onChange={this.handleChange.bind(this, 'price')}></input>
                 </div>
                 <div className="form-group">
                   <label>Capacity</label>
-                  <input type="number" className="form-control" min="0" value="0" ref="capacity" value ={this.state.capacity} onChange={this.handleChange.bind(this, 'capacity')}></input>
+                  <input type="number" className="form-control" placeholder= 'Required' min="0" ref="capacity" value ={this.state.capacity} onChange={this.handleChange.bind(this, 'capacity')}></input>
+                </div>
+                <div className="form-group">
+                  <label>Image URL</label>
+                  <input type="number" className="form-control" min="0" ref="capacity" value ={this.state.imageURL} onChange={this.handleChange.bind(this, 'imageURL')}></input>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
               </form>

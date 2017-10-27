@@ -47,6 +47,14 @@ module.exports = knex => {
           .then(() => {
             res.sendStatus(200);
           })
+          .catch(err => {
+            console.log(err);
+            res.status(400).send(err);
+          })
+        }
+        else {
+          console.log('no perms');
+          res.status(400).send('You don\'t have permission');
         }
       })
   });
@@ -56,12 +64,12 @@ module.exports = knex => {
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
   router.post('/new', (req, res) => {
     const rb = req.body;
-    if (/*rb.users &&*/ rb.title && rb.address && rb.city && rb.price && rb.capacity) {
+    if (rb.users && rb.title && rb.address && rb.city && rb.price && rb.capacity) {
       const details = {
-        users: /*rb.users*/[{user: 30000, role: 2}, {user: 10000, role: 1}], // an array of objects with user_id and role_id
+        users: rb.users, // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
-        date: rb.date,
+        date: !rb.date ? undefined : rb.date,
         description: rb.description,
         menu: rb.menu,
         price: rb.price,
@@ -69,8 +77,8 @@ module.exports = knex => {
         image: rb.image
       }
       eventHelpers.createEvent(details)
-      .then(() => {
-        res.sendStatus(201);
+      .then((id) => {
+        res.status(201).send(id);
       })
     } else res.sendStatus(400);
   });
@@ -80,14 +88,14 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    if (/* req.session.user.id */ true) {
+    if (req.session.user.id) {
       Promise.all([
-        eventHelpers.userIsBooked(/*req.session.user.id*/30000, req.params.id),
+        eventHelpers.userIsBooked(req.session.user.id, req.params.id),
         eventHelpers.eventHasSpace(req.params.id)
       ])
       .then(values => {
         if (!values[0] && values[1]) {
-          eventHelpers.addUserToEvent(/*req.session.user.id*/30000, req.params.id, 1)
+          eventHelpers.addUserToEvent(req.session.user.id, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })

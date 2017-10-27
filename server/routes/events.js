@@ -31,6 +31,13 @@ module.exports = knex => {
     })
   });
 
+  router.get('/:id/guestlist', (req, res) => {
+    eventHelpers.getGuestlist(req.params.id)
+    .then(users => {
+      return res.json(users);
+    })
+  });
+
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
 

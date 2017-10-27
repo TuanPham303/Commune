@@ -205,6 +205,14 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  function getGuestlist(eventId) {
+    return knex('users')
+    .select('users.first_name', 'users.last_name', 'users.id')
+    .join('user_events', 'users.id', 'user_events.user_id')
+    .where('user_events.event_id', eventId)
+    .then(users => users);
+  }
+
   function getReviewsByEvent(eventId) {
     return knex('reviews')
     .select('users.first_name', 'users.last_name', 'reviews.rating', 'reviews.description')
@@ -275,6 +283,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     eventHasSpace,
     addUserToEvent,
     getReviewsByEvent,
+    getGuestlist,
     hasEditPermssion,
     updateEvent
   };

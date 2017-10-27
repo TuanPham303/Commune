@@ -66,7 +66,8 @@ export default class EventPage extends Component {
     return (
       <div>
         <NavBar />
-        <EventPage_Banner 
+        <EventPage_Banner
+          id={event.id} 
           title={event.title}
           price={event.price}
           capacity={event.capacity}

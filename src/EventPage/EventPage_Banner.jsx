@@ -8,18 +8,23 @@ class EventPage_Banner extends Component {
     super(props);
   }
 
-  onToken = token => {
+  onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       credentials: 'include',
-      body: JSON.stringify(token),
+      body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
-      return response.json();
-    }).then(data => {
-      alert(`Thank-you for booking, ${data.email}`);
+      if (response.status === 200) {
+        return fetch(`/api/events/${this.props.id}/book`, {
+          credentials: 'include',
+          method: 'POST'
+        }).then(() => {
+          return alert('Thanks for Booking!')
+        })
+      } else { return alert('Booking failed')}
     });
   }
 

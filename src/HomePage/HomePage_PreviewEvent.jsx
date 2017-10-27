@@ -28,11 +28,11 @@ class HomePage_PreviewEvent extends Component {
                 <p>{this.props.host}</p>
               </div>
             </div>
-            <Link to={`/events/${this.props.eventId}`}>
-              <div className="col-5">
+            <div className="col-5 buttonWrap">
+              <Link to={`/events/${this.props.eventId}`}>
                 <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Detail</button>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </div>
         </div>
       </div>  

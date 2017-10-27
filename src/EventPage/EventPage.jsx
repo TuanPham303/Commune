@@ -7,9 +7,6 @@ import EventPage_GuestList from './EventPage_GuestList.jsx';
 
 import moment from 'moment';
 
-
-
-
 export default class EventPage extends Component {
 
   state = {
@@ -112,7 +109,7 @@ export default class EventPage extends Component {
 
   render() {
     const { event, reviews, guestList } = this.state;
-    
+    console.log(event);
     if(!event) { return null; }
 
     return (
@@ -128,6 +125,7 @@ export default class EventPage extends Component {
           capacity={event.capacity}
           date={this.eventDate}
           description={event.description}
+          image={event.image_url}
          />   
         <EventPage_Menu 
           menu={event.menu_description}

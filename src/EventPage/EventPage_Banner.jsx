@@ -33,13 +33,13 @@ class EventPage_Banner extends Component {
       <div className="eventBanner container-fluid">
         <div className="row">
           <div className="image col-4">
-            <img src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""/>
+            <img src={this.props.image} alt=""/>
           </div>
           <div className="image col-4">
-            <img src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""/>
+            <img src={this.props.image} alt=""/>
           </div>
           <div className="image col-4">
-            <img src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""/>
+            <img src={this.props.image} alt=""/>
           </div>
         </div>
 

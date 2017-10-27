@@ -3,6 +3,7 @@ import NavBar from '../NavBar.jsx';
 import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
+import EventPage_GuestList from './EventPage_GuestList.jsx';
 
 import moment from 'moment';
 
@@ -20,7 +21,8 @@ export default class EventPage extends Component {
       last_name: '',
       is_host: false,
       is_chef: false
-    }
+    }, 
+    guestList: []
   }
 
   get eventId() {
@@ -78,12 +80,6 @@ export default class EventPage extends Component {
     });
   }
   
-  componentDidMount() {
-    this.getEvent();
-    this.getReviews();
-    this.getCurrentUser()
-  }
-
   submitReview = (description, rating, currentUserId) => {
     const review = {
       reviewerId: currentUserId,
@@ -98,8 +94,24 @@ export default class EventPage extends Component {
       });
   }
 
+  getGusetList = () => {
+    $.get(`/api/events/${this.eventId}/guestlist`)
+    .then( guestList => {
+      this.setState({
+        guestList: this.state.guestList.concat(guestList)
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.getEvent();
+    this.getReviews();
+    this.getCurrentUser();
+    this.getGusetList()
+  }
+
   render() {
-    const { event, reviews } = this.state;
+    const { event, reviews, guestList } = this.state;
     
     if(!event) { return null; }
 
@@ -119,6 +131,9 @@ export default class EventPage extends Component {
          />   
         <EventPage_Menu 
           menu={event.menu_description}
+        />
+        <EventPage_GuestList
+          guestList={guestList}
         />
         <EventPage_Review
           reviews={reviews}

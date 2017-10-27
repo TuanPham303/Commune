@@ -5,6 +5,7 @@ import NavBar from './NavBar.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
 import BecomeHost from './BecomeHost.jsx';
+import NewEventForm from './NewEventForm.jsx';
 
 
 class App extends Component {

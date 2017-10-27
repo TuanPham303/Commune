@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import NavBar_Events from './NavBar/NavBar_Events.jsx';
+import NavBar_PreviewEvent from './NavBar/NavBar_PreviewEvent.jsx';
 
 class NavBar extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class NavBar extends Component {
     this.state = {
       isSearching: false,
       searchString: '',
+      navbarEvents: [],
       currentUser: {
         id: null,
         first_name: '',
@@ -34,8 +36,9 @@ class NavBar extends Component {
   onSearch = event => {
     event.preventDefault();
     
-    this.props.getSearchResults(this.state.searchString); 
+    this.getSearchResults(this.state.searchString); 
     this.setState({ searchString: '' })
+    this.refs.query.blur();
   }
 
   getSearchResults = searchData => {
@@ -46,10 +49,13 @@ class NavBar extends Component {
       url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
-      console.log("my result from search is", result[0].title);
+      console.log("my result from search is", result);
+      console.log(this);
       this.setState({
-        previewEvents: result,
+        navbarEvents: this.state.navbarEvents.concat(result),
       })
+      console.log(this)
+      console.log("here are the navbarevents: ", this.state.navbarEvents)
     })
     .fail(e => {
       console.error(e);
@@ -124,7 +130,8 @@ class NavBar extends Component {
               <div className="form-group">
                 <input className="form-control" id="navbar-searchbox" ref="query" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler} onBlur={this.blurHandler}></input>
                 <NavBar_Events 
-                  navbarEvents={this.props.navbarEvents}
+                  navbarEvents={this.state.navbarEvents}
+                  getSearchResults={this.getSearchResults}
                 />
               </div>
               <div>

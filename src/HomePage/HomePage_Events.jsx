@@ -9,7 +9,6 @@ class HomePage_Events extends Component {
   }
 
   render() {
-    console.log('all events', this.props.previewEvents);
     
     const previewEvents = this.props.previewEvents.map( previewEvent => {
       let hosts = new Set();

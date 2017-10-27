@@ -7,12 +7,15 @@ class NavBar_PreviewEvent extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
-        <button class="dropdown-item" type="button">
-          <p><b>Event Title:</b> {this.props.title} </p>
-          <p><b>Event Description:</b> {this.props.neighbourhood} </p>
+        <button className="dropdown-item searchItem" type="button">
+          <b> {this.props.title} </b>
+          <br />
+          {this.props.neighbourhood}
         </button>
+        <div className="dropdown-divider"></div>
       </div>
     )
   };

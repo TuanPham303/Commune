@@ -7,23 +7,32 @@ class NavBar_Events extends Component {
     super(props);
   }
 
-  navbarEvents = () => {
-    if (navbarEvents === undefined) { return; }
-    this.props.navbarEvents.map( navbarEvent => {
-      return <NavBar_PreviewEvent 
-        title={navbarEvent.title}
-        neighbourhood={navbarEvent.neighbourhood}
-        event_id={navbarEvent.event_id}
-      />
-    });
-  }
+  // navbarEvents = () => {
+  //   console.log('all events', props.navbarEvents.title);
+
+  //   props.navbarEvents.map( navbarEvent => {
+  //     return
+  //       <NavBar_PreviewEvent
+  //         key={navbarEvent.event_id}
+  //         title={navbarEvent.title}
+  //         neighbourhood={navbarEvent.neighbourhood}
+  //         event_id={navbarEvent.event_id}
+  //       />
+  //   });
+  // }
 
   render() {
-    console.log('all events', this.props.navbarEvents);
+    const navbarEvents = this.props.navbarEvents.map( navbarEvent => {
+      return <NavBar_PreviewEvent
+          key= { navbarEvent.event_id }
+          title= { navbarEvent.title }
+          neighbourhood= { navbarEvent.neighbourhood }
+          event_id= { navbarEvent.event_id } />
+    });
     return(
-      <div>
-         { this.navbarEvents }
-      </div>
+        <div>
+          { navbarEvents }
+        </div>
     );
   }
 }

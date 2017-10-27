@@ -69,7 +69,7 @@ module.exports = knex => {
         users: rb.users, // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
-        date: rb.date,
+        date: !rb.date ? undefined : rb.date,
         description: rb.description,
         menu: rb.menu,
         price: rb.price,
@@ -77,8 +77,8 @@ module.exports = knex => {
         image: rb.image
       }
       eventHelpers.createEvent(details)
-      .then(() => {
-        res.sendStatus(201);
+      .then((id) => {
+        res.status(201).send(id);
       })
       .catch(err => {
         res.status(400).send(err);
@@ -93,14 +93,14 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    if (/* req.session.user.id */ true) {
+    if (req.session.user.id) {
       Promise.all([
-        eventHelpers.userIsBooked(/*req.session.user.id*/30000, req.params.id),
+        eventHelpers.userIsBooked(req.session.user.id, req.params.id),
         eventHelpers.eventHasSpace(req.params.id)
       ])
       .then(values => {
         if (!values[0] && values[1]) {
-          eventHelpers.addUserToEvent(/*req.session.user.id*/30000, req.params.id, 1)
+          eventHelpers.addUserToEvent(req.session.user.id, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })

@@ -104,6 +104,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       .asPromise()
       .then((response) => {
         const results = response.json.results[0];
+        if (!results) {
+          return;
+        }
         const locale = results.geometry.location;
         knex('events')
           .where('id', eventID)
@@ -148,7 +151,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           })
           .then(() => {
             getLocationDetails(Number(id), details.address)
-            resolve();
+            resolve(id);
           });
         })
         .catch((err) => {

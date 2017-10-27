@@ -64,14 +64,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar 
-          currentUser={this.state.currentUser} 
+        <NavBar
+          currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
         />
         <HomePage />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
+        <NewEventForm currentUser={this.state.currentUser}/>
         <BecomeHost getCurrentUser={this.getCurrentUser}/>
       </div>
     );

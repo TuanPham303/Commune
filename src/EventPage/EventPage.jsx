@@ -11,7 +11,14 @@ export default class EventPage extends Component {
 
   state = {
     event: null,
-    reviews: []
+    reviews: [],
+    currentUser: {
+      id: null,
+      first_name: '',
+      last_name: '',
+      is_host: false,
+      is_chef: false
+    }
   }
 
   get eventId() {
@@ -36,15 +43,48 @@ export default class EventPage extends Component {
         this.setState({ event })
       });
   }
+  getCurrentUser = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/current"
+    })
+    .done(result => {
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name,
+          is_host: result.is_host,
+          is_chef: result.is_chef
+        }
+      });
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
+
+  clearUser = event => {
+    this.setState({
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      }
+    });
+  }
   
   componentDidMount() {
     this.getEvent();
     this.getReviews();
+    this.getCurrentUser()
   }
 
-  submitReview = (description, rating) => {
+  submitReview = (description, rating, currentUserId) => {
     const review = {
-      reviewerId:   20000,
+      reviewerId: currentUserId,
       user_id: 10000,
       rating,
       description
@@ -63,7 +103,11 @@ export default class EventPage extends Component {
 
     return (
       <div>
-        <NavBar />
+        <NavBar 
+          currentUser={this.state.currentUser} 
+          clearUser={this.clearUser}
+          getCurrentUser={this.getCurrentUser}
+        />
         <EventPage_Banner 
           title={event.title}
           price={event.price}

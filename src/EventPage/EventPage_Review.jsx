@@ -3,22 +3,51 @@ const uuid = require('uuid/v4');
 
 
 export default class EventPage_Review extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    review: "",
-    rating: 0.0
+    this.state = {
+      review: "",
+      rating: 0,
+      currentUserId: null
+    }
   }
+  // state = {
+  //   review: "",
+  //   rating: 0,
+  //   currentUserId: null
+  // }
   
+  componentDidMount(){
+
+    this.getCurrentUser();
+
+  }
+
+  getCurrentUser = () => {
+    $.get("/api/users/current")
+    .done(result => {
+      this.setState({
+        currentUserId: result.id 
+      });
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
+
   handleReview = (e) => {
     e.preventDefault();
-
-    const { review, rating } = this.state;
-    this.props.submitReview(review, rating);
 
     this.setState({
       review: "",
       rating: 0
     });
+
+    const { review, rating, currentUserId } = this.state;
+    this.props.submitReview(review, rating, currentUserId);
+
+   
   }
 
   onReviewChange = (e) => {

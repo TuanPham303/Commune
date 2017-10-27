@@ -80,7 +80,12 @@ module.exports = knex => {
       .then((id) => {
         res.status(201).send(id);
       })
-    } else res.sendStatus(400);
+      .catch(err => {
+        res.status(400).send(err);
+      })
+    } else {
+      res.status(400).send('Please fill out the required fields');
+    }
   });
 
   // book an event for a user to attend as a guest

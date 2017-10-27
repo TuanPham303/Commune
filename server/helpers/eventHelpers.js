@@ -63,6 +63,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
             let newEventObj = Object.assign({}, item);
             ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
+            if (!newEventObj.image) {
+              newEventObj.image = '/event_default.jpg';
+            }
             newEventObj.hosts_and_chefs = [createUserObject(item)];
             normalizedArray.push(newEventObj);
           } else { // if event is in normalizedArray, reformat and add only host and chef data
@@ -118,7 +121,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       })
       .catch((err) => {
         // if the api request fails, wait 30 sec then try again
-        console.log('Google Places API error: ', err);
+        console.error('Google Places API error: ', err);
         setTimeout(getLocationDetails, 30000, eventID, address);
       });
   }
@@ -128,13 +131,13 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     return new Promise((resolve, reject) => {
       knex
         .insert({
-          title: details.title, //required
-          address: details.address, //required
+          title: details.title,
+          address: details.address,
           event_date: details.date,
           description: details.description,
           menu_description: details.menu,
-          price: details.price, //required
-          capacity: details.capacity, //required
+          price: details.price,
+          capacity: details.capacity,
           image_url: details.image
         })
         .into('events')
@@ -150,7 +153,10 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             getLocationDetails(Number(id), details.address)
             resolve(id);
           });
-        });
+        })
+        .catch((err) => {
+          reject('Error saving event. Please make sure all required fields are filled out')
+        })
     });
   }
 

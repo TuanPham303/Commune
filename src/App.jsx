@@ -4,7 +4,7 @@ import HomePage from './HomePage/HomePage.jsx';
 import NavBar from './NavBar.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
-import NewEventForm from './NewEventForm.jsx';
+import BecomeHost from './BecomeHost.jsx';
 
 
 class App extends Component {
@@ -15,7 +15,9 @@ class App extends Component {
       currentUser: {
         id: null,
         first_name: '',
-        last_name: ''
+        last_name: '',
+        is_host: false,
+        is_chef: false
       }
     }
   }
@@ -30,7 +32,9 @@ class App extends Component {
         currentUser: {
           id: result.id,
           first_name: result.first_name,
-          last_name: result.last_name
+          last_name: result.last_name,
+          is_host: result.is_host,
+          is_chef: result.is_chef
         }
       });
     })
@@ -48,7 +52,9 @@ class App extends Component {
       currentUser: {
         id: null,
         first_name: '',
-        last_name: ''
+        last_name: '',
+        is_host: false,
+        is_chef: false
       }
     });
   }
@@ -58,11 +64,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar currentUser={this.state.currentUser} clearUser={this.clearUser}/>
+        <NavBar
+          currentUser={this.state.currentUser}
+          clearUser={this.clearUser}
+          getCurrentUser={this.getCurrentUser}
+        />
         <HomePage />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
         <NewEventForm currentUser={this.state.currentUser}/>
+        <BecomeHost getCurrentUser={this.getCurrentUser}/>
       </div>
     );
   }

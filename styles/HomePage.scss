@@ -1,3 +1,7 @@
+.wrapper {
+  background-color: #606060;
+}
+
 .homePageBanner {
   margin: 0px;
   position: relative;
@@ -29,28 +33,48 @@
 }
 
 .clip {
- overflow: hidden;
  display: block;
- height: 60vh;
+ height: 54vh;
+ min-height: 450px;
 }
 
-.clip video {
+.fullscreen-bg {
+    overflow: hidden;
+    z-index: -100;
+    width: 100%;
+    height: 100%;
+}
+
+.fullscreen-bg__video {
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.eventImg {
   width: 100%;
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .eventContainer {
+  max-width: 1500px;
+  margin-right: auto;
+  margin-left: auto;
   .event {
     height: 500px;
     padding: 15px;
     box-sizing: border-box;
     .imgContainer {
       height: 40%;
-      background-image: url("https://wallpaperscraft.com/image/spices_seasonings_red_pepper_black_pepper_pepper_star_anise_onion_ginger_garlic_walnuts_bay_leaf_78738_1920x1080.jpg");
+      overflow: hidden;
     }
     .eventDescription {
+      background: #f8f9fa;
       height: 60%;
       border: 1px solid #111;
-      border-top: none;
+      border: none;
       padding: 10px 15px;
       .hostAndDetailButton {
         margin-top: 50px;

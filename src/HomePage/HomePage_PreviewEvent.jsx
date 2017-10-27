@@ -10,7 +10,7 @@ class HomePage_PreviewEvent extends Component {
     return (
       <div className="col-4 event">
         <div className="imgContainer">
-          <div className="imgContainerOpacity"></div>
+          <img src={this.props.image_url} className='eventImg'/>
         </div>
         <div className="eventDescription">
           <p><b>Event Title:</b> {this.props.title}(${this.props.price})</p>
@@ -35,7 +35,7 @@ class HomePage_PreviewEvent extends Component {
             </Link>
           </div>
         </div>
-      </div>  
+      </div>
     )
   };
 }

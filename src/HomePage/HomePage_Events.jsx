@@ -9,13 +9,13 @@ class HomePage_Events extends Component {
   }
 
   render() {
-    
+
     const previewEvents = this.props.previewEvents.map( previewEvent => {
       let hosts = new Set();
       previewEvent.hosts_and_chefs.forEach( person => {
         hosts.add(`${person.first_name} ${person.last_name}`)
       })
-      return <HomePage_PreviewEvent 
+      return <HomePage_PreviewEvent
         key={uuid()}
         title={previewEvent.title}
         price={previewEvent.price}
@@ -24,9 +24,10 @@ class HomePage_Events extends Component {
         capacity={previewEvent.capacity}
         eventId={previewEvent.event_id}
         host={[...hosts].join(', ')}
+        image_url={previewEvent.image_url}
       />
       });
-      
+
     return(
       <div className="container-fluid eventContainer">
         <div className="row">

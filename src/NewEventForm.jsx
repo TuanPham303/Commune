@@ -12,7 +12,7 @@ export default class NewEventForm extends Component {
       menu: '',
       price: 0,
       capacity: 0,
-      image: '',
+      image: ''
     }
   }
 
@@ -28,7 +28,7 @@ export default class NewEventForm extends Component {
         menu: this.state.menu,
         price: this.state.price,
         capacity: this.state.capacity,
-        image: this.state.imageURL //
+        image: this.state.image //
       }
 
     $.post('/api/events/new', newEventData)
@@ -94,7 +94,7 @@ export default class NewEventForm extends Component {
                 </div>
                 <div className="form-group">
                   <label>Image URL</label>
-                  <input type="number" className="form-control" min="0" ref="capacity" value ={this.state.imageURL} onChange={this.handleChange.bind(this, 'imageURL')}></input>
+                  <input type="text" className="form-control" ref="image" value ={this.state.image} onChange={this.handleChange.bind(this, 'image')}></input>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
               </form>

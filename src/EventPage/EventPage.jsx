@@ -8,9 +8,6 @@ const moment = require('moment');
 
 
 class EventPage extends Component {
-  static contextTypes = {
-    getSearchResults: React.PropTypes.func
-  }
 
   constructor(props){
     super(props);
@@ -26,34 +23,35 @@ class EventPage extends Component {
     }
   }
 
+  createEventDetail = (id) => {
+    const eventId = id || this.props.match.params.id;
+    $.ajax({
+      method: "GET",
+      url: `/api/events/${eventId}`,
+      success: data => {
+        console.log('data', data);
+        this.setState({
+          eventDetail: {
+            title: data[0].title,
+            price: data[0].price,
+            capacity: data[0].capacity,
+            date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
+            description: data[0].description,
+            menu: data[0].menu_description,
+          }
+        })
+      }
+    })
+  }
+
   componentDidMount(){
-    const eventId = this.props.match.params.id;
-    const eventDetail = () => {
-      $.ajax({
-        method: "GET",
-        url: `/api/events/${eventId}`,
-        success: data => {
-          console.log('data', data);
-          this.setState({
-            eventDetail: {
-              title: data[0].title,
-              price: data[0].price,
-              capacity: data[0].capacity,
-              date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
-              description: data[0].description,
-              menu: data[0].menu_description,
-            }
-          })
-        }
-      })
-    }
-    eventDetail();
+    this.createEventDetail();
   }
 
   render() {
     return (
       <div>
-        <NavBar getSearchResults={this.context.getSearchResults} />
+        <NavBar getSearchResults={this.props.getSearchResults} createEventDetail={this.createEventDetail} />
         <EventPage_Banner 
           title={this.state.eventDetail.title}
           price={this.state.eventDetail.price}

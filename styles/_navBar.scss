@@ -12,5 +12,9 @@
 
 .dropdown-item.searchItem {
   padding: 0 0;
-  white-space: pre-wrap;
+  white-space: normal;
+}
+
+.form-control.navbar-searchbox {
+  margin-bottom: 10px;
 }

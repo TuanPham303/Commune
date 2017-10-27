@@ -27,7 +27,13 @@ class NavBar_Events extends Component {
           key= { navbarEvent.event_id }
           title= { navbarEvent.title }
           neighbourhood= { navbarEvent.neighbourhood }
-          event_id= { navbarEvent.event_id } />
+          event_id= { navbarEvent.event_id }
+          price={navbarEvent.price}
+          capacity={navbarEvent.capacity}
+          date={navbarEvent.date}
+          description={navbarEvent.description}
+          menu={navbarEvent.menu}
+          createEventDetail= { this.props.createEventDetail } />
     });
     return(
         <div>

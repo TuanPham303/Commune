@@ -37,7 +37,7 @@ class NavBar extends Component {
     event.preventDefault();
     
     this.getSearchResults(this.state.searchString); 
-    this.setState({ searchString: '' })
+    this.setState({ searchString: '', navbarEvents: [] })
     this.refs.query.blur();
   }
 
@@ -50,12 +50,9 @@ class NavBar extends Component {
     })
     .done(result => {
       console.log("my result from search is", result);
-      console.log(this);
       this.setState({
         navbarEvents: this.state.navbarEvents.concat(result),
       })
-      console.log(this)
-      console.log("here are the navbarevents: ", this.state.navbarEvents)
     })
     .fail(e => {
       console.error(e);
@@ -128,10 +125,11 @@ class NavBar extends Component {
           <div className="dropdown-menu" id="dropdown-menu">
             <form className="px-4 py-3" onSubmit={this.onSearch} >
               <div className="form-group">
-                <input className="form-control" id="navbar-searchbox" ref="query" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler} onBlur={this.blurHandler}></input>
-                <NavBar_Events 
+                <input className="form-control navbar-searchbox" ref="query" type="text" placeholder="Search" name="query" type="text" name="query" value={this.state.searchString} onChange={this.changeHandler} onBlur={this.blurHandler}></input>
+                <NavBar_Events
                   navbarEvents={this.state.navbarEvents}
                   getSearchResults={this.getSearchResults}
+                  createEventDetail={this.props.createEventDetail}
                 />
               </div>
               <div>

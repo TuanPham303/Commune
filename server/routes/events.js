@@ -21,8 +21,6 @@ module.exports = knex => {
     let rating = req.body.rating;
     let description = req.body.description;
 
-    debugger;
-
     eventHelpers.postReview(reviewerId, eventId, userId, rating, description)
     .then(() => {
       return res.sendStatus(201);
@@ -30,6 +28,13 @@ module.exports = knex => {
     .catch(error => {
       console.error('Error:', error);
       return res.sendStatus(500);
+    })
+  });
+
+  router.get('/:id/guestlist', (req, res) => {
+    eventHelpers.getGuestlist(req.params.id)
+    .then(users => {
+      return res.json(users);
     })
   });
 
@@ -69,7 +74,7 @@ module.exports = knex => {
         users: rb.users, // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
-        date: !rb.date ? undefined : rb.date,
+        date: rb.date,
         description: rb.description,
         menu: rb.menu,
         price: rb.price,
@@ -77,8 +82,8 @@ module.exports = knex => {
         image: rb.image
       }
       eventHelpers.createEvent(details)
-      .then((id) => {
-        res.status(201).send(id);
+      .then(() => {
+        res.sendStatus(201);
       })
       .catch(err => {
         res.status(400).send(err);
@@ -93,14 +98,14 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    if (req.session.user.id) {
+    if (/* req.session.user.id */ true) {
       Promise.all([
-        eventHelpers.userIsBooked(req.session.user.id, req.params.id),
+        eventHelpers.userIsBooked(/*req.session.user.id*/30000, req.params.id),
         eventHelpers.eventHasSpace(req.params.id)
       ])
       .then(values => {
         if (!values[0] && values[1]) {
-          eventHelpers.addUserToEvent(req.session.user.id, req.params.id, 1)
+          eventHelpers.addUserToEvent(/*req.session.user.id*/30000, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })

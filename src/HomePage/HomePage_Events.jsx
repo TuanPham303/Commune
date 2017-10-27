@@ -9,7 +9,6 @@ class HomePage_Events extends Component {
   }
 
   render() {
-
     const previewEvents = this.props.previewEvents.map( previewEvent => {
       let hosts = new Set();
       previewEvent.hosts_and_chefs.forEach( person => {

@@ -78,6 +78,17 @@
       padding: 10px 15px;
       .hostAndDetailButton {
         margin-top: 50px;
+        .buttonWrap {
+          position: relative;
+          padding: 0;
+          button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+       
         .avatarImg {
           height: 70px;
           border-radius: 50%;
@@ -85,7 +96,9 @@
         .hostDetail {
           padding: 0 15px;
           p {
-            margin: 0;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
           }
         }
       }

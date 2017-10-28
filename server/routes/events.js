@@ -38,6 +38,10 @@ module.exports = knex => {
     })
   });
 
+  router.get('/stripekey', (req, res) => {
+    return res.json(process.env.STRIPE_PUBLIC_KEY);
+  });
+
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
 
@@ -98,7 +102,6 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    console.log(req.session.user.id);
     if ( req.session.user.id) {
       Promise.all([
         eventHelpers.userIsBooked(req.session.user.id, req.params.id),

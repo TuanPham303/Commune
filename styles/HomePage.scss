@@ -1,5 +1,6 @@
-.wrapper {
-  background-color: #606060;
+.homeWrapper {
+  background-color: #292d35;
+  color: #292d35;
 }
 
 .homePageBanner {
@@ -12,13 +13,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     .homePageBannerSearchBox {
-      height: 70px;
-      width: 600px;
-      background-color: #000;
-      opacity: 0.75;
-      color: #fff;
-    }
-    .homePageBannerSearchButton {
+      width: 100%;
       height: 70px;
       background-color: #000;
       opacity: 0.75;
@@ -28,7 +23,7 @@
 }
 
 .search-title {
-  color: gold;
+  color: #292d35;
   text-align: center;
 }
 
@@ -69,15 +64,14 @@
     .imgContainer {
       height: 40%;
       overflow: hidden;
+      border-radius: 0.3em 0.3em 0em 0em;
     }
     .eventDescription {
+      border-radius: 0em 0em 0.3em 0.3em;
       background: #f8f9fa;
       height: 60%;
-      border: 1px solid #111;
-      border: none;
       padding: 10px 15px;
       .hostAndDetailButton {
-        margin-top: 50px;
         .buttonWrap {
           position: relative;
           padding: 0;
@@ -88,13 +82,13 @@
             transform: translate(-50%, -50%);
           }
         }
-       
+
         .avatarImg {
           height: 70px;
           border-radius: 50%;
         }
         .hostDetail {
-          padding: 0 15px;
+          padding-left: 25px;
           p {
             position: absolute;
             top: 50%;

@@ -50,9 +50,8 @@ class App extends Component {
     window.onscroll = function() {
 
       if (window.pageYOffset > 0) {
-      var opac = 1.1 - (window.pageYOffset / ($(window).height() / 2.4));
-      $('.fullscreen-bg').css('opacity', opac);
-      // document.body.style.background = "linear-gradient(rgba(255, 255, 255, " + opac + "), rgba(255, 255, 255, " + opac + ")), url(times-square-perspective.jpg) no-repeat";
+        var opac = 1.1 - (window.pageYOffset / ($(window).height() / 2.4));
+        $('.fullscreen-bg').css('opacity', opac);
       }
     }
   }

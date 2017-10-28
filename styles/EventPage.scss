@@ -52,20 +52,13 @@
 }
 
 .reviewContainer {
-  margin: 100px 0;
-  .reviewsWrap{
-    ul {
-      list-style-type: none;
-      margin-top: 10px;
-    }
+  .rating {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    -webkit-appearance: none;
   }
- 
-  .reviewInputWrap {
-    margin-top: 80px;
-    .rating {
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
-      -webkit-appearance: none;
-    }
+  margin: 100px 0;
+  ul {
+    list-style-type: none;
   }
 }

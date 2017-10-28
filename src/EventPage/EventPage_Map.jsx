@@ -13,7 +13,6 @@ export default class EventPage_Map extends Component {
   };
  
   render() {
-    console.log(typeof this.props.location);
     return (
       <GoogleMapReact
         bootstrapURLKeys={{key: "AIzaSyBKKwK2AfjqhjmwQKaUvWxXwFOVMY_rgn4"}}

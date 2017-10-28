@@ -4,6 +4,8 @@ import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
 import EventPage_GuestList from './EventPage_GuestList.jsx';
+import Login from '../Login.jsx';
+import Register from '../Register.jsx';
 
 import moment from 'moment';
 
@@ -91,11 +93,11 @@ export default class EventPage extends Component {
       });
   }
 
-  getGusetList = () => {
+  getGuestList = () => {
     $.get(`/api/events/${this.eventId}/guestlist`)
     .then( guestList => {
       this.setState({
-        guestList: this.state.guestList.concat(guestList)
+        guestList
       })
     })
   }
@@ -104,7 +106,7 @@ export default class EventPage extends Component {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGusetList()
+    this.getGuestList()
   }
 
   render() {
@@ -127,6 +129,8 @@ export default class EventPage extends Component {
           description={event.description}
           image={event.image_url}
           hosts_and_chefs={event.hosts_and_chefs}
+          location={event.location}
+          getGuestList={this.getGuestList}
          />
         <EventPage_Menu
           menu={event.menu_description}
@@ -138,6 +142,8 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
         />
+        <Login getCurrentUser={this.getCurrentUser} />
+        <Register getCurrentUser={this.getCurrentUser} />
       </div>
 
     );

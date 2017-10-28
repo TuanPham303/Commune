@@ -19,19 +19,21 @@ class HomePage_PreviewEvent extends Component {
             <p className="col"><b>Neighbourhood:</b> {this.props.neighbourhood} </p>
             <p className="col"><b>Event Capacity:</b> {this.props.capacity} </p>
           </div>
-          <div className="hostAndDetailButton row">
-            <div className="col-7 row">
-              <div className="avatar col-4">
-                <img src="http://akns-images.eonline.com/eol_images/Entire_Site/2017210/rs_300x300-170310083229-600.avatar-1.31017.jpg?downsize=300:*&crop=300:300;left,top" alt="" className="avatarImg"/>
+          <div className="hostAndDetailButton">
+            <div className="row">
+              <div className="col-7 row">
+                <div className="avatar col-4">
+                  <img src="http://akns-images.eonline.com/eol_images/Entire_Site/2017210/rs_300x300-170310083229-600.avatar-1.31017.jpg?downsize=300:*&crop=300:300;left,top" alt="" className="avatarImg"/>
+                </div>
+                <div className="col-8 hostDetail">
+                  <p>{this.props.host}</p>
+                </div>
               </div>
-              <div className="col-8 hostDetail">
-                <p>{this.props.host}</p>
+              <div className="col-5 buttonWrap">
+                <Link to={`/events/${this.props.eventId}`}>
+                  <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Details</button>
+                </Link>
               </div>
-            </div>
-            <div className="col-5 buttonWrap">
-              <Link to={`/events/${this.props.eventId}`}>
-                <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Details</button>
-              </Link>
             </div>
           </div>
         </div>

@@ -52,6 +52,11 @@
 }
 
 .reviewContainer {
+  .rating {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    -webkit-appearance: none;
+  }
   margin: 100px 0;
   ul {
     list-style-type: none;

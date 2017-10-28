@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
+import EventPage_Map from './EventPage_Map.jsx'
 
 
 
@@ -17,12 +18,14 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
+      console.log(response);
       if (response.status === 200) {
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
           method: 'POST'
         }).then(() => {
-          return alert('Thanks for Booking!')
+         console.log( this.props.getGuestList());
+         this.props.getGuestList();
         })
       } else { return alert('Booking failed')}
     });
@@ -32,6 +35,8 @@ class EventPage_Banner extends Component {
     console.log(process.env.STRIPE_PUBLIC_KEY);
     return process.env.STRIPE_PUBLIC_KEY;
   }
+
+  
 
   render() {
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
@@ -65,7 +70,7 @@ class EventPage_Banner extends Component {
             <h3>{this.props.title} (${this.props.price})</h3>
           </div>
           <div className="row">
-            <div className="hostImages col-4">
+            <div className="hostImages col-3">
               <div id="carouselExampleControls" className="carousel slide imagesSlider" data-ride="carousel">
                 <div className="carousel-inner" role="listbox">
                   { hostCarousel }
@@ -94,8 +99,8 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                <StripeCheckout token={this.onToken}
-                stripeKey="pk_test_i844Um8fpYdeefDhjt1hkLCI"
+                <StripeCheckout token={this.onToken} 
+                stripeKey="pk_test_sGbT8bXukJ6CeBSOv11ATC4r" 
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}
@@ -105,10 +110,10 @@ class EventPage_Banner extends Component {
                 />
               </div>
             </div>
-            <div className="col-4">
-              <div className="eventMap">
-                <img src="https://duncan99.files.wordpress.com/2015/03/bounds-map1.png?w=641&h=479" alt=""/>
-              </div>
+            <div className="col-5">
+              <EventPage_Map 
+                location={this.props.location}
+              />
             </div>
           </div>
         </div>

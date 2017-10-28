@@ -7,30 +7,6 @@ import EventPage_Map from './EventPage_Map.jsx'
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      hosts: [
-        {
-          position: 'host',
-          name: 'Tuan Pham',
-          avatar_url: 'https://lh3.googleusercontent.com/uiaClJClnocWByL83EOkxd6LcvRR2jW17KAfIzEj7GgM8iNtv9l4QR32OznMw12gYIKU=w300'
-        },
-        {
-          position: 'host',
-          name: 'Russell',
-          avatar_url: 'http://i.imgur.com/Q4vpATV.png'
-        },
-        {
-          position: 'chef',
-          name: 'Scotty',
-          avatar_url: 'https://pm1.narvii.com/5751/3d2309125d7bb9e8d7f35bce5cde273326f999c4_hq.jpg'
-        },
-        {
-          position: 'chef',
-          name: 'Spencer',
-          avatar_url: 'https://www.seoclerk.com/pics/68213-2.jpg'
-        }
-      ]
-    }
   }
 
   onToken = token  => {
@@ -63,8 +39,18 @@ class EventPage_Banner extends Component {
   
 
   render() {
- 
-    
+    const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
+      return (
+        <div key={host.user_id} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
+          <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"></img>
+          <div className="carousel-caption d-none d-md-block">
+            <h3>{host.first_name} {host.last_name}</h3>
+            <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
+          </div>
+        </div>
+      )
+    })
+
     return (
       <div className="eventBanner container-fluid">
         <div className="row">
@@ -87,27 +73,7 @@ class EventPage_Banner extends Component {
             <div className="hostImages col-3">
               <div id="carouselExampleControls" className="carousel slide imagesSlider" data-ride="carousel">
                 <div className="carousel-inner" role="listbox">
-                  <div className="carousel-item active">
-                    <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="First slide"></img>
-                    <div className="carousel-caption d-none d-md-block">
-                      <h3>Avatar</h3>
-                      <p>Blue skin</p>
-                    </div>
-                  </div>
-                  <div className="carousel-item">
-                    <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Second slide"></img>
-                    <div className="carousel-caption d-none d-md-block">
-                      <h3>Avatar</h3>
-                      <p>Blue skin too</p>
-                    </div>
-                  </div>
-                  <div className="carousel-item">
-                    <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Third slide"></img>
-                    <div className="carousel-caption d-none d-md-block">
-                      <h3>Avatar</h3>
-                      <p>Also Blue skin</p>
-                    </div>
-                  </div>
+                  { hostCarousel }
                 </div>
                 <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                   <span className="carousel-control-prev-icon" aria-hidden="true"></span>

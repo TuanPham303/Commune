@@ -116,12 +116,14 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           })
           .then(() => {
             console.log('Location details updated');
+            resolve();
           });
       })
       .catch((err) => {
         // if the api request fails, wait 30 sec then try again
         console.error('Google Places API error: ', err);
         setTimeout(getLocationDetails, 30000, eventID, address);
+        resolve();
       });
   }
 
@@ -150,7 +152,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           })
           .then(() => {
             getLocationDetails(Number(id), details.address)
-            resolve(id);
+            .then(() => {
+              resolve(id);
+            });
           });
         })
         .catch((err) => {

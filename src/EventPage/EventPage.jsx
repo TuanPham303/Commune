@@ -132,7 +132,7 @@ export default class EventPage extends Component {
     $.get(`/api/events/${this.eventId}/guestlist`)
     .then( guestList => {
       this.setState({
-        guestList: this.state.guestList.concat(guestList)
+        guestList
       })
     })
   }
@@ -141,7 +141,7 @@ export default class EventPage extends Component {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGusetList()
+    this.getGuestList()
   }
 
   render() {
@@ -159,13 +159,14 @@ export default class EventPage extends Component {
           createEventDetail={this.createEventDetail} 
         />
         <EventPage_Banner 
-          id ={event.id}
+          id ={event.event_id}
           title={event.title}
           price={event.price}
           capacity={event.capacity}
           date={this.eventDate}
           description={event.description}
           image={event.image_url}
+          getGuestList={this.getGuestList}
          />   
         <EventPage_Menu 
           menu={event.menu_description}

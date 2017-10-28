@@ -33,6 +33,7 @@ export default class NewEventForm extends Component {
 
     $.post('/api/events/new', newEventData)
     .then((id) => {
+      console.log(id);
       document.location.assign(`/events/${id}`);
     })
     .fail(err => {

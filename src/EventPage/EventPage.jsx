@@ -120,6 +120,7 @@ export default class EventPage extends Component {
           getCurrentUser={this.getCurrentUser}
         />
         <EventPage_Banner 
+          id ={event.id}
           title={event.title}
           price={event.price}
           capacity={event.capacity}

@@ -10,17 +10,18 @@ module.exports = knex => {
   // const paymentHelpers = paymentHelpersFunction(knex);
 
   router.post('/save-stripe-token', (req, res) => {
-    const token = req.body;
-    console.log(token);
-    const chargeAmount = req.body.chargeAmount;
+    const token = req.body.token;
+    const amount = (req.body.amount * 100);
     stripe.charges.create({
-      currentcy: "CAD",
-      source: token
-    }, function(err, charge){
-      if(err && err.type === "StripeCardError"){
-       console.log('your card was declined');
-      }
-      console.log(charge);
+      amount,
+      description: "Commune Booking",
+      currency: "CAD",
+      source: token.id
+    })
+    .then(charge => res.json(charge))
+    .catch(err => {
+      console.log("Error:", err);
+      res.status(500).send({error: "Purchase Failed"});
     });
   });
 

@@ -80,7 +80,7 @@ export default class EventPage extends Component {
   submitReview = (description, rating, currentUserId) => {
     const review = {
       reviewerId: currentUserId,
-      user_id: 20000,
+      user_id: currentUserId,
       rating,
       description
     };

@@ -17,6 +17,7 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
+      console.log(response);
       if (response.status === 200) {
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
@@ -104,7 +105,7 @@ class EventPage_Banner extends Component {
                   <p>{this.props.description}</p>
                 </div>
                 <StripeCheckout token={this.onToken} 
-                stripeKey="pk_test_i844Um8fpYdeefDhjt1hkLCI" 
+                stripeKey="pk_test_sGbT8bXukJ6CeBSOv11ATC4r" 
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}

@@ -18,7 +18,7 @@ export default class EventPage extends Component {
       last_name: '',
       is_host: false,
       is_chef: false
-    }, 
+    },
     guestList: []
   }
 
@@ -76,7 +76,7 @@ export default class EventPage extends Component {
       }
     });
   }
-  
+
   submitReview = (description, rating, currentUserId) => {
     const review = {
       reviewerId: currentUserId,
@@ -108,18 +108,17 @@ export default class EventPage extends Component {
   }
 
   render() {
-    const { event, reviews, guestList } = this.state; 
-    console.log(event);
+    const { event, reviews, guestList } = this.state;
     if(!event) { return null; }
 
     return (
-      <div>
-        <NavBar 
-          currentUser={this.state.currentUser} 
+      <div className='eventWrapper' id="bootstrap-overrides">
+        <NavBar
+          currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
         />
-        <EventPage_Banner 
+        <EventPage_Banner
           id ={event.event_id}
           title={event.title}
           price={event.price}
@@ -127,6 +126,7 @@ export default class EventPage extends Component {
           date={this.eventDate}
           description={event.description}
           image={event.image_url}
+          location={event.location}
           getGuestList={this.getGuestList}
          />   
         <EventPage_Menu 
@@ -140,7 +140,7 @@ export default class EventPage extends Component {
           submitReview={this.submitReview}
         />
       </div>
-     
+
     );
   }
 }

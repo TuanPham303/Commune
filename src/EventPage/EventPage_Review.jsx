@@ -12,12 +12,7 @@ export default class EventPage_Review extends Component {
       currentUserId: null
     }
   }
-  // state = {
-  //   review: "",
-  //   rating: 0,
-  //   currentUserId: null
-  // }
-  
+
   componentDidMount(){
 
     this.getCurrentUser();
@@ -28,7 +23,7 @@ export default class EventPage_Review extends Component {
     $.get("/api/users/current")
     .done(result => {
       this.setState({
-        currentUserId: result.id 
+        currentUserId: result.id
       });
     })
     .fail(err => {
@@ -47,7 +42,7 @@ export default class EventPage_Review extends Component {
     const { review, rating, currentUserId } = this.state;
     this.props.submitReview(review, rating, currentUserId);
 
-   
+
   }
 
   onReviewChange = (e) => {
@@ -57,7 +52,7 @@ export default class EventPage_Review extends Component {
   onRatingChange = (e) => {
     this.setState({ rating: e.target.value });
   }
-  
+
   render() {
     const reviews = this.props.reviews.map(review => (
       <li className="list-group-item" key={uuid()}>

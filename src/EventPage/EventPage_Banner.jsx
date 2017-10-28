@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
+import EventPage_Map from './EventPage_Map.jsx'
 
 
 
@@ -35,6 +36,8 @@ class EventPage_Banner extends Component {
     return process.env.STRIPE_PUBLIC_KEY;
   }
 
+  
+
   render() {
     return (
       <div className="eventBanner container-fluid">
@@ -55,7 +58,7 @@ class EventPage_Banner extends Component {
             <h3>{this.props.title} (${this.props.price})</h3>
           </div>
           <div className="row">
-            <div className="hostImages col-4">
+            <div className="hostImages col-3">
               <div id="carouselExampleControls" className="carousel slide imagesSlider" data-ride="carousel">
                 <div className="carousel-inner" role="listbox">
                   <div className="carousel-item active">
@@ -115,16 +118,16 @@ class EventPage_Banner extends Component {
                 />
               </div>
             </div>
-            <div className="col-4">
-              <div className="eventMap">
-                <img src="https://duncan99.files.wordpress.com/2015/03/bounds-map1.png?w=641&h=479" alt=""/>
-              </div>
+            <div className="col-5">
+              <EventPage_Map 
+                location={this.props.location}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      
+
     );
   }
 }

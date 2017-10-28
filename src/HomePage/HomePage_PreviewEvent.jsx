@@ -30,7 +30,7 @@ class HomePage_PreviewEvent extends Component {
             </div>
             <div className="col-5 buttonWrap">
               <Link to={`/events/${this.props.eventId}`}>
-                <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Detail</button>
+                <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Details</button>
               </Link>
             </div>
           </div>

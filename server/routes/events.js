@@ -98,14 +98,15 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    if (/* req.session.user.id */ true) {
+    console.log(req.session.user.id);
+    if ( req.session.user.id) {
       Promise.all([
-        eventHelpers.userIsBooked(/*req.session.user.id*/30000, req.params.id),
+        eventHelpers.userIsBooked(req.session.user.id, req.params.id),
         eventHelpers.eventHasSpace(req.params.id)
       ])
       .then(values => {
         if (!values[0] && values[1]) {
-          eventHelpers.addUserToEvent(/*req.session.user.id*/30000, req.params.id, 1)
+          eventHelpers.addUserToEvent(req.session.user.id, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })

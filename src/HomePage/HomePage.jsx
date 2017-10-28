@@ -30,11 +30,19 @@ class HomePage extends Component {
   render() {
     return (
       <div className="wrapper">
+        <div className='fullscreen-bg'>
+            <video autoPlay loop muted className="fullscreen-bg__video">
+              <source src="https://d3mlfyygrfdi2i.cloudfront.net/Assemble_Hero_Loop_desktop.mp4" type="video/mp4"/>
+              <source src="https://d3mlfyygrfdi2i.cloudfront.net/Assemble_Hero_Loop_webm.webm" type="video/webm"/>
+              <img alt="" src="https://d3mlfyygrfdi2i.cloudfront.net/Screen_Shot_2017-09-11_at_3.57.10_PM.png"/>
+              You need an HTML5 enabled browser to view this video.
+            </video>
+        </div>
         <HomePage_Banner />
-        <HomePage_Events 
+        <HomePage_Events
           previewEvents={this.state.previewEvents}
         />
-      </div>  
+      </div>
     );
   }
 }

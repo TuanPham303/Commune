@@ -47,14 +47,12 @@ class NavBar extends Component {
   }
 
   getSearchResults = searchData => {
-    console.log(searchData)
     const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
     $.ajax({
       method: "GET",
       url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
-      console.log("my result from search is", result);
       this.setState({
         navbarEvents: this.state.navbarEvents.concat(result),
       })
@@ -133,7 +131,7 @@ class NavBar extends Component {
                 <NavBar_Events
                   navbarEvents={this.state.navbarEvents}
                   getSearchResults={this.getSearchResults}
-                  createEventDetail={this.props.createEventDetail}
+                  getEvent={this.props.getEvent}
                 />
               </div>
               <div>

@@ -8,33 +8,22 @@ import EventPage_GuestList from './EventPage_GuestList.jsx';
 import moment from 'moment';
 
 export default class EventPage extends Component {
+  // constructor(props) {
+  //   super(props);
+    state = {
+      event: null,
+      reviews: [],
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      }, 
+      guestList: []
+    }
+  // }
 
-  state = {
-    event: null,
-    reviews: [],
-    currentUser: {
-      id: null,
-      first_name: '',
-      last_name: '',
-      is_host: false,
-      is_chef: false
-    }, 
-    guestList: []
-  }
-
-<<<<<<< HEAD
-  constructor(props){
-    super(props);
-    this.state = {
-      eventDetail: {
-        title: '',
-        price: '',
-        date: '',
-        capacity: '',
-        description: '',
-        menu: '',
-      },
-=======
   get eventId() {
     return this.props.match.params.id;
   }
@@ -42,7 +31,6 @@ export default class EventPage extends Component {
   get eventDate() {
     if(this.state.event && this.state.event.event_date) {
       return moment(this.state.event.event_date).format('MMMM Do YYYY, h:mm a');
->>>>>>> bf920615d5703004dbff4cde3b808dad2a84874b
     }
     return "Unknown date";
   }
@@ -52,35 +40,42 @@ export default class EventPage extends Component {
       .then(reviews => this.setState({ reviews }))
   }
 
-  createEventDetail = (id) => {
-    const eventId = id || this.props.match.params.id;
-    $.ajax({
-      method: "GET",
-      url: `/api/events/${eventId}`,
-      success: data => {
-        console.log('data', data);
-        this.setState({
-          eventDetail: {
-            title: data[0].title,
-            price: data[0].price,
-            capacity: data[0].capacity,
-            date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
-            description: data[0].description,
-            menu: data[0].menu_description,
-          }
-        })
-      }
-    })
-  }
+  // createEventDetail = (id) => {
+  //   const eventId = id || this.props.match.params.id;
+  //   $.ajax({
+  //     method: "GET",
+  //     url: `/api/events/${eventId}`,
+  //     success: data => {
+  //       console.log('data', data);
+  //       this.setState({
+  //         eventDetail: {
+  //           title: data[0].title,
+  //           price: data[0].price,
+  //           capacity: data[0].capacity,
+  //           date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
+  //           description: data[0].description,
+  //           menu: data[0].menu_description,
+  //         }
+  //       })
+  //     }
+  //   })
+  // }
 
   componentDidMount(){
-    this.createEventDetail();
-  getEvent() {
-    $.get(`/api/events/${this.eventId}`)
+    this.getEvent();
+    this.getReviews();
+    this.getCurrentUser();
+    this.getGuestList();
+  }
+
+  getEvent(id) {
+    $.get(`/api/events/${id ? id : this.eventId}`)
       .then(([event]) => {
+        console.log("this is a test for [event]:", [event])
         this.setState({ event })
       });
   }
+
   getCurrentUser = () => {
     $.ajax({
       method: "GET",
@@ -137,13 +132,6 @@ export default class EventPage extends Component {
     })
   }
 
-  componentDidMount() {
-    this.getEvent();
-    this.getReviews();
-    this.getCurrentUser();
-    this.getGuestList()
-  }
-
   render() {
     const { event, reviews, guestList } = this.state; 
     console.log(event);
@@ -156,7 +144,7 @@ export default class EventPage extends Component {
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
           getSearchResults={this.props.getSearchResults}
-          createEventDetail={this.createEventDetail} 
+          getEvent={this.getEvent}
         />
         <EventPage_Banner 
           id ={event.event_id}

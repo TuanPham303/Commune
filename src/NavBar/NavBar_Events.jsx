@@ -7,22 +7,7 @@ class NavBar_Events extends Component {
     super(props);
   }
 
-  // navbarEvents = () => {
-  //   console.log('all events', props.navbarEvents.title);
-
-  //   props.navbarEvents.map( navbarEvent => {
-  //     return
-  //       <NavBar_PreviewEvent
-  //         key={navbarEvent.event_id}
-  //         title={navbarEvent.title}
-  //         neighbourhood={navbarEvent.neighbourhood}
-  //         event_id={navbarEvent.event_id}
-  //       />
-  //   });
-  // }
-
   render() {
-    const handleClick = this.props.handleClick;
     const navbarEvents = this.props.navbarEvents.map( navbarEvent => {
       return <NavBar_PreviewEvent
           key= { navbarEvent.event_id }
@@ -34,8 +19,7 @@ class NavBar_Events extends Component {
           date= { navbarEvent.date }
           description= { navbarEvent.description }
           menu= { navbarEvent.menu }
-          createEventDetail= { this.props.createEventDetail }
-          handleClick = { handleClick } />
+          getEvent= { this.props.getEvent } />
     });
     return(
         <div>

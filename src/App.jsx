@@ -11,9 +11,8 @@ import NewEventForm from './NewEventForm.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      previewEvents: [],
-      navbarEvents: [],
       currentUser: {
         id: null,
         first_name: '',
@@ -23,24 +22,6 @@ class App extends Component {
       }
     }
   }
-
-  componentDidMount(){
-    const previewEvents = () => {
-      $.ajax({
-        method: "GET",
-        url: "/api/events",
-        success: data => {
-          console.log(data);
-          this.setState({
-            previewEvents: this.state.previewEvents.concat(data)
-          })
-        }
-      })
-    }
-    previewEvents();
-    this.getCurrentUser()
-  }
-
 
   getSearchResults = searchData => {
     console.log(searchData)
@@ -106,8 +87,6 @@ class App extends Component {
     });
   }
 
-
-
   render() {
     return (
       <div>
@@ -115,6 +94,7 @@ class App extends Component {
           currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
+          getSearchResults={this.getSearchResults}
         />
         <HomePage getSearchResults={this.getSearchResults} previewEvents={this.state.previewEvents} />
         <Login getCurrentUser={this.getCurrentUser} />

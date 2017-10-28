@@ -7,20 +7,21 @@ class NavBar_PreviewEvent extends Component {
   }
 
 handleClick = event => {
-  console.log("clickID: ", this.props.event_id)
-  this.props.createEventDetail(this.props.event_id);
+  document.location.assign(`/events/${this.props.event_id}`)
+  // this.props.getEvent(this.props.event_id);
+  // console.log(this.props.title)
 }
 
   render() {
     return (
       <div>
-        <Link to={`/events/${this.props.event_id}`} >
-          <div className="dropdown-item searchItem" type="button" onClick={ this.handleClick }>
-            <b id={this.props.event_id}> {this.props.title} </b>
+        <Link to={`/events/${this.props.event_id}`}>
+          <div key={this.props.event_id} className="dropdown-item searchItem" type="button" data-event-id={this.props.event_id} onClick={this.handleClick} >
+            <b> {this.props.title} </b>
             {this.props.neighbourhood}
           </div>
+          <div className="dropdown-divider"></div>
         </Link>
-        <div className="dropdown-divider"></div>
       </div>
     )
   };

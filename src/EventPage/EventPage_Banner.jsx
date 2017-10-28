@@ -22,7 +22,8 @@ class EventPage_Banner extends Component {
           credentials: 'include',
           method: 'POST'
         }).then(() => {
-          return alert('Thanks for Booking!')
+         console.log( this.props.getGuestList());
+         this.props.getGuestList();
         })
       } else { return alert('Booking failed')}
     });

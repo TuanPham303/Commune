@@ -62,7 +62,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
             let newEventObj = Object.assign({}, item);
             ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
-            console.log(newEventObj.image_url);
             if (!newEventObj.image_url) {
               newEventObj.image_url = '/event_default.jpg';
             }
@@ -117,12 +116,14 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           })
           .then(() => {
             console.log('Location details updated');
+            resolve();
           });
       })
       .catch((err) => {
         // if the api request fails, wait 30 sec then try again
         console.error('Google Places API error: ', err);
         setTimeout(getLocationDetails, 30000, eventID, address);
+        resolve();
       });
   }
 
@@ -152,7 +153,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           })
           .then(() => {
             getLocationDetails(Number(id), details.address)
-            resolve(id);
+            .then(() => {
+              resolve(id);
+            });
           });
         })
         .catch((err) => {

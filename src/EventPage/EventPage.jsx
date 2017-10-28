@@ -109,6 +109,7 @@ export default class EventPage extends Component {
 
   render() {
     const { event, reviews, guestList } = this.state; 
+    console.log(event);
     if(!event) { return null; }
 
     return (

@@ -7,6 +7,30 @@ import EventPage_Map from './EventPage_Map.jsx'
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      hosts: [
+        {
+          position: 'host',
+          name: 'Tuan Pham',
+          avatar_url: 'https://lh3.googleusercontent.com/uiaClJClnocWByL83EOkxd6LcvRR2jW17KAfIzEj7GgM8iNtv9l4QR32OznMw12gYIKU=w300'
+        },
+        {
+          position: 'host',
+          name: 'Russell',
+          avatar_url: 'http://i.imgur.com/Q4vpATV.png'
+        },
+        {
+          position: 'chef',
+          name: 'Scotty',
+          avatar_url: 'https://pm1.narvii.com/5751/3d2309125d7bb9e8d7f35bce5cde273326f999c4_hq.jpg'
+        },
+        {
+          position: 'chef',
+          name: 'Spencer',
+          avatar_url: 'https://www.seoclerk.com/pics/68213-2.jpg'
+        }
+      ]
+    }
   }
 
   onToken = token  => {
@@ -39,6 +63,8 @@ class EventPage_Banner extends Component {
   
 
   render() {
+ 
+    
     return (
       <div className="eventBanner container-fluid">
         <div className="row">

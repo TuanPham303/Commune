@@ -69,12 +69,12 @@
     .imgContainer {
       height: 40%;
       overflow: hidden;
+      border-radius: 0.3em 0.3em 0em 0em;
     }
     .eventDescription {
+      border-radius: 0em 0em 0.3em 0.3em;
       background: #f8f9fa;
       height: 60%;
-      border: 1px solid #111;
-      border: none;
       padding: 10px 15px;
       .hostAndDetailButton {
         margin-top: 50px;
@@ -88,13 +88,13 @@
             transform: translate(-50%, -50%);
           }
         }
-       
+
         .avatarImg {
           height: 70px;
           border-radius: 50%;
         }
         .hostDetail {
-          padding: 0 15px;
+          padding-left: 25px;
           p {
             position: absolute;
             top: 50%;

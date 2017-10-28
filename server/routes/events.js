@@ -82,8 +82,8 @@ module.exports = knex => {
         image: rb.image
       }
       eventHelpers.createEvent(details)
-      .then(() => {
-        res.sendStatus(201);
+      .then((id) => {
+        res.status(201).send(id);
       })
       .catch(err => {
         res.status(400).send(err);

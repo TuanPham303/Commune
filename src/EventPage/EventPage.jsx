@@ -126,6 +126,7 @@ export default class EventPage extends Component {
           date={this.eventDate}
           description={event.description}
           image={event.image_url}
+          hosts_and_chefs={event.hosts_and_chefs}
          />
         <EventPage_Menu
           menu={event.menu_description}

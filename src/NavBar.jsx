@@ -15,6 +15,7 @@ class NavBar extends Component {
         last_name: ''
       },
     }
+    this.resolveClick = this.resolveClick.bind(this)
   }
 
   componentDidMount(){
@@ -37,7 +38,7 @@ class NavBar extends Component {
     event.preventDefault();
     
     this.getSearchResults(this.state.searchString); 
-    this.setState({ searchString: '', navbarEvents: [] })
+    this.setState({ searchString: '' })
     this.refs.query.blur();
   }
 
@@ -59,6 +60,17 @@ class NavBar extends Component {
     });
   }
 
+  resolveClick = event => {
+    // console.log("hello:", this.state.navbarEvents.event_id)
+    console.log("clicktarget: ", event.target.id)
+    this.props.createEventDetail(this.state.navbarEvents.event_id);
+    this.setState({ navbarEvents: []}, () => console.log("new state:", this.state.navbarEvents))
+    console.log("goodbye:", this.state.navbarEvents)
+  }
+
+  // button = event => {
+  //   this.setState({ navbarEvents: [] })
+  // }
 
   getCurrentUser = () => {
     $.ajax({
@@ -130,6 +142,7 @@ class NavBar extends Component {
                   navbarEvents={this.state.navbarEvents}
                   getSearchResults={this.getSearchResults}
                   createEventDetail={this.props.createEventDetail}
+                  handleClick={this.resolveClick}
                 />
               </div>
               <div>

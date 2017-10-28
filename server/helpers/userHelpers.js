@@ -17,7 +17,7 @@ module.exports = function makeUserHelpers(knex) {
     //Find ID of user on login
     function findById(id) {
       return knex('users')
-        .select('*')
+        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host')
         .where({id})
         .limit(1)
         .then(([user]) => user);
@@ -27,14 +27,18 @@ module.exports = function makeUserHelpers(knex) {
     function authenticateUser(email, password) {
       return findByEmail(email)
         .then((user) => {
-          console.log(user);
+          console.log('log1:', user);
           if(!user) return false;
           return bcrypt.compare(password, user.password_digest)
           .then((matches) => {
             if(!matches) return false;
             return user;
           })
-        })
+          .then(user => {
+            console.log('log2:', user.id);
+            return findById(user.id);
+          })
+        });
     }
 
   //Check if email is unique to database on register
@@ -58,11 +62,11 @@ module.exports = function makeUserHelpers(knex) {
           first_name: first_name,
           last_name: last_name,
           email: email,
-          is_host: false,
-          is_chef: false,
+          is_host: is_host,
+          is_chef: is_chef,
           password_digest: passwordDigest,
-        })
-        .then((user)=>{
+        }).returning(['id', 'first_name', 'last_name', 'email', 'is_host', 'is_chef'])
+        .then((user)=> {
           return user;
         });
       })
@@ -70,14 +74,18 @@ module.exports = function makeUserHelpers(knex) {
     )
   }
 
-  function becomeHost(email) {
-    return findByEmail(email)
-      .then((user) => {
-        return knex('users')
-        .update(user)
-        .where({is_host: true});
-      })
+  function becomeHost(id) {
+    return knex('users')
+    .where('id', id)
+    .update({is_host: true})
   }
+
+  function becomeChef(id) {
+    return knex('users')
+    .where('id', id)
+    .update({is_chef: true})
+  }
+
 
   function findEventsByUserId(user_id) {
     return knex('events')
@@ -103,28 +111,28 @@ module.exports = function makeUserHelpers(knex) {
     .then((result) => result);
   }
 
-  // function postReview(reviewerId, eventId, userId, rating, description) {
-  //   const postReviewPromise = new Promise((resolve, reject) => {
-  //     knex('user_events')
-  //     .select('id')
-  //     .where({
-  //       user_id: userId,
-  //       event_id: eventId
-  //     })
-  //     .then((userEvent) => {
-  //       knex('reviews')
-  //       .insert({
-  //         reviewer_id: reviewerId,
-  //         user_event_id: userEvent[0].id,
-  //         rating: rating,
-  //         description: description
-  //       }).then(() => {
-  //         resolve();
-  //       });
-  //     });
-  //   });
-  //   return postReviewPromise;
-  // }
+  function postReview(reviewerId, eventId, userId, rating, description) {
+    const postReviewPromise = new Promise((resolve, reject) => {
+      knex('user_events')
+      .select('id')
+      .where({
+        user_id: userId,
+        event_id: eventId
+      })
+      .then((userEvent) => {
+        knex('reviews')
+        .insert({
+          reviewer_id: reviewerId,
+          user_event_id: userEvent[0].id,
+          rating: rating,
+          description: description
+        }).then(() => {
+          resolve();
+        });
+      });
+    });
+    return postReviewPromise;
+  }
 
   return {
   findByEmail,
@@ -136,6 +144,7 @@ module.exports = function makeUserHelpers(knex) {
   findEventsByUserId,
   findReviewsByUserId,
   findReviewsPostedByUserId,
+  becomeChef
   // postReview
   };
 };

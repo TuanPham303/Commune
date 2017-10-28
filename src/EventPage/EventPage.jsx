@@ -3,12 +3,26 @@ import NavBar from '../NavBar.jsx';
 import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
+import EventPage_GuestList from './EventPage_GuestList.jsx';
 
-const moment = require('moment');
+import moment from 'moment';
 
+export default class EventPage extends Component {
 
-class EventPage extends Component {
+  state = {
+    event: null,
+    reviews: [],
+    currentUser: {
+      id: null,
+      first_name: '',
+      last_name: '',
+      is_host: false,
+      is_chef: false
+    }, 
+    guestList: []
+  }
 
+<<<<<<< HEAD
   constructor(props){
     super(props);
     this.state = {
@@ -20,7 +34,22 @@ class EventPage extends Component {
         description: '',
         menu: '',
       },
+=======
+  get eventId() {
+    return this.props.match.params.id;
+  }
+
+  get eventDate() {
+    if(this.state.event && this.state.event.event_date) {
+      return moment(this.state.event.event_date).format('MMMM Do YYYY, h:mm a');
+>>>>>>> bf920615d5703004dbff4cde3b808dad2a84874b
     }
+    return "Unknown date";
+  }
+
+  getReviews() {
+    $.get(`/api/events/${this.eventId}/reviews`)
+      .then(reviews => this.setState({ reviews }))
   }
 
   createEventDetail = (id) => {
@@ -46,27 +75,110 @@ class EventPage extends Component {
 
   componentDidMount(){
     this.createEventDetail();
+  getEvent() {
+    $.get(`/api/events/${this.eventId}`)
+      .then(([event]) => {
+        this.setState({ event })
+      });
+  }
+  getCurrentUser = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/current"
+    })
+    .done(result => {
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name,
+          is_host: result.is_host,
+          is_chef: result.is_chef
+        }
+      });
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
+
+  clearUser = event => {
+    this.setState({
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      }
+    });
+  }
+  
+  submitReview = (description, rating, currentUserId) => {
+    const review = {
+      reviewerId: currentUserId,
+      user_id: 20000,
+      rating,
+      description
+    };
+
+    $.post(`/api/events/${this.eventId}/reviews`, review)
+      .then(() => {
+        this.getReviews()
+      });
+  }
+
+  getGuestList = () => {
+    $.get(`/api/events/${this.eventId}/guestlist`)
+    .then( guestList => {
+      this.setState({
+        guestList: this.state.guestList.concat(guestList)
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.getEvent();
+    this.getReviews();
+    this.getCurrentUser();
+    this.getGusetList()
   }
 
   render() {
+    const { event, reviews, guestList } = this.state; 
+    console.log(event);
+    if(!event) { return null; }
+
     return (
       <div>
-        <NavBar getSearchResults={this.props.getSearchResults} createEventDetail={this.createEventDetail} />
+        <NavBar 
+          currentUser={this.state.currentUser} 
+          clearUser={this.clearUser}
+          getCurrentUser={this.getCurrentUser}
+          getSearchResults={this.props.getSearchResults}
+          createEventDetail={this.createEventDetail} 
+        />
         <EventPage_Banner 
-          title={this.state.eventDetail.title}
-          price={this.state.eventDetail.price}
-          capacity={this.state.eventDetail.capacity}
-          date={this.state.eventDetail.date}
-          description={this.state.eventDetail.description}
+          id ={event.id}
+          title={event.title}
+          price={event.price}
+          capacity={event.capacity}
+          date={this.eventDate}
+          description={event.description}
+          image={event.image_url}
          />   
         <EventPage_Menu 
-          menu={this.state.eventDetail.menu}
+          menu={event.menu_description}
         />
-        <EventPage_Review />
+        <EventPage_GuestList
+          guestList={guestList}
+        />
+        <EventPage_Review
+          reviews={reviews}
+          submitReview={this.submitReview}
+        />
       </div>
      
     );
   }
 }
-
-export default EventPage;

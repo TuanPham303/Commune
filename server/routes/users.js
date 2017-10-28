@@ -30,30 +30,47 @@ module.exports = knex => {
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
-    let username = req.body.username;
+    let is_host= false;
+    let is_chef= false;
     let password = req.body.password;
 
-    userHelpers.addUser(first_name, last_name, email, username, password).then((result) => {
-      let user = result;
-      req.session.user = user;
+    userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password).then((user) => {
+      req.session.user = user[0];
       res.json(user);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
   });
   
   router.get('/current', (req,res) => {
-    let user = req.session.user;
-    res.json(user);
+    userHelpers.findById(req.session.user.id)
+    .then(user => {
+      res.json(user);
+    })
   });
 
   // Update user's is_host boolean in DB to true
-  router.post('/:id/host', (req, res) => {
+  router.post('/becomehost', (req, res) => {
     let user = req.session.user;
     if (!user) {
       return res.status(401).send("Must be logged in to become a host");
     } else {
-      userHelpers.becomeHost(user.email);
-      res.render("/")
+      userHelpers.becomeHost(user.id)
+      .then(() => {
+        res.sendStatus(201);
+      })
+    }
+  });
+
+  // Update user's is_chef boolean in DB to true
+  router.post('/becomechef', (req, res) => {
+    let user = req.session.user;
+    if (!user) {
+      return res.status(401).send("Must be logged in to become a host");
+    } else {
+      userHelpers.becomeChef(user.id)
+      .then(() => {
+        res.sendStatus(201);
+      })
     }
   });
 
@@ -85,7 +102,6 @@ module.exports = knex => {
       res.json(result);
     });
   });
-
 
   // router.post('/:id/reviews', (req,res) => {
   //   let reviewerId = req.body.reviewerId;

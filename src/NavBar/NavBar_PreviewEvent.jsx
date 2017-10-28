@@ -16,7 +16,7 @@ handleClick = event => {
       <div>
         <Link to={`/events/${this.props.event_id}`} >
           <div className="dropdown-item searchItem" type="button" onClick={ this.handleClick }>
-            <b id={this.props.event_id} > {this.props.title} </b>
+            <b id={this.props.event_id}> {this.props.title} </b>
             {this.props.neighbourhood}
           </div>
         </Link>

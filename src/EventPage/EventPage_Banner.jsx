@@ -1,9 +1,36 @@
 import React, {Component} from 'react';
+import StripeCheckout from 'react-stripe-checkout';
+
+
 
 class EventPage_Banner extends Component {
-
   constructor(props){
     super(props);
+  }
+
+  onToken = token  => {
+    fetch('/api/payment/save-stripe-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({token: token, amount: this.props.price}),
+    }).then(response => {
+      if (response.status === 200) {
+        return fetch(`/api/events/${this.props.id}/book`, {
+          credentials: 'include',
+          method: 'POST'
+        }).then(() => {
+          return alert('Thanks for Booking!')
+        })
+      } else { return alert('Booking failed')}
+    });
+  }
+
+  stripeKey = () => {
+    console.log(process.env.STRIPE_PUBLIC_KEY);
+    return process.env.STRIPE_PUBLIC_KEY;
   }
 
   render() {
@@ -11,13 +38,13 @@ class EventPage_Banner extends Component {
       <div className="eventBanner container-fluid">
         <div className="row">
           <div className="image col-4">
-            <img src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""/>
+            <img src={this.props.image} alt=""/>
           </div>
           <div className="image col-4">
-            <img src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""/>
+            <img src={this.props.image} alt=""/>
           </div>
           <div className="image col-4">
-            <img src="https://static.pexels.com/photos/46239/salmon-dish-food-meal-46239.jpeg" alt=""/>
+            <img src={this.props.image} alt=""/>
           </div>
         </div>
 
@@ -75,7 +102,15 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                <button className="btn btn-primary">Book now</button> 
+                <StripeCheckout token={this.onToken} 
+                stripeKey="pk_test_i844Um8fpYdeefDhjt1hkLCI" 
+                image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
+                name={this.props.title}
+                amount={this.props.price * 100}
+                currency="CAD"
+                locale="auto"
+                bitcoin
+                />
               </div>
             </div>
             <div className="col-4">

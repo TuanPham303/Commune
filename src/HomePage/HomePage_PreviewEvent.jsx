@@ -11,8 +11,7 @@ class HomePage_PreviewEvent extends Component {
     return (
       <div className="col-4 event">
         <div className="imgContainer">
-          <div className="imgContainerOpacity"></div>
-          <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="starIcon" className="starIcon"/>
+          <img src={this.props.image_url} className='eventImg'/>
         </div>
         <div className="eventDescription">
           <p><b>Event Title:</b> {this.props.title}(${this.props.price})</p>
@@ -28,21 +27,16 @@ class HomePage_PreviewEvent extends Component {
               </div>
               <div className="col-8 hostDetail">
                 <p>{this.props.host}</p>
-                <div className="row ratingContainer">
-                  <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
-                  <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
-                  <img src="http://www.iconsplace.com/icons/preview/purple/rating-star-256.png" alt="" className="col-2 rating"/>
-                </div>
               </div>
             </div>
-            <Link to={`/events/${this.props.event_id}`}>
-              <div className="col-5">
-                <button className="btn btn-success" data-event-id={this.props.event_id} onClick={this.handleEventDetail}>Detail</button>
-              </div>
-            </Link>
+            <div className="col-5 buttonWrap">
+              <Link to={`/events/${this.props.eventId}`}>
+                <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Detail</button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>  
+      </div>
     )
   };
 }

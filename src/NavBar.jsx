@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import NavBar_Events from './NavBar/NavBar_Events.jsx';
 import NavBar_PreviewEvent from './NavBar/NavBar_PreviewEvent.jsx';
+import NavLinks from './NavLinks.jsx'
 
 class NavBar extends Component {
   constructor(props) {
@@ -104,7 +105,6 @@ class NavBar extends Component {
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto navbar-float-right">
             <li className="nav-item active">
@@ -120,6 +120,7 @@ class NavBar extends Component {
               <a className="nav-link" onClick={this.handleLogout}>Logout</a>
             </li>
           </ul>
+          <NavLinks currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
         </div>
         <div className="btn-group search-button">
           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" onClick={this.clickHandler} aria-haspopup="true" aria-expanded="false">

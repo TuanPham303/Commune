@@ -17,7 +17,7 @@ class HomePage_Events extends Component {
       })
       console.log(hosts);
       return <HomePage_PreviewEvent 
-        key={previewEvent.event_id}
+        key={uuid()}
         title={previewEvent.title}
         price={previewEvent.price}
         description={previewEvent.description}
@@ -25,9 +25,10 @@ class HomePage_Events extends Component {
         capacity={previewEvent.capacity}
         event_id={previewEvent.event_id}
         host={[...hosts].join(', ')}
+        image_url={previewEvent.image_url}
       />
       });
-      
+
     return(
       <div className="container-fluid eventContainer">
         <div className="row">

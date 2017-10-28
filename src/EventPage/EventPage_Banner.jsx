@@ -6,6 +6,10 @@ import StripeCheckout from 'react-stripe-checkout';
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
+
+    this.state = {
+      stripePKey: ''
+    }
   }
 
   onToken = token  => {
@@ -22,7 +26,6 @@ class EventPage_Banner extends Component {
           credentials: 'include',
           method: 'POST'
         }).then(() => {
-         console.log( this.props.getGuestList());
          this.props.getGuestList();
         })
       } else { return alert('Booking failed')}
@@ -30,8 +33,16 @@ class EventPage_Banner extends Component {
   }
 
   stripeKey = () => {
-    console.log(process.env.STRIPE_PUBLIC_KEY);
-    return process.env.STRIPE_PUBLIC_KEY;
+    $.get("/api/events/stripekey")
+    .done(key => {
+      this.setState({
+        stripePKey: key
+      });
+    })
+  }
+
+  componentDidMount() {
+    this.stripeKey();
   }
 
   render() {
@@ -103,8 +114,8 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                <StripeCheckout token={this.onToken} 
-                stripeKey="pk_test_i844Um8fpYdeefDhjt1hkLCI" 
+                <StripeCheckout token={this.onToken}
+                stripeKey={this.state.stripePKey}
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}
@@ -123,7 +134,7 @@ class EventPage_Banner extends Component {
         </div>
       </div>
 
-      
+
     );
   }
 }

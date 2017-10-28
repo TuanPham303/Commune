@@ -1,5 +1,14 @@
+.eventWrapper {
+  background-color: #292d35;
+  color: #f8f9fa;
+}
+
 .reset {
   padding: 0;
+}
+
+#bootstrap-overrides .list-group-item {
+  background-color: #454b58;
 }
 
 .eventBanner {
@@ -53,19 +62,7 @@
 
 .reviewContainer {
   margin: 100px 0;
-  .reviewsWrap{
-    ul {
-      list-style-type: none;
-      margin-top: 10px;
-    }
-  }
- 
-  .reviewInputWrap {
-    margin-top: 80px;
-    .rating {
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
-      -webkit-appearance: none;
-    }
+  ul {
+    list-style-type: none;
   }
 }

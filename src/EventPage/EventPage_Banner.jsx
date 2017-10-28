@@ -97,8 +97,8 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                <StripeCheckout token={this.onToken} 
-                stripeKey="pk_test_i844Um8fpYdeefDhjt1hkLCI" 
+                <StripeCheckout token={this.onToken}
+                stripeKey="pk_test_i844Um8fpYdeefDhjt1hkLCI"
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}
@@ -117,7 +117,7 @@ class EventPage_Banner extends Component {
         </div>
       </div>
 
-      
+
     );
   }
 }

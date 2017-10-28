@@ -15,12 +15,15 @@ class NavBar extends Component {
         last_name: ''
       },
     }
-    this.resolveClick = this.resolveClick.bind(this)
   }
 
   componentDidMount(){
     this.getCurrentUser();
   }
+
+  // componentWillReceiveProps(nextProps){
+  //   this.props.createEventDetail(nextProps);
+  // }
 
   changeHandler = event => {
     this.setState({ searchString: event.target.value })
@@ -59,18 +62,6 @@ class NavBar extends Component {
       console.error(e);
     });
   }
-
-  resolveClick = event => {
-    // console.log("hello:", this.state.navbarEvents.event_id)
-    console.log("clicktarget: ", event.target.id)
-    this.props.createEventDetail(this.state.navbarEvents.event_id);
-    this.setState({ navbarEvents: []}, () => console.log("new state:", this.state.navbarEvents))
-    console.log("goodbye:", this.state.navbarEvents)
-  }
-
-  // button = event => {
-  //   this.setState({ navbarEvents: [] })
-  // }
 
   getCurrentUser = () => {
     $.ajax({
@@ -142,7 +133,6 @@ class NavBar extends Component {
                   navbarEvents={this.state.navbarEvents}
                   getSearchResults={this.getSearchResults}
                   createEventDetail={this.props.createEventDetail}
-                  handleClick={this.resolveClick}
                 />
               </div>
               <div>

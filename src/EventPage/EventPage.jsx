@@ -4,6 +4,8 @@ import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
 import EventPage_GuestList from './EventPage_GuestList.jsx';
+import Login from '../Login.jsx';
+import Register from '../Register.jsx';
 
 import moment from 'moment';
 
@@ -139,6 +141,8 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
         />
+        <Login getCurrentUser={this.getCurrentUser} />
+        <Register getCurrentUser={this.getCurrentUser} />
       </div>
 
     );

@@ -66,10 +66,10 @@ export default class EventPage_Review extends Component {
           <h3>Reviews:</h3>
           <ul className="list-group reviews">
             { reviews }
-          </ul>
+          </ul><br/>
         </div>
         <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
-          <textarea className="form-control" id="exampleTextarea" rows="3" onChange={this.onReviewChange} value={this.state.review}></textarea><br/>
+          <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Review" onChange={this.onReviewChange} value={this.state.review}></textarea><br/>
           <div className="input-group ratingWrap">
             <label htmlFor="exampleSelect1" className="input-group-addon">Rate the meal</label>
             <select className="form-control rating" onChange={this.onRatingChange} value={this.state.rating}>

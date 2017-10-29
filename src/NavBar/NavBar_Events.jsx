@@ -18,7 +18,7 @@ class NavBar_Events extends Component {
           capacity= { navbarEvent.capacity }
           date= { navbarEvent.date }
           description= { navbarEvent.description }
-          menu= { navbarEvent.menu }
+          menu= { navbarEvent.menu_description }
           getEvent= { this.props.getEvent } />
     });
     return(

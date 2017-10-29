@@ -34,39 +34,20 @@ export default class EventPage extends Component {
     }
     return "Unknown date";
   }
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps)
-    if(nextProps.match.params.id !== this.props.match.params.id){
-      this.getEvent(nextProps.match.params.id);
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.match.params.id !== this.props.match.params.id) {
+      // console.log("here is getGuest: ", this.getEvent(this.props.match.params.id));
+      this.getEvent(nextProps.match.params.id)
       this.getReviews(nextProps.match.params.id);
       this.getGuestList(nextProps.match.params.id);
     }
   }
+
   getReviews(eventId = this.eventId) {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
-
-  // createEventDetail = (id) => {
-  //   const eventId = id || this.props.match.params.id;
-  //   $.ajax({
-  //     method: "GET",
-  //     url: `/api/events/${eventId}`,
-  //     success: data => {
-  //       console.log('data', data);
-  //       this.setState({
-  //         eventDetail: {
-  //           title: data[0].title,
-  //           price: data[0].price,
-  //           capacity: data[0].capacity,
-  //           date: moment(data[0].event_date).format('MMMM Do YYYY, h:mm a'),
-  //           description: data[0].description,
-  //           menu: data[0].menu_description,
-  //         }
-  //       })
-  //     }
-  //   })
-  // }
 
   componentDidMount(){
     this.getEvent(this.eventId);
@@ -130,7 +111,7 @@ export default class EventPage extends Component {
       });
   }
 
-  getGuestList = (id) => {
+  getGuestList(id) {
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
@@ -142,6 +123,7 @@ export default class EventPage extends Component {
   render() {
     const { event, reviews, guestList } = this.state;
     if(!event) { return null; }
+    console.log(guestList);
 
     return (
       <div className='eventWrapper' id="bootstrap-overrides">
@@ -153,7 +135,7 @@ export default class EventPage extends Component {
           getEvent={this.getEvent}
         />
         <EventPage_Banner
-          id ={event.event_id}
+          id={event.event_id}
           title={event.title}
           price={event.price}
           capacity={event.capacity}

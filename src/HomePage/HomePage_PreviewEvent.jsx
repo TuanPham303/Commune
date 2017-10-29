@@ -7,7 +7,6 @@ class HomePage_PreviewEvent extends Component {
   }
 
   render() {
-    console.log(this.props.event_id)
     return (
       <div className="col-4 event">
         <div className="imgContainer">
@@ -31,8 +30,8 @@ class HomePage_PreviewEvent extends Component {
                 </div>
               </div>
               <div className="col-5 buttonWrap">
-                <Link to={`/events/${this.props.eventId}`}>
-                  <button className="btn btn-success" data-event-id={this.props.eventId} onClick={this.handleEventDetail}>Details</button>
+                <Link to={`/events/${this.props.event_id}`}>
+                  <button className="btn btn-success" data-event-id={this.props.event_id} onClick={this.handleEventDetail}>Details</button>
                 </Link>
               </div>
             </div>

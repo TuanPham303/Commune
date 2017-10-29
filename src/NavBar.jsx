@@ -22,10 +22,6 @@ class NavBar extends Component {
     this.getCurrentUser();
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   this.props.createEventDetail(nextProps);
-  // }
-
   changeHandler = event => {
     this.setState({ searchString: event.target.value })
   }
@@ -104,20 +100,6 @@ class NavBar extends Component {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto navbar-float-right">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">Become a Host <span className="sr-only">(current)</span></a>
-            </li>
-            <li className="nav-item" data-toggle="modal" data-target="#loginModal">
-              <div className="nav-link">Login</div>
-            </li>
-            <li className="nav-item">
-              <div className="nav-link">{this.state.currentUser.first_name} {this.state.currentUser.last_name}</div>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" onClick={this.handleLogout}>Logout</a>
-            </li>
-          </ul>
           <NavLinks currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
         </div>
         <div className="btn-group search-button">

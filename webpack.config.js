@@ -55,7 +55,23 @@ module.exports = {
         }, {
           loader: 'sass-loader'
         }]
-      }
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 4096,
+            name: '[name].[ext]'
+          }
+        }]
+      },
+      {
+        test: /\.(css)(\?.+)?$/,
+        use: [{
+          loader: 'css-loader'
+        }]
+      },
     ]
   },
   plugins: [
@@ -64,6 +80,6 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],
-    })
+    }),
   ]
 };

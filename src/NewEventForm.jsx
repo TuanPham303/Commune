@@ -47,7 +47,6 @@ export default class NewEventForm extends Component {
     })
   }
 
-
   render(){
     return (
       <div className="modal fade" id="newEventModal" tabIndex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">

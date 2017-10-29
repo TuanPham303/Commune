@@ -29,7 +29,7 @@ class EventPage_Banner extends Component {
           credentials: 'include',
           method: 'POST'
         }).then(() => {
-         this.props.getGuestList();
+         this.props.getGuestList(this.props.id);
         })
       } else { return alert('Booking failed')}
     });

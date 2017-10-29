@@ -6,12 +6,6 @@ class NavBar_PreviewEvent extends Component {
     super(props);
   }
 
-handleClick = event => {
-  document.location.assign(`/events/${this.props.event_id}`)
-  // this.props.getEvent(this.props.event_id);
-  // console.log(this.props.title)
-}
-
   render() {
     return (
       <div>

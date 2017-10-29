@@ -34,9 +34,16 @@ export default class EventPage extends Component {
     }
     return "Unknown date";
   }
-
-  getReviews() {
-    $.get(`/api/events/${this.eventId}/reviews`)
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps)
+    if(nextProps.match.params.id !== this.props.match.params.id){
+      this.getEvent(nextProps.match.params.id);
+      this.getReviews(nextProps.match.params.id);
+      this.getGuestList(nextProps.match.params.id);
+    }
+  }
+  getReviews(eventId = this.eventId) {
+    $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
 
@@ -62,17 +69,17 @@ export default class EventPage extends Component {
   // }
 
   componentDidMount(){
-    this.getEvent();
-    this.getReviews();
+    this.getEvent(this.eventId);
+    this.getReviews(this.eventId);
     this.getCurrentUser();
-    this.getGuestList();
+    this.getGuestList(this.eventId);
   }
 
   getEvent(id) {
-    $.get(`/api/events/${id ? id : this.eventId}`)
+    this.setState({loadingEvent: true});
+    $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
-        console.log("this is a test for [event]:", [event])
-        this.setState({ event })
+        this.setState({ event, loadingEvent: undefined })
       });
   }
 
@@ -123,8 +130,8 @@ export default class EventPage extends Component {
       });
   }
 
-  getGuestList = () => {
-    $.get(`/api/events/${this.eventId}/guestlist`)
+  getGuestList = (id) => {
+    $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
         guestList

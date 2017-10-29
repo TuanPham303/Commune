@@ -44,32 +44,33 @@ exports.seed = function(knex, Promise) {
       {id: 40000, user_id: 10000, event_id: 20000},
       {id: 50000, user_id: 20000, event_id: 20000},
       {id: 60000, user_id: 30000, event_id: 20000},
-      {id: 70000, user_id: 20000, event_id: 40000},
-      {id: 80000, user_id: 30000, event_id: 50000},
-      {id: 90000, user_id: 20000, event_id: 60000},
-      {id: 100000, user_id: 10000, event_id: 70000},
-      {id: 110000, user_id: 30000, event_id: 80000},
-      {id: 120000, user_id: 10000, event_id: 90000},
-      {id: 130000, user_id: 10000, event_id: 100000}
+      {id: 70000, user_id: 20000, event_id: 30000},
+      {id: 80000, user_id: 20000, event_id: 40000},
+      {id: 90000, user_id: 30000, event_id: 50000},
+      {id: 100000, user_id: 20000, event_id: 60000},
+      {id: 110000, user_id: 10000, event_id: 70000},
+      {id: 120000, user_id: 30000, event_id: 80000},
+      {id: 130000, user_id: 10000, event_id: 90000},
+      {id: 140000, user_id: 10000, event_id: 100000}
     ])
   })
   .then(function () {
     return knex('user_event_roles').insert([
-      {id: 10000, user_event_id: 10000 , role_id: 3},
-      {id: 20000, user_event_id: 20000 , role_id: 2},
-      {id: 30000, user_event_id: 30000 , role_id: 1},
-      {id: 40000, user_event_id: 40000 , role_id: 3},
-      {id: 50000, user_event_id: 40000 , role_id: 2},
-      {id: 60000, user_event_id: 40000 , role_id: 1},
-      {id: 70000, user_event_id: 50000 , role_id: 1},
-      {id: 80000, user_event_id: 60000 , role_id: 1},
-      {id: 90000, user_event_id: 70000 , role_id: 2},
-      {id: 100000, user_event_id: 80000 , role_id: 2},
-      {id: 120000, user_event_id: 90000 , role_id: 2},
-      {id: 130000, user_event_id: 100000 , role_id: 2},
-      {id: 140000, user_event_id: 110000 , role_id: 2},
-      {id: 150000, user_event_id: 120000 , role_id: 2},
-      {id: 160000, user_event_id: 130000 , role_id: 2}
+      {id: 10000, user_event_id: 10000, role_id: 3},
+      {id: 20000, user_event_id: 20000, role_id: 2},
+      {id: 30000, user_event_id: 30000, role_id: 1},
+      {id: 40000, user_event_id: 40000, role_id: 3},
+      {id: 50000, user_event_id: 40000, role_id: 2},
+      {id: 60000, user_event_id: 40000, role_id: 1},
+      {id: 70000, user_event_id: 50000, role_id: 1},
+      {id: 80000, user_event_id: 60000, role_id: 1},
+      {id: 90000, user_event_id: 70000, role_id: 2},
+      {id: 100000, user_event_id: 80000, role_id: 2},
+      {id: 110000, user_event_id: 90000, role_id: 2},
+      {id: 120000, user_event_id: 100000, role_id: 2},
+      {id: 130000, user_event_id: 110000, role_id: 2},
+      {id: 140000, user_event_id: 120000, role_id: 2},
+      {id: 150000, user_event_id: 130000, role_id: 2}
     ]);
   })
   .then(function () {

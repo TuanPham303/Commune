@@ -4,25 +4,25 @@ import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
 import EventPage_GuestList from './EventPage_GuestList.jsx';
+import Login from '../Login.jsx';
+import Register from '../Register.jsx';
 
 import moment from 'moment';
 
 export default class EventPage extends Component {
-  // constructor(props) {
-  //   super(props);
-    state = {
-      event: null,
-      reviews: [],
-      currentUser: {
-        id: null,
-        first_name: '',
-        last_name: '',
-        is_host: false,
-        is_chef: false
-      }, 
-      guestList: []
-    }
-  // }
+
+  state = {
+    event: null,
+    reviews: [],
+    currentUser: {
+      id: null,
+      first_name: '',
+      last_name: '',
+      is_host: false,
+      is_chef: false
+    },
+    guestList: []
+  }
 
   get eventId() {
     return this.props.match.params.id;
@@ -108,11 +108,11 @@ export default class EventPage extends Component {
       }
     });
   }
-  
+
   submitReview = (description, rating, currentUserId) => {
     const review = {
       reviewerId: currentUserId,
-      user_id: 20000,
+      user_id: currentUserId,
       rating,
       description
     };
@@ -133,20 +133,19 @@ export default class EventPage extends Component {
   }
 
   render() {
-    const { event, reviews, guestList } = this.state; 
-    console.log(event);
+    const { event, reviews, guestList } = this.state;
     if(!event) { return null; }
 
     return (
-      <div>
-        <NavBar 
-          currentUser={this.state.currentUser} 
+      <div className='eventWrapper' id="bootstrap-overrides">
+        <NavBar
+          currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
           getSearchResults={this.props.getSearchResults}
           getEvent={this.getEvent}
         />
-        <EventPage_Banner 
+        <EventPage_Banner
           id ={event.event_id}
           title={event.title}
           price={event.price}
@@ -154,9 +153,11 @@ export default class EventPage extends Component {
           date={this.eventDate}
           description={event.description}
           image={event.image_url}
+          hosts_and_chefs={event.hosts_and_chefs}
+          location={event.location}
           getGuestList={this.getGuestList}
-         />   
-        <EventPage_Menu 
+         />
+        <EventPage_Menu
           menu={event.menu_description}
         />
         <EventPage_GuestList
@@ -166,8 +167,10 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
         />
+        <Login getCurrentUser={this.getCurrentUser} />
+        <Register getCurrentUser={this.getCurrentUser} />
       </div>
-     
+
     );
   }
 }

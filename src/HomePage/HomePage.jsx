@@ -47,7 +47,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div className="wrapper">
+      <div className="homeWrapper">
         <div className='fullscreen-bg'>
             <video autoPlay loop muted className="fullscreen-bg__video">
               <source src="https://d3mlfyygrfdi2i.cloudfront.net/Assemble_Hero_Loop_desktop.mp4" type="video/mp4"/>

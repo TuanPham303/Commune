@@ -35,13 +35,9 @@
       transform: translateY(-50%);
     }
     .eventMap {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      img {
-        width: 400px;
-        height: auto;
-      }
+      width: 400px;
+      height: 300px;
+      margin: auto 0;
     }
   }
 }

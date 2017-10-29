@@ -133,7 +133,7 @@ class EventPage_Banner extends Component {
                 />
               </div>
             </div>
-            <div className="col-5">
+            <div className="col-5 eventMap">
               { googleMap }
             </div>
           </div>

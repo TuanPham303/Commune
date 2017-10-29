@@ -9,7 +9,8 @@ class EventPage_Banner extends Component {
     super(props);
 
     this.state = {
-      stripePKey: ''
+      stripePKey: '',
+      googleMapKey: ''
     }
   }
 
@@ -34,22 +35,33 @@ class EventPage_Banner extends Component {
     });
   }
 
-  stripeKey = () => {
-    $.get("/api/events/stripekey")
-    .done(key => {
+  publickeys = () => {
+    $.get("/api/events/publickeys")
+    .done(keys => {
       this.setState({
-        stripePKey: key
+        stripePKey: keys.stripePKey,
+        googleMapKey: keys.googleMapKey
       });
     })
   }
 
   componentDidMount() {
-    this.stripeKey();
+    this.publickeys();
   }
 
-  
+
 
   render() {
+    let googleMap;
+    if (this.state.googleMapKey) {
+      googleMap = (
+        <EventPage_Map
+          location={this.props.location}
+          googleMapKey={this.state.googleMapKey}
+        />
+      )
+    };
+
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
         <div key={host.user_id} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
@@ -122,9 +134,7 @@ class EventPage_Banner extends Component {
               </div>
             </div>
             <div className="col-5">
-              <EventPage_Map 
-                location={this.props.location}
-              />
+              { googleMap }
             </div>
           </div>
         </div>

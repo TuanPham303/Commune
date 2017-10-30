@@ -22,10 +22,6 @@ class NavBar extends Component {
     this.getCurrentUser();
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   this.props.createEventDetail(nextProps);
-  // }
-
   changeHandler = event => {
     this.setState({ searchString: event.target.value })
   }
@@ -40,7 +36,6 @@ class NavBar extends Component {
 
   onSearch = event => {
     event.preventDefault();
-    
     this.getSearchResults(this.state.searchString); 
     this.setState({ searchString: '' })
     this.refs.query.blur();
@@ -95,8 +90,6 @@ class NavBar extends Component {
   }
 
   render() {
-    const isSearching = this.state.isSearching;
-
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbarContainer">
         <a className="navbar-brand logo" href="/">Commune</a>
@@ -133,9 +126,6 @@ class NavBar extends Component {
                   getSearchResults={this.getSearchResults}
                   getEvent={this.props.getEvent}
                 />
-              </div>
-              <div>
-                The user is <b>{isSearching ? 'now' : ''}</b> searching.
               </div>
             </form>
           </div>

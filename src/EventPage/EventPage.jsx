@@ -25,7 +25,6 @@ export default class EventPage extends Component {
   }
 
   get eventId() {
-    console.log("string thing", this.props.match.params.id)
     return this.props.match.params.id;
   }
 
@@ -37,7 +36,6 @@ export default class EventPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
     if(nextProps.match.params.id !== this.props.match.params.id) {
       this.getEvent(nextProps.match.params.id);
       this.getReviews(nextProps.match.params.id);
@@ -58,14 +56,9 @@ export default class EventPage extends Component {
   }
 
   getEvent(id) {
-    console.log("id of new event", id)
-    // this.setState({loadingEvent: true});
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
-        console.log([event])
-        this.setState({ event }, function () {
-          console.log("setting new state? v2", this.state);
-        })
+        this.setState({ event })
       });
   }
 
@@ -117,7 +110,6 @@ export default class EventPage extends Component {
   }
 
   getGuestList(id) {
-    console.log("this is the getGuestlist ID: ", id)
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
@@ -128,8 +120,6 @@ export default class EventPage extends Component {
 
   render() {
     const { event, reviews, guestList } = this.state;
-    console.log("here is first state in eventpage", this.state);
-    console.log("here is second state in eventpage", event);
     if(!event) { return null; }
     return (
       <div className='eventWrapper' id="bootstrap-overrides">

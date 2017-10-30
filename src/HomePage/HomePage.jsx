@@ -28,7 +28,6 @@ class HomePage extends Component {
   }
 
   getSearchResults = searchData => {
-    console.log(searchData)
     const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
     $.ajax({
       method: "GET",

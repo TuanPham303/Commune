@@ -7,12 +7,7 @@ class EventPage_Menu extends Component {
     super(props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("Next Props from inside the menu:", nextProps)
-  }
-
   render() {
-    console.log("inside the menu component prop", this.props)
     let menu;
     if (this.props.menu) {
       menu = (

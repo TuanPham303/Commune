@@ -14,9 +14,7 @@ export default class EventPage_Review extends Component {
   }
 
   componentDidMount(){
-
     this.getCurrentUser();
-
   }
 
   getCurrentUser = () => {

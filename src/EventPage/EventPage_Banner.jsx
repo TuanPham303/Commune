@@ -14,10 +14,6 @@ class EventPage_Banner extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("Next Props from inside the banner:", nextProps)
-  }
-
   onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
       method: 'POST',

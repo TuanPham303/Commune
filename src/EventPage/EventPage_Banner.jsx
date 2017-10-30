@@ -21,7 +21,6 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
-      console.log(response);
       if (response.status === 200) {
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
@@ -32,11 +31,6 @@ class EventPage_Banner extends Component {
       } else { return alert('Booking failed')}
     });
   }
-
-  // componentDidMount() {
-  //   this.publickeys();
-  //   StripeCheckout.setPublishableKey(this.props.stripePKey);
-  // }
 
   render() {
     let googleMap;
@@ -137,8 +131,6 @@ class EventPage_Banner extends Component {
           </div>
         </div>
       </div>
-
-
     );
   }
 }

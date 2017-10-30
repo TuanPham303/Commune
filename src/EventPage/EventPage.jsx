@@ -10,18 +10,20 @@ import Register from '../Register.jsx';
 import moment from 'moment';
 
 export default class EventPage extends Component {
-
-  state = {
-    event: null,
-    reviews: [],
-    currentUser: {
-      id: null,
-      first_name: '',
-      last_name: '',
-      is_host: false,
-      is_chef: false
-    },
-    guestList: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      event: null,
+      reviews: [],
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      },
+      guestList: [],
+    }
   }
 
   get eventId() {

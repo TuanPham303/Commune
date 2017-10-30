@@ -14,22 +14,22 @@ export default class EventPage_Review extends Component {
   }
 
   componentDidMount(){
-
-    this.getCurrentUser();
-
-  }
-
-  getCurrentUser = () => {
-    $.get("/api/users/current")
-    .done(result => {
-      this.setState({
-        currentUserId: result.id
-      });
-    })
-    .fail(err => {
-      console.log('Failed to Logout', err);
+    this.setState({
+      currentUserId: this.props.currentUserId
     })
   }
+
+  // getCurrentUser = () => {
+  //   $.get("/api/users/current")
+  //   .done(result => {
+  //     this.setState({
+  //       currentUserId: result.id
+  //     });
+  //   })
+  //   .fail(err => {
+  //     console.log('Failed to Logout', err);
+  //   })
+  // }
 
   handleReview = (e) => {
     e.preventDefault();
@@ -39,8 +39,8 @@ export default class EventPage_Review extends Component {
       rating: 0
     });
 
-    const { review, rating, currentUserId } = this.state;
-    this.props.submitReview(review, rating, currentUserId);
+    const { review, rating } = this.state;
+    this.props.submitReview(review, rating, this.props.currentUserId);
 
 
   }
@@ -59,7 +59,6 @@ export default class EventPage_Review extends Component {
         <strong>{review.first_name} {review.last_name}: </strong>{review.description} ({review.rating}/5)
       </li>
     ));
-
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
         <div className="triangleTop"></div>

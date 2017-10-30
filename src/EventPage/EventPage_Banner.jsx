@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
-import EventPage_Map from './EventPage_Map.jsx'
+import EventPage_Map from './EventPage_Map.jsx';
+
 
 
 
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-      stripePKey: '',
-      googleMapKey: ''
-    }
   }
+
+ 
 
   onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
@@ -35,30 +33,18 @@ class EventPage_Banner extends Component {
     });
   }
 
-  publickeys = () => {
-    $.get("/api/events/publickeys")
-    .done(keys => {
-      this.setState({
-        stripePKey: keys.stripePKey,
-        googleMapKey: keys.googleMapKey
-      });
-    })
+  componentDidMount() {
+    // this.publickeys();
+    // this.StripeCheckout.setPublishableKey(this.props.stripePKey);
   }
-
-  componentWillMount() {
-    this.publickeys();
-  }
-
-
 
   render() {
-
     let googleMap;
-    if (this.state.googleMapKey) {
+    if (this.props.googleMapKey) {
       googleMap = (
         <EventPage_Map
           location={this.props.location}
-          googleMapKey={this.state.googleMapKey}
+          googleMapKey={this.props.googleMapKey}
         />
       )
     };
@@ -74,8 +60,6 @@ class EventPage_Banner extends Component {
         </div>
       )
     });
-
-    console.log(this.props.hosts_and_chefs);
 
     let carouselControls;
     if (this.props.hosts_and_chefs.length > 1) {
@@ -134,8 +118,9 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
+              { this.props.stripePKey &&
                 <StripeCheckout token={this.onToken}
-                stripeKey='pk_test_ndjjo0CwhPL0CHS6NGBwKDvI'
+                stripeKey={this.props.stripePKey}
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}
@@ -143,6 +128,7 @@ class EventPage_Banner extends Component {
                 locale="auto"
                 bitcoin
                 />
+               }
               </div>
             </div>
             <div className="col-5 eventMap">

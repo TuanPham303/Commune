@@ -23,7 +23,9 @@ export default class EventPage extends Component {
       is_host: false,
       is_chef: false
     },
-    guestList: []
+    guestList: [],
+    stripePKey: '',
+    googleMapKey: ''
   }
 
   get eventId() {
@@ -104,11 +106,22 @@ export default class EventPage extends Component {
     })
   }
 
+  publickeys = () => {
+    $.get("/api/events/publickeys")
+    .done(keys => {
+      this.setState({
+        stripePKey: keys.stripePKey,
+        googleMapKey: keys.googleMapKey
+      });
+    })
+  }
+
   componentDidMount() {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGuestList()
+    this.getGuestList();
+    this.publickeys()
   }
 
   render() {
@@ -133,6 +146,8 @@ export default class EventPage extends Component {
           hosts_and_chefs={event.hosts_and_chefs}
           location={event.location}
           getGuestList={this.getGuestList}
+          stripePKey={this.state.stripePKey}
+          googleMapKey={this.state.googleMapKey}
          />
         <EventPage_Menu
           menu={event.menu_description}
@@ -143,6 +158,7 @@ export default class EventPage extends Component {
         <EventPage_Review
           reviews={reviews}
           submitReview={this.submitReview}
+          currentUserId={this.state.currentUser.id}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />

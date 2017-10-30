@@ -20,7 +20,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           description: description
         });
       });
-
   }
 
   // returns event info and host/chef info for all or a particular event

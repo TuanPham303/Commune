@@ -35,13 +35,9 @@
       transform: translateY(-50%);
     }
     .eventMap {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      img {
-        width: 400px;
-        height: auto;
-      }
+      width: 400px;
+      height: 300px;
+      margin: auto 0;
     }
   }
 }
@@ -53,7 +49,16 @@
 
 .reviewContainer {
   margin: 100px 0;
+  .reviewInputWrap {
+    margin-top: 50px;
+    .rating {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+      -webkit-appearance: none;
+    }
+  }
   ul {
     list-style-type: none;
+    margin: 0;
   }
 }

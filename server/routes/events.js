@@ -14,6 +14,34 @@ const googleMapsClient     = require('@google/maps').createClient({
 module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
 
+  router.post('/:id/reviews', (req,res) => {
+    let reviewerId = req.body.reviewerId;
+    let eventId = req.params.id;
+    let userId = req.body.user_id;
+    let rating = req.body.rating;
+    let description = req.body.description;
+
+    eventHelpers.postReview(reviewerId, eventId, userId, rating, description)
+    .then(() => {
+      return res.sendStatus(201);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      return res.sendStatus(500);
+    })
+  });
+
+  router.get('/:id/guestlist', (req, res) => {
+    eventHelpers.getGuestlist(req.params.id)
+    .then(users => {
+      return res.json(users);
+    })
+  });
+
+  router.get('/publickeys', (req, res) => {
+    return res.json({stripePKey: process.env.STRIPE_PUBLIC_KEY, googleMapKey: process.env.GOOGLE_MAPS_JAVASCRIPT_KEY});
+  });
+
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
 
@@ -58,13 +86,15 @@ module.exports = knex => {
         image: rb.image
       }
       eventHelpers.createEvent(details)
-      .then(() => {
-        res.sendStatus(201);
+      .then((id) => {
+        res.status(201).send(id);
       })
       .catch(err => {
         res.status(400).send(err);
       })
-    } else res.status(400).send('Please fill out the required fields');
+    } else {
+      res.status(400).send('Please fill out the required fields');
+    }
   });
 
   // book an event for a user to attend as a guest
@@ -72,14 +102,14 @@ module.exports = knex => {
   // doesnt allow duplicates
   // requires user id from cookie, event id from url
   router.post('/:id/book', (req, res) => {
-    if (/* req.session.user.id */ true) {
+    if ( req.session.user.id) {
       Promise.all([
-        eventHelpers.userIsBooked(/*req.session.user.id*/30000, req.params.id),
+        eventHelpers.userIsBooked(req.session.user.id, req.params.id),
         eventHelpers.eventHasSpace(req.params.id)
       ])
       .then(values => {
         if (!values[0] && values[1]) {
-          eventHelpers.addUserToEvent(/*req.session.user.id*/30000, req.params.id, 1)
+          eventHelpers.addUserToEvent(req.session.user.id, req.params.id, 1)
           .then(() => {
             res.sendStatus(201);
           })
@@ -109,6 +139,13 @@ module.exports = knex => {
           });
         });
   });
+
+  router.get('/:id/reviews', (req, res) => {
+    eventHelpers.getReviewsByEvent(req.params.id)
+    .then(result => {
+      res.json(result);
+    });
+  })
 
   return router;
 }

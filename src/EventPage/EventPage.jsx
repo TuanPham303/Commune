@@ -3,71 +3,150 @@ import NavBar from '../NavBar.jsx';
 import EventPage_Banner from './EventPage_Banner.jsx';
 import EventPage_Menu from './EventPage_Menu.jsx';
 import EventPage_Review from './EventPage_Review.jsx';
+import EventPage_GuestList from './EventPage_GuestList.jsx';
+import Login from '../Login.jsx';
+import Register from '../Register.jsx';
 
+import moment from 'moment';
 
-class EventPage extends Component {
+export default class EventPage extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      events: {
-        title: "",
-        capacity: "",
-        price: "",
-        description: "",
-        date: "",
-        menu: "",
-      }
-    }
+  state = {
+    event: null,
+    reviews: [],
+    currentUser: {
+      id: null,
+      first_name: '',
+      last_name: '',
+      is_host: false,
+      is_chef: false
+    },
+    guestList: []
   }
 
-  componentDidMount(){
+  get eventId() {
+    return this.props.match.params.id;
+  }
 
-    const getEventDetail = () => {
-      const options = {  
-        weekday: "long", year: "numeric", month: "short",  
-        day: "numeric", hour: "2-digit", minute: "2-digit"  
-      };
-      $.ajax({
-        method: "GET",
-        url: "/api/events",
-        success: data => {
-          this.setState({
-            events: {
-              title: data[0].title,
-              capacity: data[0].capacity,
-              price: data[0].price,
-              description: data[0].description,             
-              date: data[0].event_date,
-              menu: data[0].menu_description,
-            }
-          })
+  get eventDate() {
+    if(this.state.event && this.state.event.event_date) {
+      return moment(this.state.event.event_date).format('MMMM Do YYYY, h:mm a');
+    }
+    return "Unknown date";
+  }
+
+  getReviews() {
+    $.get(`/api/events/${this.eventId}/reviews`)
+      .then(reviews => this.setState({ reviews }))
+  }
+
+  getEvent() {
+    $.get(`/api/events/${this.eventId}`)
+      .then(([event]) => {
+        this.setState({ event })
+        console.log(event);
+      });
+  }
+  getCurrentUser = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/current"
+    })
+    .done(result => {
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name,
+          is_host: result.is_host,
+          is_chef: result.is_chef
         }
-      })
-    };
-    getEventDetail();
+      });
+    })
+    .fail(err => {
+      console.log('Failed to Logout', err);
+    })
+  }
 
+  clearUser = event => {
+    this.setState({
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      }
+    });
+  }
+
+  submitReview = (description, rating, currentUserId) => {
+    const review = {
+      reviewerId: currentUserId,
+      user_id: currentUserId,
+      rating,
+      description
+    };
+
+    $.post(`/api/events/${this.eventId}/reviews`, review)
+      .then(() => {
+        this.getReviews()
+      });
+  }
+
+  getGuestList = () => {
+    $.get(`/api/events/${this.eventId}/guestlist`)
+    .then( guestList => {
+      this.setState({
+        guestList
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.getEvent();
+    this.getReviews();
+    this.getCurrentUser();
+    this.getGuestList()
   }
 
   render() {
+    const { event, reviews, guestList } = this.state;
+    if(!event) { return null; }
+
     return (
-      <div>
-        <NavBar />
-        <EventPage_Banner 
-        title={this.state.events.title}
-        capacity={this.state.events.capacity}
-        price={this.state.events.price}
-        description={this.state.events.description}
-        date={this.state.events.date}
-         />   
-        <EventPage_Menu 
-        menu={this.state.events.menu}
+      <div className='eventWrapper' id="bootstrap-overrides">
+        <NavBar
+          currentUser={this.state.currentUser}
+          clearUser={this.clearUser}
+          getCurrentUser={this.getCurrentUser}
         />
-        <EventPage_Review />
+        <EventPage_Banner
+          id ={event.event_id}
+          title={event.title}
+          price={event.price}
+          capacity={event.capacity}
+          date={this.eventDate}
+          description={event.description}
+          image={event.image_url}
+          hosts_and_chefs={event.hosts_and_chefs}
+          location={event.location}
+          getGuestList={this.getGuestList}
+         />
+        <EventPage_Menu
+          menu={event.menu_description}
+        />
+        <EventPage_GuestList
+          guestList={guestList}
+        />
+        <EventPage_Review
+          reviews={reviews}
+          submitReview={this.submitReview}
+        />
+        <Login getCurrentUser={this.getCurrentUser} />
+        <Register getCurrentUser={this.getCurrentUser} />
       </div>
-     
+
     );
   }
 }
-
-export default EventPage;

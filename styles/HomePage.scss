@@ -1,3 +1,8 @@
+.homeWrapper {
+  background-color: #292d35;
+  color: #292d35;
+}
+
 .homePageBanner {
   margin: 0px;
   position: relative;
@@ -8,13 +13,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     .homePageBannerSearchBox {
-      height: 70px;
-      width: 600px;
-      background-color: #000;
-      opacity: 0.75;
-      color: #fff;
-    }
-    .homePageBannerSearchButton {
+      width: 100%;
       height: 70px;
       background-color: #000;
       opacity: 0.75;
@@ -24,58 +23,76 @@
 }
 
 .search-title {
-  color: gold;
+  color: #292d35;
   text-align: center;
 }
 
 .clip {
- overflow: hidden;
  display: block;
- height: 60vh;
+ height: 54vh;
+ min-height: 450px;
 }
 
-.clip video {
+.fullscreen-bg {
+    overflow: hidden;
+    z-index: -100;
+    width: 100%;
+    height: 100%;
+}
+
+.fullscreen-bg__video {
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.eventImg {
   width: 100%;
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .eventContainer {
+  max-width: 1500px;
+  margin-right: auto;
+  margin-left: auto;
   .event {
     height: 500px;
     padding: 15px;
     box-sizing: border-box;
     .imgContainer {
       height: 40%;
-      background-image: url("https://wallpaperscraft.com/image/spices_seasonings_red_pepper_black_pepper_pepper_star_anise_onion_ginger_garlic_walnuts_bay_leaf_78738_1920x1080.jpg");
-      .starIcon {
-        position: absolute;
-        height: 50px;
-        width: 50px;
-        top: 30px;
-        right: 30px;
-      }
+      overflow: hidden;
+      border-radius: 0.3em 0.3em 0em 0em;
     }
     .eventDescription {
+      border-radius: 0em 0em 0.3em 0.3em;
+      background: #f8f9fa;
       height: 60%;
-      border: 1px solid #111;
-      border-top: none;
       padding: 10px 15px;
       .hostAndDetailButton {
+        .buttonWrap {
+          position: relative;
+          padding: 0;
+          button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+
         .avatarImg {
           height: 70px;
           border-radius: 50%;
         }
         .hostDetail {
-          padding: 0 15px;
+          padding-left: 25px;
           p {
-            margin: 0;
-          }
-          .ratingContainer {
-            padding-left: 15px;
-            .rating {
-              padding: 0;
-              height: 25px;
-              width: 25px;
-            }
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
           }
         }
       }

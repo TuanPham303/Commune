@@ -4,7 +4,31 @@ import UserProfile_Header from './UserProfile_Header.jsx';
 import UserProfile_Reviews from './UserProfile_Reviews.jsx';
 
 class UserProfile extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  componentDidMount(){
+    const userDetail = () => {
+      $.ajax({
+        method: "GET",
+        url: "/api/users",
+        success: data => {
+          console.log('all users', data);
+          // this.setState({
+          //   previewEvents: this.state.previewEvents.concat(data)
+          // })
+        }
+      })
+    }
+    userDetail();
+  }
+
   render() {
+    console.log('hello');
     return (
       <div className="wrapper">
         <NavBar />

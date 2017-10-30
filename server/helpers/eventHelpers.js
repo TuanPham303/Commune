@@ -186,7 +186,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       knex('user_events')
         .join('events', 'user_events.event_id', '=', 'events.id')
         .select(knex.raw('count(*) as usersCount, capacity'))
-        .where('event_id', 10000)
+        .where('event_id', eventID)
         .groupBy('capacity')
         .then(results => {
           resolve(results[0].capacity > results[0].userscount);

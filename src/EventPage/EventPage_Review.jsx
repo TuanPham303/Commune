@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 const uuid = require('uuid/v4');
 
 
@@ -17,6 +18,10 @@ export default class EventPage_Review extends Component {
 
     this.getCurrentUser();
 
+  }
+
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({rating: nextValue});
   }
 
   getCurrentUser = () => {
@@ -56,9 +61,24 @@ export default class EventPage_Review extends Component {
   render() {
     const reviews = this.props.reviews.map(review => (
       <li className="list-group-item" key={uuid()}>
-        <strong>{review.first_name} {review.last_name}: </strong>{review.description} ({review.rating}/5)
+
+          <StarRatingComponent
+            name='displayRating'
+            editing={false}
+            starCount={5}
+            value={Number(review.rating)}
+          />
+
+        &nbsp;
+        <strong>
+          {review.first_name} {review.last_name}:
+        </strong>
+        &nbsp;
+        {review.description}
       </li>
     ));
+
+    const { rating } = this.state;
 
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
@@ -69,19 +89,21 @@ export default class EventPage_Review extends Component {
             { reviews }
           </ul><br/>
         </div>
+        <br/>
+
         <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
-          <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea><br/>
-          <div className="input-group ratingWrap">
-            <label htmlFor="exampleSelect1" className="input-group-addon">Rate the meal</label>
-            <select className="form-control rating" onChange={this.onRatingChange} value={this.state.rating}>
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div><br/>
+          <h4>Describe your experience:</h4>
+          <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
+          <br/>
+          <h4>Click the stars to rate out of 5:</h4>
+          <div style={{'fontSize': '180%'}}>
+            <StarRatingComponent
+              name="rating"
+              starCount={5}
+              value={rating}
+              onStarClick={this.onStarClick.bind(this)}
+            />
+          </div>
           <button className="btn btn-primary clickable" type="submit">Submit</button>
         </form>
       </div>

@@ -82,17 +82,19 @@ export default class EventPage extends Component {
   }
 
   submitReview = (description, rating, currentUserId) => {
-    const review = {
-      reviewerId: currentUserId,
-      user_id: currentUserId,
-      rating,
-      description
-    };
+    if (rating !== 0) {
+      const review = {
+        reviewerId: currentUserId,
+        user_id: currentUserId,
+        rating,
+        description
+      };
 
-    $.post(`/api/events/${this.eventId}/reviews`, review)
-      .then(() => {
-        this.getReviews()
-      });
+      $.post(`/api/events/${this.eventId}/reviews`, review)
+        .then(() => {
+          this.getReviews()
+        });
+    }
   }
 
   getGuestList = () => {

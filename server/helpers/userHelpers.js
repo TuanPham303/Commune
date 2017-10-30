@@ -53,18 +53,19 @@ module.exports = function makeUserHelpers(knex) {
   }
 
   //Add new user on register
-  function addUser(first_name, last_name, email, is_host, is_chef, password) {
+  function addUser(first_name, last_name, email, is_host, is_chef, password, avatar) {
     return (
       checkEmailUnique(email) //Is email unique?
       .then(() => bcrypt.hash(password, 10))
-      .then((passwordDigest) => {
+      .then((password_digest) => {
         return knex('users').insert({
-          first_name: first_name,
-          last_name: last_name,
-          email: email,
-          is_host: is_host,
-          is_chef: is_chef,
-          password_digest: passwordDigest,
+          first_name,
+          last_name,
+          email,
+          is_host,
+          is_chef,
+          password_digest,
+          avatar
         }).returning(['id', 'first_name', 'last_name', 'email', 'is_host', 'is_chef'])
         .then((user)=> {
           return user;

@@ -23,7 +23,7 @@ class HomePage_PreviewEvent extends Component {
             <div className="row">
               <div className="col-7 row">
                 <div className="avatar col-4">
-                  <img src="http://akns-images.eonline.com/eol_images/Entire_Site/2017210/rs_300x300-170310083229-600.avatar-1.31017.jpg?downsize=300:*&crop=300:300;left,top" alt="" className="avatarImg"/>
+                  <img src={this.props.hostimage} alt="" className="avatarImg"/>
                 </div>
                 <div className="col-8 hostDetail">
                   <p>{this.props.host}</p>

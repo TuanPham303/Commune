@@ -23,6 +23,7 @@ class HomePage_Events extends Component {
         capacity={previewEvent.capacity}
         eventId={previewEvent.event_id}
         host={[...hosts].join(', ')}
+        hostimage={previewEvent.hosts_and_chefs[0].avatar}
         image_url={previewEvent.image_url}
       />
       });

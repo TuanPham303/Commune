@@ -97,7 +97,7 @@ export default class NewEventForm extends Component {
                   <label>Image URL</label>
                   <input type="text" className="form-control" ref="image" value ={this.state.image} onChange={this.handleChange.bind(this, 'image')}></input>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary clickable">Submit</button>
               </form>
             </div>
           </div>

@@ -82,7 +82,7 @@ export default class EventPage_Review extends Component {
               <option>5</option>
             </select>
           </div><br/>
-          <button className="btn btn-primary" type="submit">Submit</button>
+          <button className="btn btn-primary clickable" type="submit">Submit</button>
         </form>
       </div>
     );

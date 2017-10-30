@@ -29,7 +29,7 @@ class NavBar extends Component {
 
         <form className="form-inline my-2 my-lg-0">
           <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"></input>
-          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <button className="btn btn-outline-success my-2 my-sm-0 clickable" type="submit">Search</button>
         </form>
       </nav>
     );

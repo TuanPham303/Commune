@@ -13,7 +13,7 @@ class EventPage_Menu extends Component {
     if (this.props.menu) {
       menu = (
         <div className="container-fluid menuContainer">
-          <div className="triangleTop"></div>
+          {/* <div className="triangleTop"></div> */}
           <h3>MENU</h3>
           <div className="row justify-content-center">
             <div className="col-8">

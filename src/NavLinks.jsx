@@ -25,7 +25,7 @@ function NavLinks({ currentUser, handleLogout }) {
             <a className="nav-link" onClick={handleLogout}>Logout</a>
           </li>
           <li className="nav-item dropdown" >
-            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Host Actions</a>
+            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Hosting</a>
             <div className="dropdown-menu" style={{'border': 'none', 'backgroundColor': '#f8f9fa'}}>
               <a className="dropdown-item" href="#!" data-toggle="modal" data-target="#newEventModal">Create Event</a>
               <a className="dropdown-item" href="#!">Events History</a>

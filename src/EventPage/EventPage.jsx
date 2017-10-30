@@ -64,7 +64,7 @@ export default class EventPage extends Component {
       });
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to get current user', err);
     })
   }
 

@@ -76,7 +76,7 @@ class Register extends Component {
                   <label htmlFor="signupPassword">PASSWORD</label>
                   <input type="password" ref="password" className="form-control" id="signupPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
                 </div>
-                <button type="submit" className="btn btn-primary" >Signup</button>
+                <button type="submit" className="btn btn-primary clickable" >Signup</button>
               </form>
             </div>
           </div>

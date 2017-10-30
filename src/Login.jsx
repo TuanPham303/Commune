@@ -40,7 +40,7 @@ class Login extends Component {
       [key]: this.refs[key].value
     })
   }
-  
+
   render() {
     return (
       <div className="modal fade" id="loginModal" tabIndex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -62,7 +62,7 @@ class Login extends Component {
                   <label htmlFor="loginPassword">PASSWORD</label>
                   <input type="password" className="form-control" ref="password"id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
                 </div>
-                <button type="submit" className="btn btn-primary" >Login</button>
+                <button type="submit" className="btn btn-primary clickable" >Login</button>
               </form>
             </div>
           </div>

@@ -223,7 +223,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     .select('users.first_name', 'users.last_name', 'users.id')
     .join('user_events', 'users.id', 'user_events.user_id')
     .where('user_events.event_id', eventId)
-    .then(users => users);
+    // .then(users => users);
   }
 
   function getReviewsByEvent(eventId) {

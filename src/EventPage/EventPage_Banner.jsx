@@ -33,10 +33,10 @@ class EventPage_Banner extends Component {
     });
   }
 
-  componentDidMount() {
-    // this.publickeys();
-    // this.StripeCheckout.setPublishableKey(this.props.stripePKey);
-  }
+  // componentDidMount() {
+  //   this.publickeys();
+  //   StripeCheckout.setPublishableKey(this.props.stripePKey);
+  // }
 
   render() {
     let googleMap;
@@ -118,7 +118,7 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-              { this.props.stripePKey &&
+                { this.props.stripePKey &&
                 <StripeCheckout token={this.onToken}
                 stripeKey={this.props.stripePKey}
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
@@ -128,7 +128,7 @@ class EventPage_Banner extends Component {
                 locale="auto"
                 bitcoin
                 />
-               }
+                }
               </div>
             </div>
             <div className="col-5 eventMap">

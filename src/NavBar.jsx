@@ -7,7 +7,6 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSearching: false,
       searchString: '',
       navbarEvents: [],
       currentUser: {
@@ -24,10 +23,6 @@ class NavBar extends Component {
 
   changeHandler = event => {
     this.setState({ searchString: event.target.value })
-  }
-
-  blurHandler = event => {
-    this.setState({ isSearching: true })
   }
 
   clickHandler = event => {

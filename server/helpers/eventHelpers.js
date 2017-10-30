@@ -20,7 +20,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           description: description
         });
       });
-
   }
 
   // returns event info and host/chef info for all or a particular event
@@ -187,7 +186,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
       knex('user_events')
         .join('events', 'user_events.event_id', '=', 'events.id')
         .select(knex.raw('count(*) as usersCount, capacity'))
-        .where('event_id', 10000)
+        .where('event_id', eventID)
         .groupBy('capacity')
         .then(results => {
           resolve(results[0].capacity > results[0].userscount);
@@ -224,7 +223,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     .select('users.first_name', 'users.last_name', 'users.id')
     .join('user_events', 'users.id', 'user_events.user_id')
     .where('user_events.event_id', eventId)
-    .then(users => users);
+    // .then(users => users);
   }
 
   function getReviewsByEvent(eventId) {

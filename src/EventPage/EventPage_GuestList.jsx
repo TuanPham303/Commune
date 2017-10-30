@@ -15,7 +15,7 @@ export default class EventPage_GuestList extends Component {
     });
 
     return (
-      <div className="container-fluid menuContainer">
+      <div className="container-fluid guessListContainer">
         <h3>Guests List</h3> 
         <div className="row justify-content-center">
           <div className="col-5">

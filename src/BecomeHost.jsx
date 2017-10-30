@@ -12,8 +12,8 @@ export default class BecomeHost extends Component {
     e.preventDefault();
     let becomeHost = this.state.becomeHost;
     becomeHost = becomeHost === 'true'? true : false;
-    
-    if (becomeHost === true){   
+
+    if (becomeHost === true){
       $.post('/api/users/becomehost')
       .done(() => {
         this.props.getCurrentUser();
@@ -44,14 +44,14 @@ export default class BecomeHost extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form onSubmit={ this.handleBecomeHost }> 
+              <form onSubmit={ this.handleBecomeHost }>
                 <div className="input-group">
                   <span className="input-group-addon">
                     <input type="checkbox" value='true' ref="becomeHost" onChange={this.handleChange.bind(this, 'becomeHost')} />
                   </span>
                   <label className="form-control">I agree with the term of service</label>
                 </div> <br/>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary clickable">Submit</button>
               </form>
             </div>
           </div>

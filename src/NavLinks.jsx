@@ -7,10 +7,10 @@ function NavLinks({ currentUser, handleLogout }) {
     return(
       <ul className="navbar-nav mr-auto navbar-float-right">
         <li className="nav-item" data-toggle="modal" data-target="#loginModal">
-          <div className="nav-link">Login</div>
+          <div className="nav-link clickable">Login</div>
         </li>
         <li className="nav-item" data-toggle="modal" data-target="#signupModal">
-          <div className="nav-link">Signup</div>
+          <div className="nav-link clickable">Signup</div>
         </li>
       </ul>
     )
@@ -18,14 +18,14 @@ function NavLinks({ currentUser, handleLogout }) {
       return (
         <ul className="navbar-nav nav mr-auto navbar-float-right">
           <li className="nav-item">
-            <div className="nav-link">Hello {first_name} {last_name}!</div>
-          </li>  
+            <div className="nav-link notClickable">Hello {first_name} {last_name}!</div>
+          </li>
           <li className="nav-item">
-            <a className="nav-link" onClick={handleLogout}>Logout</a>
+            <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
           </li>
           <li className="nav-item dropdown" data-toggle="modal" data-target="#newEventModal">
             <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Host Actions</a>
-            <div className="dropdown-menu" style={{'border': 'none', 'backgroundColor': '#f8f9fa'}}>
+            <div className="dropdown-menu">
               <a className="dropdown-item" href="#!">Create Event</a>
               <a className="dropdown-item" href="#!">Events History</a>
             </div>
@@ -36,13 +36,13 @@ function NavLinks({ currentUser, handleLogout }) {
     return(
       <ul className="navbar-nav mr-auto navbar-float-right">
         <li className="nav-item" data-toggle="modal" data-target="#becomeHostModal">
-          <div className="nav-link">Become a Host</div>
+          <div className="nav-link clickable">Become a Host</div>
         </li>
         <li className="nav-item">
-          <div className="nav-link">{first_name} {last_name}</div>
+          <div className="nav-link notClickable">{first_name} {last_name}</div>
         </li>
         <li className="nav-item">
-          <a className="nav-link" onClick={handleLogout}>Logout</a>
+          <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
         </li>
       </ul>
     )

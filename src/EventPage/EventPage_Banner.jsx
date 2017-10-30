@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
-import EventPage_Map from './EventPage_Map.jsx'
+import EventPage_Map from './EventPage_Map.jsx';
+
 
 
 
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-      stripePKey: '',
-      googleMapKey: ''
-    }
   }
+
+ 
 
   onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
@@ -23,7 +21,6 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
-      console.log(response);
       if (response.status === 200) {
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
@@ -35,42 +32,44 @@ class EventPage_Banner extends Component {
     });
   }
 
-  publickeys = () => {
-    $.get("/api/events/publickeys")
-    .done(keys => {
-      this.setState({
-        stripePKey: keys.stripePKey,
-        googleMapKey: keys.googleMapKey
-      });
-    })
-  }
-
-  componentDidMount() {
-    this.publickeys();
-  }
-
   render() {
     let googleMap;
-    if (this.state.googleMapKey) {
+    if (this.props.googleMapKey) {
       googleMap = (
         <EventPage_Map
           location={this.props.location}
-          googleMapKey={this.state.googleMapKey}
+          googleMapKey={this.props.googleMapKey}
         />
       )
     };
 
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
-        <div key={host.user_id} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
+        <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
           <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"></img>
-          <div className="carousel-caption d-none d-md-block">
+          <div className="carousel-caption d-none d-md-block clearText">
             <h3>{host.first_name} {host.last_name}</h3>
             <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>
         </div>
       )
-    })
+    });
+
+    let carouselControls;
+    if (this.props.hosts_and_chefs.length > 1) {
+      carouselControls = (
+        <span>
+          <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="sr-only">Previous</span>
+          </a>
+          <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="sr-only">Next</span>
+          </a>
+        </span>
+      )
+    };
 
     return (
       <div className="eventBanner container-fluid">
@@ -96,14 +95,7 @@ class EventPage_Banner extends Component {
                 <div className="carousel-inner" role="listbox">
                   { hostCarousel }
                 </div>
-                <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span className="sr-only">Previous</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span className="sr-only">Next</span>
-                </a>
+                  { carouselControls }
               </div>
             </div>
             <div className="col-4">
@@ -120,8 +112,9 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
+                { this.props.stripePKey &&
                 <StripeCheckout token={this.onToken}
-                stripeKey={this.state.stripePKey}
+                stripeKey={this.props.stripePKey}
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}
@@ -129,16 +122,15 @@ class EventPage_Banner extends Component {
                 locale="auto"
                 bitcoin
                 />
+                }
               </div>
             </div>
-            <div className="col-5">
+            <div className="col-5 eventMap">
               { googleMap }
             </div>
           </div>
         </div>
       </div>
-
-
     );
   }
 }

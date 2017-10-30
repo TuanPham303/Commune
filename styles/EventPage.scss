@@ -21,6 +21,12 @@
       height: 60vh;
       padding: 0;
       .imagesSlider {
+        .clearText {
+          background-color: rgba($color: #000000, $alpha: 0.7);
+          padding: 0;
+          width: 100%;
+          left: 0;
+        }
         height: 300px;
         width: 300px;
         position: absolute;

@@ -43,12 +43,37 @@
 }
 
 .menuContainer {
+  background-color: #E4F1FE;
   margin-top: 50px;
+  text-align: center;
+  .triangleTop {
+    width: 0;
+    height: 0;
+    border-top: 80px solid #fff;
+    border-left: 100vw solid #E4F1FE;
+  }
+  .triangleBottom {
+    width: 0;
+    height: 0;
+    border-bottom: 80px solid #fff;
+    border-left: 100vw solid #E4F1FE;
+  }
+}
+
+.guessListContainer {
+  margin: 50px 0;
   text-align: center;
 }
 
 .reviewContainer {
-  margin: 100px 0;
+  background-color: #E4F1FE;
+  padding-bottom: 100px;
+  .triangleTop {
+    width: 0;
+    height: 0;
+    border-bottom: 80px solid #E4F1FE;
+    border-right: 100vw solid #fff;
+  }
   .reviewInputWrap {
     margin-top: 50px;
     .rating {

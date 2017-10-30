@@ -62,6 +62,7 @@ export default class EventPage_Review extends Component {
 
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
+        <div className="triangleTop"></div>
         <div className="col-8 reviewsWrap">
           <h3>Reviews:</h3>
           <ul className="list-group reviews">

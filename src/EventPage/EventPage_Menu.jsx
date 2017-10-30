@@ -4,12 +4,11 @@ import React, {Component} from 'react';
 class EventPage_Menu extends Component {
 
   constructor(props){
-    super(props)
+    super(props);
   }
 
   render() {
     let menu;
-
     if (this.props.menu) {
       menu = (
         <div className="container-fluid menuContainer">

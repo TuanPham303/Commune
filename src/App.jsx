@@ -23,6 +23,24 @@ class App extends Component {
     }
   }
 
+  getSearchResults = searchData => {
+    console.log(searchData)
+    const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
+    $.ajax({
+      method: "GET",
+      url: `/api/events/search?search=${searchValue}`
+    })
+    .done(result => {
+      console.log("my result from search is", result.title);
+      this.setState({
+        previewEvents: result,
+      })
+    })
+    .fail(e => {
+      console.error(e);
+    });
+  }
+
   getCurrentUser = () => {
     $.ajax({
       method: "GET",
@@ -68,8 +86,6 @@ class App extends Component {
     });
   }
 
-
-
   render() {
     return (
       <div>
@@ -77,8 +93,9 @@ class App extends Component {
           currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
+          getSearchResults={this.getSearchResults}
         />
-        <HomePage />
+        <HomePage getSearchResults={this.getSearchResults} previewEvents={this.state.previewEvents} />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
         <NewEventForm currentUser={this.state.currentUser}/>

@@ -50,10 +50,10 @@ export default class EventPage extends Component {
   }
 
   componentDidMount(){
-    this.getEvent(this.eventId);
     this.getReviews(this.eventId);
     this.getCurrentUser();
     this.getGuestList(this.eventId);
+    this.getEvent(this.eventId);
   }
 
   getEvent(id) {
@@ -112,11 +112,10 @@ export default class EventPage extends Component {
   }
 
   getGuestList(id) {
+    console.log("this is the getGuestlist ID: ", id)
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
-      this.setState({
-        guestList
-      })
+      this.setState({ guestList })
     })
   }
 

@@ -43,20 +43,20 @@
 }
 
 .menuContainer {
-  background-color: #E4F1FE;
+  background-color: #f9f9f9;
   margin-top: 50px;
   text-align: center;
   .triangleTop {
     width: 0;
     height: 0;
     border-top: 80px solid #fff;
-    border-left: 100vw solid #E4F1FE;
+    border-left: 100vw solid #f9f9f9;
   }
   .triangleBottom {
     width: 0;
     height: 0;
     border-bottom: 80px solid #fff;
-    border-left: 100vw solid #E4F1FE;
+    border-left: 100vw solid #f9f9f9;
   }
 }
 
@@ -66,12 +66,12 @@
 }
 
 .reviewContainer {
-  background-color: #E4F1FE;
+  background-color: #f9f9f9;
   padding-bottom: 100px;
   .triangleTop {
     width: 0;
     height: 0;
-    border-bottom: 80px solid #E4F1FE;
+    border-bottom: 80px solid #f9f9f9;
     border-right: 100vw solid #fff;
   }
   .reviewInputWrap {

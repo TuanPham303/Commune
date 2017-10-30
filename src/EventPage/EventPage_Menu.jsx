@@ -17,7 +17,9 @@ class EventPage_Menu extends Component {
           <h3>MENU</h3>
           <div className="row justify-content-center">
             <div className="col-8">
-              {this.props.menu}
+              <pre>
+                {this.props.menu}
+              </pre>
             </div>
           </div>
           <div className="triangleBottom"></div>

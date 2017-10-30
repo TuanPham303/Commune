@@ -3,6 +3,14 @@
   color: #292d35;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.notClickable {
+  cursor: default;
+}
+
 .homePageBanner {
   margin: 0px;
   position: relative;

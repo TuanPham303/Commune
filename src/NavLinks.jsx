@@ -18,10 +18,10 @@ function NavLinks({ currentUser, handleLogout }) {
       return (
         <ul className="navbar-nav nav mr-auto navbar-float-right">
           <li className="nav-item">
-            <div className="nav-link">Hello {first_name} {last_name}!</div>
-          </li>  
+            <div className="nav-link notClickable">Hello {first_name} {last_name}!</div>
+          </li>
           <li className="nav-item">
-            <a className="nav-link" onClick={handleLogout}>Logout</a>
+            <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
           </li>
           <li className="nav-item dropdown" data-toggle="modal" data-target="#newEventModal">
             <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Host Actions</a>

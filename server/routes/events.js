@@ -51,7 +51,7 @@ module.exports = knex => {
     } else {
       knex
       .raw(
-      `SELECT event_id, title, description, price, capacity, neighbourhood, address
+      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name
       FROM ( SELECT events.id as event_id,
                     events.title as title,
                     events.description as description,
@@ -59,12 +59,19 @@ module.exports = knex => {
                     events.capacity as capacity,
                     events.neighbourhood as neighbourhood,
                     events.address as address,
+                    users.id as user_id,
+                    users.first_name as first_name,
+                    users.last_name as last_name,
                     to_tsvector(events.title)
                     || to_tsvector(events.description)
                     || to_tsvector(events.menu_description)
+                    || to_tsvector(coalesce(users.first_name, ''))
+                    || to_tsvector(coalesce(users.last_name, ''))
                     || to_tsvector(coalesce((string_agg(events.neighbourhood, ' ')), '')) as document
                     FROM events
-                    GROUP BY events.id) p_search
+                    JOIN user_events ON events.id = user_events.event_id
+                    JOIN users ON users.id = user_events.user_id
+                    GROUP BY events.id, users.id) p_search
                     WHERE p_search.document @@ to_tsquery(?)`, searchValue)
       .then( (results) => {
         console.log(results.rows)

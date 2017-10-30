@@ -12,7 +12,7 @@ import moment from 'moment';
 export default class EventPage extends Component {
 
   state = {
-    event: null,
+    event: undefined,
     reviews: [],
     currentUser: {
       id: null,
@@ -25,6 +25,7 @@ export default class EventPage extends Component {
   }
 
   get eventId() {
+    console.log("string thing", this.props.match.params.id)
     return this.props.match.params.id;
   }
 
@@ -36,9 +37,9 @@ export default class EventPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("nextProps", nextProps);
     if(nextProps.match.params.id !== this.props.match.params.id) {
-      // console.log("here is getGuest: ", this.getEvent(this.props.match.params.id));
-      this.getEvent(nextProps.match.params.id)
+      this.getEvent(nextProps.match.params.id);
       this.getReviews(nextProps.match.params.id);
       this.getGuestList(nextProps.match.params.id);
     }
@@ -57,10 +58,14 @@ export default class EventPage extends Component {
   }
 
   getEvent(id) {
-    this.setState({loadingEvent: true});
+    console.log("id of new event", id)
+    // this.setState({loadingEvent: true});
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
-        this.setState({ event, loadingEvent: undefined })
+        console.log([event])
+        this.setState({ event }, function () {
+          console.log("setting new state? v2", this.state);
+        })
       });
   }
 
@@ -115,15 +120,17 @@ export default class EventPage extends Component {
     console.log("this is the getGuestlist ID: ", id)
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
-      this.setState({ guestList })
+      this.setState({
+        guestList
+      })
     })
   }
 
   render() {
     const { event, reviews, guestList } = this.state;
+    console.log("here is first state in eventpage", this.state);
+    console.log("here is second state in eventpage", event);
     if(!event) { return null; }
-    console.log(guestList);
-
     return (
       <div className='eventWrapper' id="bootstrap-overrides">
         <NavBar
@@ -145,7 +152,7 @@ export default class EventPage extends Component {
           location={event.location}
           getGuestList={this.getGuestList}
          />
-        <EventPage_Menu
+         <EventPage_Menu
           menu={event.menu_description}
         />
         <EventPage_GuestList

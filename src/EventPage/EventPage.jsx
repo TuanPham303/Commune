@@ -6,6 +6,8 @@ import EventPage_Review from './EventPage_Review.jsx';
 import EventPage_GuestList from './EventPage_GuestList.jsx';
 import Login from '../Login.jsx';
 import Register from '../Register.jsx';
+import NewEventForm from '../NewEventForm.jsx';
+import BecomeHost from '../BecomeHost.jsx';
 
 import moment from 'moment';
 
@@ -144,6 +146,8 @@ export default class EventPage extends Component {
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
+        <NewEventForm currentUser={this.state.currentUser} />
+        <BecomeHost getCurrentUser={this.getCurrentUser} />
       </div>
 
     );

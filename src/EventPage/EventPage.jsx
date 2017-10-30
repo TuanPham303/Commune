@@ -44,6 +44,7 @@ export default class EventPage extends Component {
     $.get(`/api/events/${this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
+        console.log(event);
       });
   }
   getCurrentUser = () => {

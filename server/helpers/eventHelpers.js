@@ -35,8 +35,8 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
         .join('users', 'users.id', '=', 'user_events.user_id')
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date', 'events.location',
-                'events.description', 'events.menu_description', 'events.price', 'events.image_url',
-                'events.capacity', 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name')
+                'events.description', 'events.menu_description', 'events.price', 'events.image_url', 'events.capacity',
+                'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name', 'users.avatar')
         .where('events.id', compare, eventID)
         .whereIn('role_name', ['host', 'chef'])
         .then(results => {
@@ -47,8 +47,8 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   // helper function for normalizeData
   function createUserObject(userData) {
-    return (({user_id, role_name, first_name, last_name}) =>
-            ({user_id, role_name, first_name, last_name}))(userData);
+    return (({user_id, role_name, first_name, last_name, avatar}) =>
+            ({user_id, role_name, first_name, last_name, avatar}))(userData);
   }
 
   // removes dupliacate event info when an event has multiple hosts/chefs

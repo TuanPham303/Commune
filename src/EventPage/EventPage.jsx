@@ -44,7 +44,6 @@ export default class EventPage extends Component {
     $.get(`/api/events/${this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
-        console.log(event);
       });
   }
   getCurrentUser = () => {
@@ -142,6 +141,7 @@ export default class EventPage extends Component {
         <EventPage_Review
           reviews={reviews}
           submitReview={this.submitReview}
+          guestList={guestList}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />

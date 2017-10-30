@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 
 export default class EventPage_GuestList extends Component {
@@ -10,7 +11,10 @@ export default class EventPage_GuestList extends Component {
   render() {
     const guests = this.props.guestList.map(guest => {
       return <li className="list-group-item" key={guest.id}>
-        {guest.first_name} {guest.last_name}
+        <div className="guestlist-item">
+          <img src={guest.avatar} alt="avatar" className="thumbnail"></img>
+          <Link to={`/users/${guest.id}`}className="guestlist-name">{guest.first_name} {guest.last_name} </Link>
+        </div>
       </li>
     });
 

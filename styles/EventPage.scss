@@ -2,6 +2,21 @@
   padding: 0;
 }
 
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.guestlist-item {
+  display: flex;
+  align-items: center;
+}
+
+.guestlist-name {
+  margin-bottom: 0;
+}
+
 .eventBanner {
   padding-top: 100px;
   .image {

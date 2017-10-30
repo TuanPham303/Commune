@@ -75,8 +75,6 @@ class EventPage_Banner extends Component {
       )
     });
 
-    console.log(this.props.hosts_and_chefs);
-
     let carouselControls;
     if (this.props.hosts_and_chefs.length > 1) {
       carouselControls = (

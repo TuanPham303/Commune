@@ -38,8 +38,8 @@ module.exports = knex => {
     })
   });
 
-  router.get('/stripekey', (req, res) => {
-    return res.json(process.env.STRIPE_PUBLIC_KEY);
+  router.get('/publickeys', (req, res) => {
+    return res.json({stripePKey: process.env.STRIPE_PUBLIC_KEY, googleMapKey: process.env.GOOGLE_MAPS_JAVASCRIPT_KEY});
   });
 
   // get details on all events that match the search term

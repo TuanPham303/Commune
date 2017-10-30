@@ -67,7 +67,7 @@ class EventPage_Banner extends Component {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
           <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"></img>
-          <div className="carousel-caption d-none d-md-block">
+          <div className="carousel-caption d-none d-md-block clearText">
             <h3>{host.first_name} {host.last_name}</h3>
             <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>
@@ -135,7 +135,7 @@ class EventPage_Banner extends Component {
                   <p>{this.props.description}</p>
                 </div>
                 <StripeCheckout token={this.onToken}
-                stripeKey={this.state.stripePKey}
+                stripeKey='pk_test_ndjjo0CwhPL0CHS6NGBwKDvI'
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
                 name={this.props.title}
                 amount={this.props.price * 100}

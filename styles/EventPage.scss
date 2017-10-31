@@ -89,10 +89,17 @@
     border-bottom: 80px solid #f9f9f9;
     border-right: 100vw solid #fff;
   }
-  .reviewWrap {
+  .reviewsWrap {
     .reviews {
-      .rating {
-        float: right;
+      margin-top: 0;
+      li {
+        position: relative;
+        .rating {
+          position: absolute !important;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+        }
       }
     }
   }

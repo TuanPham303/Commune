@@ -13,7 +13,6 @@ class NavBar_Events extends Component {
       let hosts = new Set();
       let chefs = new Set();
       navbarEvent.hosts_and_chefs.forEach( person => {
-        console.log(person);
         if (person.role_name === 'host') {
           hosts.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
         } else if (person.role_name === 'chef') {

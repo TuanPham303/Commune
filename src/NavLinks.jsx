@@ -23,11 +23,13 @@ function NavLinks({ currentUser, handleLogout }) {
           <li className="nav-item">
             <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
           </li>
-          <li className="nav-item dropdown" data-toggle="modal" data-target="#newEventModal">
-            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Host Actions</a>
+          <li className="nav-item dropdown">
+            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Actions</a>
             <div className="dropdown-menu">
-              <a className="dropdown-item" href="#!">Create Event</a>
-              <a className="dropdown-item" href="#!">Events History</a>
+              <div className="dropdown-item" data-toggle="modal" data-target="#newEventModal">
+                <div className="clickable">New Event</div>
+              </div>
+              <div className="dropdown-item clickable">Events History</div>
             </div>
           </li>
         </ul>
@@ -35,14 +37,20 @@ function NavLinks({ currentUser, handleLogout }) {
   } else {
     return(
       <ul className="navbar-nav mr-auto navbar-float-right">
-        <li className="nav-item" data-toggle="modal" data-target="#becomeHostModal">
-          <div className="nav-link clickable">Become a Host</div>
-        </li>
         <li className="nav-item">
           <div className="nav-link notClickable">{first_name} {last_name}</div>
         </li>
         <li className="nav-item">
           <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
+        </li>
+        <li className="nav-item dropdown">
+          <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Actions</a>
+          <div className="dropdown-menu">
+            <div className="dropdown-item" data-toggle="modal" data-target="#becomeHostModal">
+              <div className="clickable">Become a Host</div>
+            </div>
+            <div className="dropdown-item clickable">Events History</div>
+          </div>
         </li>
       </ul>
     )

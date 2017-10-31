@@ -48,7 +48,7 @@ class EventPage_Banner extends Component {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
           <img className="d-block img-fluid" src={host.avatar}></img>
-          <div className="carousel-caption d-none d-md-block">
+          <div className="hostDetail">
             <h3>{host.first_name} {host.last_name}</h3>
             <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>

@@ -64,6 +64,7 @@ export default class EventPage extends Component {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
+        console.log(event);
       });
   }
 

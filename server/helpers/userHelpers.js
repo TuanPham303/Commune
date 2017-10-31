@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 //Creating helper functions to bridge data to the website
 module.exports = function makeUserHelpers(knex) {
-   
 
   //Find email of user on login
   function findByEmail(email) {
@@ -17,7 +16,7 @@ module.exports = function makeUserHelpers(knex) {
     //Find ID of user on login
     function findById(id) {
       return knex('users')
-        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host')
+        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar')
         .where({id})
         .limit(1)
         .then(([user]) => user);
@@ -53,7 +52,7 @@ module.exports = function makeUserHelpers(knex) {
   }
 
   //Add new user on register
-  function addUser(first_name, last_name, email, is_host, is_chef, password) {
+  function addUser(first_name, last_name, email, is_host, is_chef, password, avatar) {
     return (
       checkEmailUnique(email) //Is email unique?
       .then(() => bcrypt.hash(password, 10))
@@ -65,6 +64,7 @@ module.exports = function makeUserHelpers(knex) {
           is_host: is_host,
           is_chef: is_chef,
           password_digest: passwordDigest,
+          avatar: !avatar ? '/user-avatars/default-avatar.png' : avatar
         }).returning(['id', 'first_name', 'last_name', 'email', 'is_host', 'is_chef'])
         .then((user)=> {
           return user;

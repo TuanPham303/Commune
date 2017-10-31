@@ -28,6 +28,7 @@ class NavBar_Events extends Component {
           menu= { navbarEvent.menu_description }
           host={[...hosts].join(', ')} />
     });
+    navbarEvents.length = 8; 
     return(
         <div>
           { navbarEvents }

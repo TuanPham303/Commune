@@ -15,6 +15,12 @@
   white-space: normal;
 }
 
+.dropdown-item.searchItem:hover {
+  padding: 0 0;
+  white-space: normal;
+  text-decoration: none;
+}
+
 .form-control.navbar-searchbox {
   margin-bottom: 10px;
   height: 70px;
@@ -24,3 +30,4 @@
 .dropdown-divider.navsearch-divider {
   border-top: 1px solid #c6cace;
 }
+

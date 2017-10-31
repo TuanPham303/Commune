@@ -10,6 +10,18 @@ const googleMapsClient     = require('@google/maps').createClient({
   key: process.env.GOOGLE_MAPS_API_KEY,
   Promise: Promise
 });
+const multer  = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    console.log(path.join(__dirname,"../../", 'public/event-images/'));
+    cb(null,path.join(__dirname, '../../', 'public/event-images/'))
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({ storage });
 
 module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
@@ -71,11 +83,13 @@ module.exports = knex => {
   // add new event (add to events table, add host to user_events, etc)
   // takes current_user (becomes host), title, address, date/time (optional),
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
-  router.post('/new', (req, res) => {
+  router.post('/new', upload.array('images'), (req, res) => {
+    console.log("req body: ", req.body, "req files: ", req.files);
     const rb = req.body;
-    if (rb.users && rb.title && rb.address && rb.city && rb.price && rb.capacity) {
+    if (rb.user && rb.title && rb.address && rb.city && rb.price && rb.capacity) {
       const details = {
-        users: rb.users, // an array of objects with user_id and role_id
+        user: rb.user,
+        role: rb.role,  // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
         date: rb.date,
@@ -83,11 +97,15 @@ module.exports = knex => {
         menu: rb.menu,
         price: rb.price,
         capacity: rb.capacity,
-        image: rb.image
       }
       eventHelpers.createEvent(details)
       .then((id) => {
-        res.status(201).send(id);
+        console.log("ehelp.js 103: ", id);
+        eventHelpers.createEventImages(id, req.files)
+        .then((id) => {
+          let eventId = JSON.stringify(id[0][0]);
+          res.json(eventId);
+        })
       })
       .catch(err => {
         res.status(400).send(err);

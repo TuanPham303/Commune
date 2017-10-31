@@ -12,32 +12,68 @@ export default class NewEventForm extends Component {
       menu: '',
       price: 0,
       capacity: 0,
-      image: ''
     }
   }
 
   handleNewEvent = (e) => {
-    e.preventDefault();
-      const newEventData = {
-        users: [{user: this.props.currentUser.id, role: 2}], //
-        title: this.state.eventTitle,
-        address: this.state.address,
-        city: this.state.city, //
-        date: this.state.date,
-        description: this.state.description,
-        menu: this.state.menu,
-        price: this.state.price,
-        capacity: this.state.capacity,
-        image: this.state.image //
-      }
 
-    $.post('/api/events/new', newEventData)
-    .then((id) => {
-      console.log(id);
-      document.location.assign(`/events/${id}`);
+    const data = new FormData();
+    const imageData= document.getElementById('fileinput').files;
+    console.log(imageData);
+    const user = this.props.currentUser.id
+    const role = 2;
+    const title = this.state.eventTitle;
+    const address = this.state.address;
+    const city = this.state.city;
+    const date = this.state.date;
+    const description = this.state.description;
+    const menu = this.state.menu;
+    const price = this.state.price;
+    const capacity = this.state.capacity;
+
+    for (let image of imageData) {
+      data.append('images', image)
+    }
+
+    // data.append("images[]", imageData);
+    data.append("user", user);
+    data.append("role", role);
+    data.append("title", title);
+    data.append("address", address);
+    data.append("city", city);
+    data.append("date", date);
+    data.append("description", description);
+    data.append("menu", menu);
+    data.append("price", price);
+    data.append("capacity", capacity);
+    console.log(data);
+    e.preventDefault();
+      // const newEventData = {
+      //   users: [{user: this.props.currentUser.id, role: 2}], //
+      //   title: this.state.eventTitle,
+      //   address: this.state.address,
+      //   city: this.state.city, //
+      //   date: this.state.date,
+      //   description: this.state.description,
+      //   menu: this.state.menu,
+      //   price: this.state.price,
+      //   capacity: this.state.capacity,
+      //   image: this.state.image //
+      // }
+    fetch('/api/events/new', {
+      method: 'POST',
+      credentials: 'include',
+      body: data
     })
-    .fail(err => {
-      console.log('Failed to create new event ', err);
+    .then((res) => {
+      res.json()
+      .then(id => {
+        console.log(id);
+        document.location.assign(`/events/${id}`);
+      })
+    })
+    .catch(err => {
+      console.error('Failed to create new event ', err);
     })
   }
 
@@ -94,8 +130,8 @@ export default class NewEventForm extends Component {
                   <input type="number" className="form-control" placeholder= 'Required' min="0" ref="capacity" value ={this.state.capacity} onChange={this.handleChange.bind(this, 'capacity')}></input>
                 </div>
                 <div className="form-group">
-                  <label>Image URL</label>
-                  <input type="text" className="form-control" ref="image" value ={this.state.image} onChange={this.handleChange.bind(this, 'image')}></input>
+                  <label>Images</label>
+                  <input type="file" className="form-input-control" name='images' id="fileinput"multiple></input>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
               </form>

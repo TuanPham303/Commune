@@ -8,6 +8,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 
+
 const knexConfig = require("../knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const morgan = require("morgan");
@@ -27,9 +28,9 @@ app.use(morgan("dev"));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 app.use(express.static('public'))
 

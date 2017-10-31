@@ -13,20 +13,30 @@ class Register extends Component {
 
   handleRegister = event => {
 
+    const data = new FormData();
+    const imageData= document.querySelector('input[type="file"]').files[0];
     const registerData = {
       first_name: this.state.r_first_name,
       last_name: this.state.r_last_name,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     }
-
+    const first_name = this.state.r_first_name;
+    const last_name = this.state.r_last_name;
+    const email = this.state.email;
+    const password = this.state.password;
+    data.append("avatar",imageData);
+    data.append("first_name", first_name);
+    data.append("last_name", last_name);
+    data.append("email", email);
+    data.append("password", password);
     event.preventDefault();
-    $.ajax({
+    fetch("/api/users/register",{
       method: "POST",
-      url: "/api/users/register",
-      data: registerData
+      credentials: 'include',
+      body: data
     })
-    .done(user => {
+    .then(user => {
       this.setState({
         r_first_name: '',
         r_last_name: '',
@@ -36,7 +46,7 @@ class Register extends Component {
       this.props.getCurrentUser();
       $('span').click();
     })
-    .fail(err => {
+    .catch(err => {
       console.log('Failed to Login', err);
     })
   }
@@ -46,6 +56,7 @@ class Register extends Component {
       [key]: this.refs[key].value
     })
   }
+
 
   render() {
     return (
@@ -75,6 +86,9 @@ class Register extends Component {
                 <div className="form-group">
                   <label htmlFor="signupPassword">PASSWORD</label>
                   <input type="password" ref="password" className="form-control" id="signupPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
+                </div>
+                <div className="form-group">
+                  <input type="file" className="form-input-control" name='avatar'></input>
                 </div>
                 <button type="submit" className="btn btn-primary clickable" >Signup</button>
               </form>

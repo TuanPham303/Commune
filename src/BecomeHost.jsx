@@ -49,7 +49,7 @@ export default class BecomeHost extends Component {
                   <span className="input-group-addon">
                     <input type="checkbox" value='true' ref="becomeHost" onChange={this.handleChange.bind(this, 'becomeHost')} />
                   </span>
-                  <label className="form-control">I agree with the term of service</label>
+                  <label className="form-control">I agree with the&nbsp;<a href="#">terms of service</a></label>
                 </div> <br/>
                 <button type="submit" className="btn btn-primary clickable">Submit</button>
               </form>

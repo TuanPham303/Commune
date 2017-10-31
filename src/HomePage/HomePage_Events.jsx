@@ -14,14 +14,14 @@ class HomePage_Events extends Component {
       previewEvent.hosts_and_chefs.forEach( person => {
         hosts.add(`${person.first_name} ${person.last_name}`)
       })
-      return <HomePage_PreviewEvent
+      return <HomePage_PreviewEvent 
         key={uuid()}
         title={previewEvent.title}
         price={previewEvent.price}
         description={previewEvent.description}
         neighbourhood={previewEvent.neighbourhood}
         capacity={previewEvent.capacity}
-        eventId={previewEvent.event_id}
+        event_id={previewEvent.event_id}
         host={[...hosts].join(', ')}
         hostimage={previewEvent.hosts_and_chefs[0].avatar}
         image_url={previewEvent.image_url}

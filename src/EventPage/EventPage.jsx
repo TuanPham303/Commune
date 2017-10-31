@@ -14,7 +14,7 @@ import moment from 'moment';
 export default class EventPage extends Component {
 
   state = {
-    event: null,
+    event: undefined,
     reviews: [],
     currentUser: {
       id: null,
@@ -39,18 +39,34 @@ export default class EventPage extends Component {
     return "Unknown date";
   }
 
-  getReviews() {
-    $.get(`/api/events/${this.eventId}/reviews`)
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.match.params.id !== this.props.match.params.id) {
+      this.getEvent(nextProps.match.params.id);
+      this.getReviews(nextProps.match.params.id);
+      this.getGuestList(nextProps.match.params.id);
+    }
+  }
+
+  getReviews(eventId = this.eventId) {
+    $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
 
-  getEvent() {
-    $.get(`/api/events/${this.eventId}`)
+  componentDidMount(){
+    this.getReviews(this.eventId);
+    this.getCurrentUser();
+    this.getGuestList(this.eventId);
+    this.getEvent(this.eventId);
+  }
+
+  getEvent(id) {
+    $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
         console.log(event);
       });
   }
+
   getCurrentUser = () => {
     $.ajax({
       method: "GET",
@@ -100,8 +116,8 @@ export default class EventPage extends Component {
     }
   }
 
-  getGuestList = () => {
-    $.get(`/api/events/${this.eventId}/guestlist`)
+  getGuestList(id) {
+    $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
         guestList
@@ -130,16 +146,17 @@ export default class EventPage extends Component {
   render() {
     const { event, reviews, guestList } = this.state;
     if(!event) { return null; }
-
     return (
       <div className='eventWrapper' id="bootstrap-overrides">
         <NavBar
           currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
+          getSearchResults={this.props.getSearchResults}
+          getEvent={this.getEvent}
         />
         <EventPage_Banner
-          id ={event.event_id}
+          id={event.event_id}
           title={event.title}
           price={event.price}
           capacity={event.capacity}
@@ -152,7 +169,7 @@ export default class EventPage extends Component {
           stripePKey={this.state.stripePKey}
           googleMapKey={this.state.googleMapKey}
          />
-        <EventPage_Menu
+         <EventPage_Menu
           menu={event.menu_description}
         />
         <EventPage_GuestList

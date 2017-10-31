@@ -39,6 +39,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .where('events.id', compare, eventID)
         .whereIn('role_name', ['host', 'chef'])
         .then(results => {
+          console.log(results);
           resolve(results);
         });
     });

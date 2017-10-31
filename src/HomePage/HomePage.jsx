@@ -27,6 +27,23 @@ class HomePage extends Component {
     previewEvents();
   }
 
+  getSearchResults = searchData => {
+    const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
+    $.ajax({
+      method: "GET",
+      url: `/api/events/search?search=${searchValue}`
+    })
+    .done(result => {
+      console.log("my result from search is", result.title);
+      this.setState({
+        previewEvents: result,
+      })
+    })
+    .fail(e => {
+      console.error(e);
+    });
+  }
+
   render() {
     return (
       <div className="homeWrapper">
@@ -38,7 +55,7 @@ class HomePage extends Component {
               You need an HTML5 enabled browser to view this video.
             </video>
         </div>
-        <HomePage_Banner />
+        <HomePage_Banner getSearchResults={this.getSearchResults} />
         <HomePage_Events
           previewEvents={this.state.previewEvents}
         />

@@ -47,10 +47,10 @@ class EventPage_Banner extends Component {
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
-          <img className="d-block img-fluid" src={host.avatar}></img>
           <div className="hostDetail">
-            <h3>{host.first_name} {host.last_name}</h3>
-            <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
+            <img className="d-block img-fluid" src={host.avatar}></img>
+            <h4 className="text-center">{host.first_name} {host.last_name}</h4>
+            <p className="text-center">{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>
         </div>
       )

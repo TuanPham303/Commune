@@ -29,11 +29,13 @@ class EventPage_Banner extends Component {
 
   render() {
     let paidUser = false;
-    // console.log('this is guest list', this.props.guestList);
-    // console.log('this is current user', this.props.currentUser);
-    // this.props.guestList.forEach(guest => {
-    //   if (guest)
-    // })
+    console.log('this is guest list', this.props.guestList);
+    console.log('this is current user', this.props.currentUser);
+    this.props.guestList.forEach(guest => {
+      if (guest.id === this.props.currentUser.id) {
+        paidUser = true;
+      }
+    })
     let googleMap;
     if (this.props.googleMapKey) {
       googleMap = (
@@ -113,16 +115,22 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                {  this.props.stripePKey &&
-                <StripeCheckout token={this.onToken}
-                stripeKey={this.props.stripePKey}
-                image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
-                name={this.props.title}
-                amount={this.props.price * 100}
-                currency="CAD"
-                locale="auto"
-                bitcoin
-                />
+                { this.props.stripePKey && !paidUser &&
+                  <StripeCheckout token={this.onToken}
+                  stripeKey={this.props.stripePKey}
+                  image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
+                  name={this.props.title}
+                  amount={this.props.price * 100}
+                  currency="CAD"
+                  locale="auto"
+                  bitcoin
+                  />
+                }
+                { paidUser &&
+                  <div className="address">
+                    <strong>Address</strong>
+                    <p>{this.props.address}</p>
+                  </div>
                 }
               </div>
             </div>

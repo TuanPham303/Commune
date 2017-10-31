@@ -149,6 +149,7 @@ export default class EventPage extends Component {
           id={event.event_id}
           title={event.title}
           price={event.price}
+          address={event.address}
           capacity={event.capacity}
           date={this.eventDate}
           description={event.description}

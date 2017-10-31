@@ -78,6 +78,46 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  // helper function for normalizeDataSearch
+  function arrayIncludesUser(array, data) {
+    const arrIndex = array.findIndex(x => x.user_id === data.user_id);
+    if (arrIndex === -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  // removes dupliacate event info when an event has multiple hosts/chefs
+  // accepts data in an array as formatted by queryDB
+  // formats for use in navbar search
+  function normalizeDataSearch(data) {
+    return new Promise((resolve, reject) => {
+      const normalizedArray = []
+      new Promise((resolve, reject) => {
+        data.forEach((item) => {
+          const arrIndex = normalizedArray.findIndex(x => x.event_id === item.event_id);
+          if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
+            const newEventObj = Object.assign({}, item);
+            ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
+            normalizedArray.push(newEventObj);
+            const newUserObj = createUserObject(item)
+            if (!arrayIncludesUser(normalizedArray, newUserObj)) {
+                normalizedArray.push(newUserObj);
+            }
+          } else {
+            const newUserObj = createUserObject(item);
+            if (newUserObj.role_name !== 'guest' && !arrayIncludesUser(normalizedArray, newUserObj)) {
+                normalizedArray.push(newUserObj);
+            }
+          };
+        });
+        resolve();
+      });
+      resolve(normalizedArray);
+    });
+  }
+
   // 3 helper functions for getLocationDetals
   function findNeighborhood(data) {
     return data.types[0] === 'neighborhood';
@@ -293,6 +333,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     queryDB,
     postReview,
     normalizeData,
+    normalizeDataSearch,
     getLocationDetails,
     createEvent,
     userIsBooked,

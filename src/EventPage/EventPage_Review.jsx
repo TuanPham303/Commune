@@ -47,20 +47,19 @@ export default class EventPage_Review extends Component {
 
     const reviews = this.props.reviews.map(review => (
       <li className="list-group-item" key={uuid()}>
-
-          <StarRatingComponent
-            name='displayRating'
-            editing={false}
-            starCount={5}
-            value={Number(review.rating)}
-          />
-
-        &nbsp;
         <strong>
           {review.first_name} {review.last_name}:
         </strong>
         &nbsp;
         {review.description}
+        &nbsp;
+        <StarRatingComponent
+          name='displayRating'
+          editing={false}
+          starCount={5}
+          value={Number(review.rating)}
+          className="rating"
+        />
       </li>
     ));
 

@@ -213,7 +213,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
   }
 
   function createEventImages(event_id, fileArr) {
-    console.log('test', "eventid", event_id, "fileArr: ", fileArr);
     const promiseArr = [];
     
     for (let file of fileArr) {
@@ -223,7 +222,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         image: `/event-images/${file.filename}`
       }).returning('event_id'));
     }
-    console.log(promiseArr);
+
     return Promise.all(promiseArr);
   }
 
@@ -298,6 +297,20 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  function getFirstEventImage(id) {
+    return knex('event_images')
+    .where('event_id', id)
+    .limit(1)
+    .then((result) => result )
+  }
+
+  function getAllEventImages(id) {
+    return knex('event_images')
+    .select('image')
+    .where('event_id', id)
+    .then((result) => result )
+  }
+
   return {
     queryDB,
     postReview,
@@ -311,7 +324,9 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     getGuestlist,
     hasEditPermssion,
     updateEvent,
-    createEventImages
+    createEventImages,
+    getAllEventImages,
+    getFirstEventImage
   };
 }
 

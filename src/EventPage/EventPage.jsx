@@ -14,6 +14,7 @@ export default class EventPage extends Component {
   state = {
     event: null,
     reviews: [],
+    images: [],
     currentUser: {
       id: null,
       first_name: '',
@@ -67,6 +68,13 @@ export default class EventPage extends Component {
     })
   }
 
+  getEventImages = (id = this.eventId) => {
+    $.get(`/api/events/${id}/images`)
+    .then(images => {
+      this.setState({ images })
+    })
+  }
+
   clearUser = event => {
     this.setState({
       currentUser: {
@@ -106,11 +114,15 @@ export default class EventPage extends Component {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGuestList()
+    this.getGuestList();
+    this.getEventImages();
+    setTimeout(() => {
+      window.scrollTo(0, 180)
+    }, 500);
   }
 
   render() {
-    const { event, reviews, guestList } = this.state;
+    const { event, reviews, guestList, images } = this.state;
     if(!event) { return null; }
 
     return (
@@ -131,6 +143,7 @@ export default class EventPage extends Component {
           hosts_and_chefs={event.hosts_and_chefs}
           location={event.location}
           getGuestList={this.getGuestList}
+          images={images}
          />
         <EventPage_Menu
           menu={event.menu_description}

@@ -2,15 +2,10 @@ import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import EventPage_Map from './EventPage_Map.jsx';
 
-
-
-
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
   }
-
- 
 
   onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
@@ -21,18 +16,24 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
-      if (response.status === 200) {
+      if (response.status === 200) {  
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
           method: 'POST'
         }).then(() => {
-         this.props.getGuestList(this.props.id);
+          this.props.getGuestList(this.props.eventId);
         })
       } else { return alert('Booking failed')}
     });
   }
 
   render() {
+    let paidUser = false;
+    // console.log('this is guest list', this.props.guestList);
+    // console.log('this is current user', this.props.currentUser);
+    // this.props.guestList.forEach(guest => {
+    //   if (guest)
+    // })
     let googleMap;
     if (this.props.googleMapKey) {
       googleMap = (
@@ -112,7 +113,7 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                { this.props.stripePKey &&
+                {  this.props.stripePKey &&
                 <StripeCheckout token={this.onToken}
                 stripeKey={this.props.stripePKey}
                 image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"

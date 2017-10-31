@@ -47,19 +47,12 @@ export default class EventPage extends Component {
     }
   }
 
-  getReviews(eventId = this.eventId) {
+  getReviews = (eventId = this.eventId) => {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
 
-  componentDidMount(){
-    this.getReviews(this.eventId);
-    this.getCurrentUser();
-    this.getGuestList(this.eventId);
-    this.getEvent(this.eventId);
-  }
-
-  getEvent(id) {
+  getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
@@ -113,7 +106,7 @@ export default class EventPage extends Component {
       });
   }
 
-  getGuestList(id) {
+  getGuestList = (id) => {
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
@@ -165,6 +158,9 @@ export default class EventPage extends Component {
           getGuestList={this.getGuestList}
           stripePKey={this.state.stripePKey}
           googleMapKey={this.state.googleMapKey}
+          guestList={this.state.guestList}
+          currentUser={this.state.currentUser}
+          eventId={this.eventId}
          />
          <EventPage_Menu
           menu={event.menu_description}

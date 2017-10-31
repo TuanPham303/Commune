@@ -58,13 +58,15 @@ class NavBar extends Component {
       url: "/api/users/current"
     })
     .done(result => {
-      this.setState({
-        currentUser: {
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name
-        }
-      });
+      if (result !== 'no current user') {
+        this.setState({
+          currentUser: {
+            id: result.id,
+            first_name: result.first_name,
+            last_name: result.last_name
+          }
+        });
+      }
     })
     .fail(err => {
       console.error('Failed to getCurrentUser', err);

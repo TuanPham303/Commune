@@ -59,10 +59,14 @@ module.exports = knex => {
   })
 
   router.get('/current', (req,res) => {
-    userHelpers.findById(req.session.user.id)
-    .then(user => {
-      res.json(user);
-    })
+    if (req.session.user) {
+      userHelpers.findById(req.session.user.id)
+      .then(user => {
+        res.json(user);
+      })
+    } else {
+      res.send('no current user')
+    }
   });
 
   // Update user's is_host boolean in DB to true

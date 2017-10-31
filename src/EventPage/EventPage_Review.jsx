@@ -20,18 +20,6 @@ export default class EventPage_Review extends Component {
     })
   }
 
-  // getCurrentUser = () => {
-  //   $.get("/api/users/current")
-  //   .done(result => {
-  //     this.setState({
-  //       currentUserId: result.id
-  //     });
-  //   })
-  //   .fail(err => {
-  //     console.log('Failed to Logout', err);
-  //   })
-  // }
-
   handleReview = (e) => {
     e.preventDefault();
 

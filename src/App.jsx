@@ -45,15 +45,17 @@ class App extends Component {
       url: "/api/users/current"
     })
     .done(result => {
-      this.setState({
-        currentUser: {
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          is_host: result.is_host,
-          is_chef: result.is_chef
-        }
-      });
+      if (result !== 'no current user') {
+        this.setState({
+          currentUser: {
+            id: result.id,
+            first_name: result.first_name,
+            last_name: result.last_name,
+            is_host: result.is_host,
+            is_chef: result.is_chef
+          }
+        });
+      }
     })
     .fail(err => {
       console.error('Failed to Logout', err);

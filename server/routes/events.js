@@ -79,7 +79,6 @@ module.exports = knex => {
       .then( (results) => {
         eventHelpers.normalizeData(results.rows)
         .then(results => {
-          console.log(results)
           res.json(results);
         });
       });

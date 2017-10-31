@@ -14,7 +14,8 @@ class HomePage_Banner extends Component {
 
   onSearch = event => {
     event.preventDefault();
-    if (this.state.searchString.trim() === "") {
+    if (this.state.searchString.trim() === '') {
+      this.props.previewEvents();
       return;
     }
     this.props.getSearchResults(this.state.searchString);

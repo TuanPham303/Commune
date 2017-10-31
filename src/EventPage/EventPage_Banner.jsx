@@ -21,7 +21,7 @@ class EventPage_Banner extends Component {
           credentials: 'include',
           method: 'POST'
         }).then(() => {
-          this.props.getGuestList(this.props.eventId);
+         this.props.getGuestList(this.props.id);
         })
       } else { return alert('Booking failed')}
     });
@@ -47,8 +47,8 @@ class EventPage_Banner extends Component {
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
-          <img className="d-block img-fluid" src="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"></img>
-          <div className="carousel-caption d-none d-md-block clearText">
+          <img className="d-block img-fluid" src={host.avatar}></img>
+          <div className="carousel-caption d-none d-md-block">
             <h3>{host.first_name} {host.last_name}</h3>
             <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>

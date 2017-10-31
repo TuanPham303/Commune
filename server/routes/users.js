@@ -4,6 +4,18 @@ const express = require("express");
 const router = express.Router();
 const cookieSession = require('cookie-session');
 const userHelpersFunction = require("../helpers/userHelpers");
+const multer  = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // console.log(path.join(__dirname,"../../", 'public/user-avatars/'));
+    cb(null,path.join(__dirname, '../../', 'public/user-avatars/'))
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({ storage });
 
 module.exports = knex => {
   const userHelpers = userHelpersFunction(knex);
@@ -26,26 +38,35 @@ module.exports = knex => {
     });
   });
 
-  router.post("/register", (req, res) => {
+  router.post("/register", upload.single('avatar'), (req, res) => {
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
     let is_host= false;
     let is_chef= false;
     let password = req.body.password;
+    let avatar = req.file ? `/user-avatars/${req.file.filename}` : '/user-avatars/default-avatar.png'
 
-    userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password).then((user) => {
+    userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password, avatar).then((user) => {
       req.session.user = user[0];
       res.json(user);
     })
     .catch((error) => console.error(error));
   });
-  
+
+  router.post('/upload', upload.single('avatar'), (req, res, next) => {
+    console.log('file uploaded', req.file);
+  })
+
   router.get('/current', (req,res) => {
-    userHelpers.findById(req.session.user.id)
-    .then(user => {
-      res.json(user);
-    })
+    if (req.session.user) {
+      userHelpers.findById(req.session.user.id)
+      .then(user => {
+        res.json(user);
+      })
+    } else {
+      res.send('no current user')
+    }
   });
 
   // Update user's is_host boolean in DB to true
@@ -102,19 +123,6 @@ module.exports = knex => {
       res.json(result);
     });
   });
-
-  // router.post('/:id/reviews', (req,res) => {
-  //   let reviewerId = req.body.reviewerId;
-  //   let eventId = req.body.eventId;
-  //   let userId = req.params.id;
-  //   let rating = req.body.rating;
-  //   let description = req.body.description;
-
-  //   userHelpers.postReview(reviewerId, eventId, userId, rating, description)
-  //   .then(() => {
-  //     res.sendStatus(201);
-  //   });
-  // });
 
   return router;
 }

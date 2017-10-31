@@ -51,6 +51,14 @@ export default class EventPage extends Component {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
+  
+  componentDidMount() {
+    this.getEvent();
+    this.getReviews();
+    this.getCurrentUser();
+    this.getGuestList(this.eventId);
+    this.publickeys()
+  }
 
   getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
@@ -65,18 +73,20 @@ export default class EventPage extends Component {
       url: "/api/users/current"
     })
     .done(result => {
-      this.setState({
-        currentUser: {
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          is_host: result.is_host,
-          is_chef: result.is_chef
-        }
-      });
+      if (result !== 'no current user') {
+        this.setState({
+          currentUser: {
+            id: result.id,
+            first_name: result.first_name,
+            last_name: result.last_name,
+            is_host: result.is_host,
+            is_chef: result.is_chef
+          }
+        });
+      }
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to Logout', err);
     })
   }
 
@@ -93,17 +103,19 @@ export default class EventPage extends Component {
   }
 
   submitReview = (description, rating, currentUserId) => {
-    const review = {
-      reviewerId: currentUserId,
-      user_id: currentUserId,
-      rating,
-      description
-    };
+    if (rating !== 0) {
+      const review = {
+        reviewerId: currentUserId,
+        user_id: currentUserId,
+        rating,
+        description
+      };
 
-    $.post(`/api/events/${this.eventId}/reviews`, review)
-      .then(() => {
-        this.getReviews()
-      });
+      $.post(`/api/events/${this.eventId}/reviews`, review)
+        .then(() => {
+          this.getReviews()
+        });
+    }
   }
 
   getGuestList = (id) => {
@@ -123,14 +135,6 @@ export default class EventPage extends Component {
         googleMapKey: keys.googleMapKey
       });
     })
-  }
-
-  componentDidMount() {
-    this.getEvent();
-    this.getReviews();
-    this.getCurrentUser();
-    this.getGuestList(this.eventId);
-    this.publickeys()
   }
 
   render() {

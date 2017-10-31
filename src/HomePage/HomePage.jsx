@@ -34,7 +34,6 @@ class HomePage extends Component {
       url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
-      console.log("my result from search is", result.title);
       this.setState({
         previewEvents: result,
       })

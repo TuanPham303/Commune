@@ -1,6 +1,27 @@
 import React, {Component} from 'react';
 
 class UserProfile_Header extends Component {
+
+  uploadFile = event => {
+    event.preventDefault();
+    const data = new FormData();
+    const imagedata = document.querySelector('input[type="file"]').files[0];
+    console.log(imagedata);
+    data.append('avatar', imagedata);
+    console.log(data);
+    fetch('/api/users/upload', {
+      method: 'post',
+      credentials: 'include',
+      body: data
+    }).then(res => {
+      if (res.ok) {
+        alert("Worked");
+      } else {
+        alert("error");
+      }
+    })
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -18,6 +39,10 @@ class UserProfile_Header extends Component {
             </div>
           </div>
         </div>
+        <form onSubmit={this.uploadFile} encType='multipart/form-data'>
+          <input type="file" name='avatar'></input>
+          <input type="submit" value="upload"></input>
+        </form>
       </div>  
     );
   }

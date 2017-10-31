@@ -2,8 +2,17 @@
   padding: 0;
 }
 
+.dv-star-rating-star {
+  margin-bottom: 0;
+}
+
+.dv-star-rating {
+  top: 5px;
+}
+
 .eventBanner {
   padding-top: 100px;
+  background-color: #f9f9f9;
   .image {
     img {
       height: auto;
@@ -21,6 +30,12 @@
       height: 60vh;
       padding: 0;
       .imagesSlider {
+        .clearText {
+          background-color: rgba($color: #000000, $alpha: 0.7);
+          padding: 0;
+          width: 100%;
+          left: 0;
+        }
         height: 300px;
         width: 300px;
         position: absolute;
@@ -43,12 +58,37 @@
 }
 
 .menuContainer {
-  margin-top: 50px;
+  background-color: #f9f9f9;
+  padding-top: 50px;
+  text-align: center;
+  .triangleTop {
+    width: 0;
+    height: 0;
+    border-top: 80px solid #fff;
+    border-left: 100vw solid #f9f9f9;
+  }
+  .triangleBottom {
+    width: 0;
+    height: 0;
+    border-bottom: 80px solid #fff;
+    border-left: 100vw solid #f9f9f9;
+  }
+}
+
+.guessListContainer {
+  margin: 50px 0;
   text-align: center;
 }
 
 .reviewContainer {
-  margin: 100px 0;
+  background-color: #f9f9f9;
+  padding-bottom: 100px;
+  .triangleTop {
+    width: 0;
+    height: 0;
+    border-bottom: 80px solid #f9f9f9;
+    border-right: 100vw solid #fff;
+  }
   .reviewInputWrap {
     margin-top: 50px;
     .rating {

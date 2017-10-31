@@ -6,6 +6,8 @@ import EventPage_Review from './EventPage_Review.jsx';
 import EventPage_GuestList from './EventPage_GuestList.jsx';
 import Login from '../Login.jsx';
 import Register from '../Register.jsx';
+import NewEventForm from '../NewEventForm.jsx';
+import BecomeHost from '../BecomeHost.jsx';
 
 import moment from 'moment';
 
@@ -21,7 +23,9 @@ export default class EventPage extends Component {
       is_host: false,
       is_chef: false
     },
-    guestList: []
+    guestList: [],
+    stripePKey: '',
+    googleMapKey: ''
   }
 
   get eventId() {
@@ -81,17 +85,19 @@ export default class EventPage extends Component {
   }
 
   submitReview = (description, rating, currentUserId) => {
-    const review = {
-      reviewerId: currentUserId,
-      user_id: currentUserId,
-      rating,
-      description
-    };
+    if (rating !== 0) {
+      const review = {
+        reviewerId: currentUserId,
+        user_id: currentUserId,
+        rating,
+        description
+      };
 
-    $.post(`/api/events/${this.eventId}/reviews`, review)
-      .then(() => {
-        this.getReviews()
-      });
+      $.post(`/api/events/${this.eventId}/reviews`, review)
+        .then(() => {
+          this.getReviews()
+        });
+    }
   }
 
   getGuestList = () => {
@@ -103,11 +109,22 @@ export default class EventPage extends Component {
     })
   }
 
+  publickeys = () => {
+    $.get("/api/events/publickeys")
+    .done(keys => {
+      this.setState({
+        stripePKey: keys.stripePKey,
+        googleMapKey: keys.googleMapKey
+      });
+    })
+  }
+
   componentDidMount() {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGuestList()
+    this.getGuestList();
+    this.publickeys()
   }
 
   render() {
@@ -132,6 +149,8 @@ export default class EventPage extends Component {
           hosts_and_chefs={event.hosts_and_chefs}
           location={event.location}
           getGuestList={this.getGuestList}
+          stripePKey={this.state.stripePKey}
+          googleMapKey={this.state.googleMapKey}
          />
         <EventPage_Menu
           menu={event.menu_description}
@@ -142,9 +161,12 @@ export default class EventPage extends Component {
         <EventPage_Review
           reviews={reviews}
           submitReview={this.submitReview}
+          currentUserId={this.state.currentUser.id}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
+        <NewEventForm currentUser={this.state.currentUser} />
+        <BecomeHost getCurrentUser={this.getCurrentUser} />
       </div>
 
     );

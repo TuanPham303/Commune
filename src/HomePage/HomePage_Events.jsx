@@ -27,7 +27,7 @@ class HomePage_Events extends Component {
         image_url={previewEvent.image_url}
       />
       });
-
+    previewEvents.length = 9;    
     return(
       <div className="container-fluid eventContainer">
         <div className="row">

@@ -17,6 +17,7 @@ class Login extends Component {
     }
 
     event.preventDefault();
+    
     $.ajax({
       method: "POST",
       url: "/api/users/login",
@@ -28,7 +29,7 @@ class Login extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('span').click();
+      $('#closeButton').click();  
     })
     .fail(err => {
       console.log('Failed to Login', err);
@@ -40,7 +41,7 @@ class Login extends Component {
       [key]: this.refs[key].value
     })
   }
-  
+
   render() {
     return (
       <div className="modal fade" id="loginModal" tabIndex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -49,20 +50,20 @@ class Login extends Component {
             <div className="modal-header">
               <h5 className="modal-title" id="loginModalLabel">Login</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span id="closeButton" aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
               <form onSubmit={ this.handleLogin }>
                 <div className="form-group">
                   <label htmlFor="loginEmail">EMAIL</label>
-                  <input type="email" className="form-control" ref="email"id="loginEmail" placeholder="email@example.com" value ={this.state.email} onChange={this.handleChange.bind(this, 'email')}></input>
+                  <input type="email" className="form-control" ref="email" id="loginEmail" placeholder="email@example.com" value ={this.state.email} onChange={this.handleChange.bind(this, 'email')}></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="loginPassword">PASSWORD</label>
-                  <input type="password" className="form-control" ref="password"id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
+                  <input type="password" className="form-control" ref="password" id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
                 </div>
-                <button type="submit" className="btn btn-primary" >Login</button>
+                <button type="submit" className="btn btn-primary clickable" >Login</button>
               </form>
             </div>
           </div>

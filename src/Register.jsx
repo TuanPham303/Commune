@@ -90,7 +90,7 @@ class Register extends Component {
                 <div className="form-group">
                   <input type="file" className="form-input-control" name='avatar'></input>
                 </div>
-                <button type="submit" className="btn btn-primary" >Signup</button>
+                <button type="submit" className="btn btn-primary clickable" >Signup</button>
               </form>
             </div>
           </div>

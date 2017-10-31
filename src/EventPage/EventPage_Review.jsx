@@ -38,10 +38,6 @@ export default class EventPage_Review extends Component {
     this.setState({ review: e.target.value });
   }
 
-  // onRatingChange = (e) => {
-  //   this.setState({ rating: e.target.value });
-  // }
-
   onStarClick(nextValue, prevValue, name) {
     this.setState({rating: nextValue});
   }

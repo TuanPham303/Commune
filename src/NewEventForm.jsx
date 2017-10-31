@@ -19,16 +19,16 @@ export default class NewEventForm extends Component {
   handleNewEvent = (e) => {
     e.preventDefault();
       const newEventData = {
-        users: [{user: this.props.currentUser.id, role: 2}], //
+        users: [{user: this.props.currentUser.id, role: 2}],
         title: this.state.eventTitle,
         address: this.state.address,
-        city: this.state.city, //
+        city: this.state.city,
         date: this.state.date,
         description: this.state.description,
         menu: this.state.menu,
         price: this.state.price,
         capacity: this.state.capacity,
-        image: this.state.image //
+        image: this.state.image
       }
 
     $.post('/api/events/new', newEventData)

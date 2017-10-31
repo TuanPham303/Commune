@@ -109,29 +109,6 @@ module.exports = function makeUserHelpers(knex) {
     .then((result) => result);
   }
 
-  // function postReview(reviewerId, eventId, userId, rating, description) {
-  //   const postReviewPromise = new Promise((resolve, reject) => {
-  //     knex('user_events')
-  //     .select('id')
-  //     .where({
-  //       user_id: userId,
-  //       event_id: eventId
-  //     })
-  //     .then((userEvent) => {
-  //       knex('reviews')
-  //       .insert({
-  //         reviewer_id: reviewerId,
-  //         user_event_id: userEvent[0].id,
-  //         rating: rating,
-  //         description: description
-  //       }).then(() => {
-  //         resolve();
-  //       });
-  //     });
-  //   });
-  //   return postReviewPromise;
-  // }
-
   return {
     findByEmail,
     findById,
@@ -143,6 +120,5 @@ module.exports = function makeUserHelpers(knex) {
     findReviewsByUserId,
     findReviewsPostedByUserId,
     becomeChef
-    // postReview
   };
 };

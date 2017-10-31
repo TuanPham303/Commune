@@ -124,18 +124,5 @@ module.exports = knex => {
     });
   });
 
-  // router.post('/:id/reviews', (req,res) => {
-  //   let reviewerId = req.body.reviewerId;
-  //   let eventId = req.body.eventId;
-  //   let userId = req.params.id;
-  //   let rating = req.body.rating;
-  //   let description = req.body.description;
-
-  //   userHelpers.postReview(reviewerId, eventId, userId, rating, description)
-  //   .then(() => {
-  //     res.sendStatus(201);
-  //   });
-  // });
-
   return router;
 }

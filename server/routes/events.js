@@ -110,7 +110,25 @@ module.exports = knex => {
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
   router.post('/new', (req, res) => {
     const rb = req.body;
-    if (rb.users && rb.title && rb.address && rb.city && rb.price && rb.capacity) {
+
+    let errMsg = [];
+    if (!rb.title) {
+      errMsg.push('titleErrMsg');
+    }
+    if (!rb.address) {
+      errMsg.push('addressErrMsg');
+    }
+    if (!rb.city) {
+      errMsg.push('cityErrMsg');
+    }
+    if (!(rb.price > 0)) {
+      errMsg.push('priceErrMsg');
+    }
+    if (!(rb.capacity > 0)) {
+      errMsg.push('capacityErrMsg');
+    }
+
+    if (!errMsg.length && rb.users) {
       const details = {
         users: rb.users, // an array of objects with user_id and role_id
         title: rb.title,
@@ -127,10 +145,10 @@ module.exports = knex => {
         res.status(201).send(id);
       })
       .catch(err => {
-        res.status(400).send(err);
+        res.status(400).send('Error creating event.');
       })
     } else {
-      res.status(400).send('Please fill out the required fields');
+      res.status(400).send(errMsg);
     }
   });
 

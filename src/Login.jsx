@@ -29,10 +29,11 @@ class Login extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('.closeButton').click();  
+      $('.closeButton').click();
     })
     .fail(err => {
-      console.error('Failed to Login', err);
+      $('#loginErrMsg').removeClass('hidden');
+      $('#loginButton').removeClass('btn-primary').addClass('btn-danger');
     })
   }
 
@@ -63,7 +64,8 @@ class Login extends Component {
                   <label htmlFor="loginPassword">PASSWORD</label>
                   <input type="password" className="form-control" ref="password" id="loginPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
                 </div>
-                <button type="submit" className="btn btn-primary clickable" >Login</button>
+                <button type="submit" className="btn btn-primary clickable" id='loginButton'>Login</button>
+                &nbsp;&nbsp;&nbsp;<span className='redErrMsg hidden' id='loginErrMsg'>Invalid username or password.</span>
               </form>
             </div>
           </div>

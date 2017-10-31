@@ -11,21 +11,26 @@ class NavBar_PreviewEvent extends Component {
     const hostItem = (
       <div>
         <Link to={`/users/${this.props.host[1]}`} style={{ textDecoration: 'none' }}>
-          <div key={this.props.host[1]} className="dropdown-item searchItem" data-event-id={this.props.host.user_id}>
+          <div key={this.props.host[1]} className="dropdown-item searchItem" data-user-id={this.props.host[1]}>
             <div>Host {this.props.host[0]}</div>
           </div>
         </Link>
         <div className="dropdown-divider navsearch-divider"></div>
       </div>
     );
+    console.log("chefs", this.props.chef.length)
     const chefItem = (
       <div>
-        <Link to={`/users/${this.props.chef[1]}`} style={{ textDecoration: 'none' }}>
-          <div key={this.props.chef[1]} className="dropdown-item searchItem" data-event-id={this.props.host.user_id}>
-            <div>Chef {this.props.chef[0]}</div>
-          </div>
-        </Link>
-        <div className="dropdown-divider navsearch-divider"></div>
+        {this.props.chef.length > 0 &&
+          <Link to={`/users/${this.props.chef[1]}`} style={{ textDecoration: 'none' }}>
+            <div key={this.props.chef[1]} className="dropdown-item searchItem" data-user-id={this.props.chef[1]}>
+              <div>Chef {this.props.chef[0]}</div>
+            </div>
+          </Link>
+        }
+        {this.props.chef.length > 0 &&
+          <div className="dropdown-divider navsearch-divider"></div>
+        }
       </div>
     );
     return (

@@ -16,7 +16,7 @@ class NavBar_Events extends Component {
         console.log(person);
         if (person.role_name === 'host') {
           hosts.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
-        } else if ((person.role_name === 'chef')) {
+        } else if (person.role_name === 'chef') {
           chefs.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
         } else { return; }
       })

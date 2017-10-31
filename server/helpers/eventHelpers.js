@@ -134,7 +134,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .insert({
           title: details.title,
           address: details.address,
-          event_date: details.date,
+          event_date: details.date || null,
           description: details.description,
           menu_description: details.menu,
           price: details.price,
@@ -144,7 +144,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .into('events')
         .returning('id')
         .then((id) => {
-          console.log(id);
           new Promise((resolve, reject) => {
             details.users.forEach((user) => {
               addUserToEvent(user.user, Number(id), user.role);

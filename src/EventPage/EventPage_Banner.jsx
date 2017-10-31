@@ -2,15 +2,10 @@ import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import EventPage_Map from './EventPage_Map.jsx';
 
-
-
-
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
   }
-
- 
 
   onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
@@ -21,7 +16,7 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
-      if (response.status === 200) {
+      if (response.status === 200) {  
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
           method: 'POST'
@@ -33,6 +28,12 @@ class EventPage_Banner extends Component {
   }
 
   render() {
+    let paidUser = false;
+    this.props.guestList.forEach(guest => {
+      if (guest.id === this.props.currentUser.id) {
+        paidUser = true;
+      }
+    })
     let googleMap;
     if (this.props.googleMapKey) {
       googleMap = (
@@ -47,7 +48,7 @@ class EventPage_Banner extends Component {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
           <img className="d-block img-fluid" src={host.avatar}></img>
-          <div className="carousel-caption d-none d-md-block">
+          <div className="hostDetail">
             <h3>{host.first_name} {host.last_name}</h3>
             <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>
@@ -87,7 +88,7 @@ class EventPage_Banner extends Component {
 
         <div className="eventDetail">
           <div className="eventTitle">
-            <h3>{this.props.title} (${this.props.price})</h3>
+            <h3>{this.props.title}</h3>
           </div>
           <div className="row">
             <div className="hostImages col-3">
@@ -100,28 +101,23 @@ class EventPage_Banner extends Component {
             </div>
             <div className="col-4">
               <div className="eventInfo">
-                <div className="date">
-                  <strong>Date</strong>
-                  <p>{this.props.date}</p>
-                </div>
-                <div className="capacity">
-                  <strong>Capacity</strong>
-                  <p>{this.props.capacity} people</p>
-                </div>
-                <div className="description">
-                  <strong>Description</strong>
-                  <p>{this.props.description}</p>
-                </div>
-                { this.props.stripePKey &&
-                <StripeCheckout token={this.onToken}
-                stripeKey={this.props.stripePKey}
-                image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
-                name={this.props.title}
-                amount={this.props.price * 100}
-                currency="CAD"
-                locale="auto"
-                bitcoin
-                />
+                <p><i className="fa fa-usd" aria-hidden="true"></i> {this.props.price}</p>
+                <p><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.date}</p>
+                <p><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity}</p>
+                <p><i className="fa fa-info" aria-hidden="true"></i> {this.props.description}</p>
+                { this.props.stripePKey && !paidUser &&
+                  <StripeCheckout token={this.onToken}
+                  stripeKey={this.props.stripePKey}
+                  image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
+                  name={this.props.title}
+                  amount={this.props.price * 100}
+                  currency="CAD"
+                  locale="auto"
+                  bitcoin
+                  />
+                }
+                { paidUser &&
+                  <p><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.address}</p>
                 }
               </div>
             </div>

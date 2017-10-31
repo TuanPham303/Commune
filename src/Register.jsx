@@ -44,10 +44,10 @@ class Register extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('span').click();
+      $('.closeButton').click();
     })
     .catch(err => {
-      console.log('Failed to Login', err);
+      console.log('Failed to Login after register', err);
     })
   }
 
@@ -66,7 +66,7 @@ class Register extends Component {
             <div className="modal-header">
               <h5 className="modal-title" id="signupModalLabel">Join the Commun(e)ity</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <span className="closeButton" aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
@@ -90,7 +90,7 @@ class Register extends Component {
                 <div className="form-group">
                   <input type="file" className="form-input-control" name='avatar'></input>
                 </div>
-                <button type="submit" className="btn btn-primary" >Signup</button>
+                <button type="submit" className="btn btn-primary clickable" >Signup</button>
               </form>
             </div>
           </div>

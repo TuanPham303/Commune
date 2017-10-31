@@ -2,6 +2,14 @@
   padding: 0;
 }
 
+.dv-star-rating-star {
+  margin-bottom: 0;
+}
+
+.dv-star-rating {
+  top: 5px;
+}
+
 .eventBanner {
   padding-top: 100px;
   background-color: #f9f9f9;
@@ -51,7 +59,7 @@
 
 .menuContainer {
   background-color: #f9f9f9;
-  padding-top: 50px;
+  padding-top: 100px;
   text-align: center;
   .triangleTop {
     width: 0;
@@ -81,16 +89,18 @@
     border-bottom: 80px solid #f9f9f9;
     border-right: 100vw solid #fff;
   }
-  .reviewInputWrap {
-    margin-top: 50px;
-    .rating {
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      -webkit-appearance: none;
+  .reviewsWrap {
+    .reviews {
+      margin-top: 0;
+      li {
+        position: relative;
+        .rating {
+          position: absolute !important;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+        }
+      }
     }
-  }
-  ul {
-    list-style-type: none;
-    margin: 0;
   }
 }

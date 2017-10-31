@@ -17,7 +17,7 @@ class Login extends Component {
     }
 
     event.preventDefault();
-    
+
     $.ajax({
       method: "POST",
       url: "/api/users/login",
@@ -29,10 +29,10 @@ class Login extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('#closeButton').click();  
+      $('.closeButton').click();  
     })
     .fail(err => {
-      console.log('Failed to Login', err);
+      console.error('Failed to Login', err);
     })
   }
 
@@ -50,7 +50,7 @@ class Login extends Component {
             <div className="modal-header">
               <h5 className="modal-title" id="loginModalLabel">Login</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span id="closeButton" aria-hidden="true">&times;</span>
+                <span className="closeButton" aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">

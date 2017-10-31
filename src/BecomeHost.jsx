@@ -20,7 +20,7 @@ export default class BecomeHost extends Component {
         $('.xButton').click();
       })
       .fail(err => {
-        console.log('Failed to become host', err);
+        console.error('Failed to become host', err);
       })
     }
   }

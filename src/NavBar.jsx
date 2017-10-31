@@ -35,7 +35,7 @@ class NavBar extends Component {
     this.setState({ searchString: '' })
     this.refs.query.blur();
   }
-
+  
   getSearchResults = searchData => {
     const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
     $.ajax({
@@ -48,7 +48,7 @@ class NavBar extends Component {
       })
     })
     .fail(e => {
-      console.error(e);
+      console.error('navbar search error', e);
     });
   }
 
@@ -80,7 +80,7 @@ class NavBar extends Component {
       }
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to Logout', err);
     })
   }
 

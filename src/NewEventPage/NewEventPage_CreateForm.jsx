@@ -26,7 +26,6 @@ class NewEventPage_CreateForm extends Component {
   }
 
   handleSubmit(event) {
-    console.log(this.state);
     event.preventDefault();
   }
 

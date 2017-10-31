@@ -51,20 +51,19 @@ export default class EventPage extends Component {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
-
-  componentDidMount(){
+  
+  componentDidMount() {
+    this.getEvent();
     this.getReviews();
     this.getCurrentUser();
     this.getGuestList(this.eventId);
-    this.getEvent();
-    this.publickeys();
+    this.publickeys()
   }
 
   getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
-        console.log(event);
       });
   }
 
@@ -74,18 +73,20 @@ export default class EventPage extends Component {
       url: "/api/users/current"
     })
     .done(result => {
-      this.setState({
-        currentUser: {
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          is_host: result.is_host,
-          is_chef: result.is_chef
-        }
-      });
+      if (result !== 'no current user') {
+        this.setState({
+          currentUser: {
+            id: result.id,
+            first_name: result.first_name,
+            last_name: result.last_name,
+            is_host: result.is_host,
+            is_chef: result.is_chef
+          }
+        });
+      }
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to Logout', err);
     })
   }
 
@@ -102,20 +103,22 @@ export default class EventPage extends Component {
   }
 
   submitReview = (description, rating, currentUserId) => {
-    const review = {
-      reviewerId: currentUserId,
-      user_id: currentUserId,
-      rating,
-      description
-    };
+    if (rating !== 0) {
+      const review = {
+        reviewerId: currentUserId,
+        user_id: currentUserId,
+        rating,
+        description
+      };
 
-    $.post(`/api/events/${this.eventId}/reviews`, review)
-      .then(() => {
-        this.getReviews()
-      });
+      $.post(`/api/events/${this.eventId}/reviews`, review)
+        .then(() => {
+          this.getReviews()
+        });
+    }
   }
 
-  getGuestList = (id = this.eventId) => {
+  getGuestList = (id) => {
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
@@ -150,6 +153,7 @@ export default class EventPage extends Component {
           id={event.event_id}
           title={event.title}
           price={event.price}
+          address={event.address}
           capacity={event.capacity}
           date={this.eventDate}
           description={event.description}
@@ -159,6 +163,9 @@ export default class EventPage extends Component {
           getGuestList={this.getGuestList}
           stripePKey={this.state.stripePKey}
           googleMapKey={this.state.googleMapKey}
+          guestList={this.state.guestList}
+          currentUser={this.state.currentUser}
+          eventId={this.eventId}
          />
          <EventPage_Menu
           menu={event.menu_description}
@@ -170,6 +177,8 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
           currentUserId={this.state.currentUser.id}
+          guestList={this.state.guestList}
+          currentUser={this.state.currentUser}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />

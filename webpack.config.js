@@ -32,7 +32,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
         }
       },
       // https://webpack.js.org/loaders/sass-loader/
@@ -56,7 +56,7 @@ module.exports = {
           loader: 'sass-loader'
         }]
       }
-    ]
+    ],
   },
   plugins: [
     new webpack.ProvidePlugin({

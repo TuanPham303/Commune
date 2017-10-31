@@ -13,32 +13,30 @@ module.exports = function makeUserHelpers(knex) {
       .then(([user]) => user);
   }
 
-    //Find ID of user on login
-    function findById(id) {
-      return knex('users')
-        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar')
-        .where({id})
-        .limit(1)
-        .then(([user]) => user);
-    }
+  //Find ID of user on login
+  function findById(id) {
+    return knex('users')
+      .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar')
+      .where({id})
+      .limit(1)
+      .then(([user]) => user);
+  }
 
   //Authenticate our user for login - email and password fields
-    function authenticateUser(email, password) {
-      return findByEmail(email)
-        .then((user) => {
-          console.log('log1:', user);
-          if(!user) return false;
-          return bcrypt.compare(password, user.password_digest)
-          .then((matches) => {
-            if(!matches) return false;
-            return user;
-          })
-          .then(user => {
-            console.log('log2:', user.id);
-            return findById(user.id);
-          })
-        });
-    }
+  function authenticateUser(email, password) {
+    return findByEmail(email)
+      .then((user) => {
+        if(!user) return false;
+        return bcrypt.compare(password, user.password_digest)
+        .then((matches) => {
+          if(!matches) return false;
+          return user;
+        })
+        .then(user => {
+          return findById(user.id);
+        })
+      });
+  }
 
   //Check if email is unique to database on register
   function checkEmailUnique(email) {
@@ -64,13 +62,13 @@ module.exports = function makeUserHelpers(knex) {
           is_host: is_host,
           is_chef: is_chef,
           password_digest: passwordDigest,
-          avatar: !avatar ? '/user-avatars/default-avatar.png' : avatar
+          avatar: avatar
         }).returning(['id', 'first_name', 'last_name', 'email', 'is_host', 'is_chef'])
         .then((user)=> {
           return user;
         });
       })
-      .catch((error) => console.log("Invalid register", error))
+      .catch((error) => console.error("Invalid user register", error))
     )
   }
 
@@ -111,40 +109,16 @@ module.exports = function makeUserHelpers(knex) {
     .then((result) => result);
   }
 
-  function postReview(reviewerId, eventId, userId, rating, description) {
-    const postReviewPromise = new Promise((resolve, reject) => {
-      knex('user_events')
-      .select('id')
-      .where({
-        user_id: userId,
-        event_id: eventId
-      })
-      .then((userEvent) => {
-        knex('reviews')
-        .insert({
-          reviewer_id: reviewerId,
-          user_event_id: userEvent[0].id,
-          rating: rating,
-          description: description
-        }).then(() => {
-          resolve();
-        });
-      });
-    });
-    return postReviewPromise;
-  }
-
   return {
-  findByEmail,
-  findById,
-  checkEmailUnique,
-  authenticateUser,
-  addUser,
-  becomeHost,
-  findEventsByUserId,
-  findReviewsByUserId,
-  findReviewsPostedByUserId,
-  becomeChef
-  // postReview
+    findByEmail,
+    findById,
+    checkEmailUnique,
+    authenticateUser,
+    addUser,
+    becomeHost,
+    findEventsByUserId,
+    findReviewsByUserId,
+    findReviewsPostedByUserId,
+    becomeChef
   };
 };

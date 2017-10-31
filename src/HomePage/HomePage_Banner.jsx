@@ -14,7 +14,9 @@ class HomePage_Banner extends Component {
 
   onSearch = event => {
     event.preventDefault();
-    if (this.state.searchString.trim() === "") { console.log("Errors all over"); return; }
+    if (this.state.searchString.trim() === "") {
+      return;
+    }
     this.props.getSearchResults(this.state.searchString);
     this.setState({ searchString: '' })
   }

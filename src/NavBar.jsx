@@ -31,7 +31,7 @@ class NavBar extends Component {
 
   onSearch = event => {
     event.preventDefault();
-    this.getSearchResults(this.state.searchString); 
+    this.getSearchResults(this.state.searchString);
     this.setState({ searchString: '' })
     this.refs.query.blur();
   }
@@ -48,7 +48,7 @@ class NavBar extends Component {
       })
     })
     .fail(e => {
-      console.error(e);
+      console.error('navbar search error', e);
     });
   }
 
@@ -67,10 +67,10 @@ class NavBar extends Component {
       });
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to getCurrentUser', err);
     })
   }
-  
+
   handleLogout = event => {
     $.ajax({
       method: "POST",
@@ -80,7 +80,7 @@ class NavBar extends Component {
       }
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to Logout', err);
     })
   }
 

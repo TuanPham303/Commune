@@ -26,7 +26,6 @@ module.exports = function makeUserHelpers(knex) {
   function authenticateUser(email, password) {
     return findByEmail(email)
       .then((user) => {
-        console.log('log1:', user);
         if(!user) return false;
         return bcrypt.compare(password, user.password_digest)
         .then((matches) => {
@@ -34,7 +33,6 @@ module.exports = function makeUserHelpers(knex) {
           return user;
         })
         .then(user => {
-          console.log('log2:', user.id);
           return findById(user.id);
         })
       });
@@ -70,7 +68,7 @@ module.exports = function makeUserHelpers(knex) {
           return user;
         });
       })
-      .catch((error) => console.log("Invalid register", error))
+      .catch((error) => console.error("Invalid user register", error))
     )
   }
 

@@ -26,7 +26,7 @@ module.exports = knex => {
       return res.sendStatus(201);
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error('Error adding review:', error);
       return res.sendStatus(500);
     })
   });
@@ -44,7 +44,6 @@ module.exports = knex => {
 
   // get details on all events that match the search term
   router.get('/search', (req, res) => {
-    console.log(req.query);
     let searchValue = req.query.search.split(' ').join(' | ')
     if (searchValue.trim() === '') { //Checks if query is empty
       res.status(400);
@@ -74,7 +73,6 @@ module.exports = knex => {
                     GROUP BY events.id, users.id) p_search
                     WHERE p_search.document @@ to_tsquery(?)`, searchValue)
       .then( (results) => {
-        console.log(results.rows)
         eventHelpers.normalizeData(results.rows)
         .then(results => {
           res.json(results);
@@ -93,12 +91,11 @@ module.exports = knex => {
             res.sendStatus(200);
           })
           .catch(err => {
-            console.log(err);
+            console.error('Error updating event:', err);
             res.status(400).send(err);
           })
         }
         else {
-          console.log('no perms');
           res.status(400).send('You don\'t have permission');
         }
       })

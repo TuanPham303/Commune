@@ -17,7 +17,7 @@ class Login extends Component {
     }
 
     event.preventDefault();
-    
+
     $.ajax({
       method: "POST",
       url: "/api/users/login",
@@ -29,10 +29,10 @@ class Login extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('#closeButton').click();  
+      $('#closeButton').click();
     })
     .fail(err => {
-      console.log('Failed to Login', err);
+      console.error('Failed to Login', err);
     })
   }
 

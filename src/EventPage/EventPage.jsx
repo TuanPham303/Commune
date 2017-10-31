@@ -63,7 +63,6 @@ export default class EventPage extends Component {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
-        console.log(event);
       });
   }
 
@@ -84,7 +83,7 @@ export default class EventPage extends Component {
       });
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to Logout', err);
     })
   }
 

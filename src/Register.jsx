@@ -47,7 +47,7 @@ class Register extends Component {
       $('span').click();
     })
     .catch(err => {
-      console.log('Failed to Login', err);
+      console.log('Failed to Login after register', err);
     })
   }
 

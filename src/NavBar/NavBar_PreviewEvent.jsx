@@ -13,6 +13,7 @@ class NavBar_PreviewEvent extends Component {
           <div key={this.props.event_id} className="dropdown-item searchItem" data-event-id={this.props.event_id} onClick={this.handleClick} >
             <b> {this.props.title} </b>
             <div>{this.props.neighbourhood}</div>
+            <div>{this.props.host}</div>
           </div>
         </Link>
         <div className="dropdown-divider navsearch-divider"></div>

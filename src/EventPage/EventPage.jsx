@@ -47,19 +47,20 @@ export default class EventPage extends Component {
     }
   }
 
-  getReviews(eventId = this.eventId) {
+  getReviews = (eventId = this.eventId) => {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
 
   componentDidMount(){
-    this.getReviews(this.eventId);
+    this.getReviews();
     this.getCurrentUser();
     this.getGuestList(this.eventId);
-    this.getEvent(this.eventId);
+    this.getEvent();
+    this.publickeys();
   }
 
-  getEvent(id) {
+  getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
@@ -113,7 +114,7 @@ export default class EventPage extends Component {
       });
   }
 
-  getGuestList(id) {
+  getGuestList = (id = this.eventId) => {
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
@@ -130,14 +131,6 @@ export default class EventPage extends Component {
         googleMapKey: keys.googleMapKey
       });
     })
-  }
-
-  componentDidMount() {
-    this.getEvent();
-    this.getReviews();
-    this.getCurrentUser();
-    this.getGuestList();
-    this.publickeys()
   }
 
   render() {
@@ -182,7 +175,6 @@ export default class EventPage extends Component {
         <NewEventForm currentUser={this.state.currentUser} />
         <BecomeHost getCurrentUser={this.getCurrentUser} />
       </div>
-
     );
   }
 }

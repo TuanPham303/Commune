@@ -10,8 +10,13 @@ class NavBar_Events extends Component {
 
   render() {
     const navbarEvents = this.props.navbarEvents.map( navbarEvent => {
+      let hosts = new Set();
+      navbarEvent.hosts_and_chefs.forEach( person => {
+        if (person.role_name !== 'host') { return; }
+        hosts.add(`${person.first_name} ${person.last_name}`)
+      })
       return <NavBar_PreviewEvent
-          key= { uuid() }
+          key= { navbarEvent.event_id }
           title= { navbarEvent.title }
           neighbourhood= { navbarEvent.neighbourhood }
           event_id= { navbarEvent.event_id }
@@ -21,8 +26,7 @@ class NavBar_Events extends Component {
           date= { navbarEvent.date }
           description= { navbarEvent.description }
           menu= { navbarEvent.menu_description }
-          hosts_and_chefs= { navbarEvent.hosts_and_chefs }
-          getEvent= { this.props.getEvent } />
+          host={[...hosts].join(', ')} />
     });
     return(
         <div>

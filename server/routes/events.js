@@ -51,7 +51,7 @@ module.exports = knex => {
     } else {
       knex
       .raw(
-      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name
+      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name, role_name, role_id
       FROM ( SELECT events.id as event_id,
                     events.title as title,
                     events.description as description,
@@ -62,6 +62,8 @@ module.exports = knex => {
                     users.id as user_id,
                     users.first_name as first_name,
                     users.last_name as last_name,
+                    roles.id as role_id,
+                    roles.role_name as role_name,
                     to_tsvector(events.title)
                     || to_tsvector(events.description)
                     || to_tsvector(events.menu_description)
@@ -71,12 +73,14 @@ module.exports = knex => {
                     FROM events
                     JOIN user_events ON events.id = user_events.event_id
                     JOIN users ON users.id = user_events.user_id
-                    GROUP BY events.id, users.id) p_search
+                    JOIN user_event_roles ON user_event_roles.user_event_id = user_events.id
+                    JOIN roles ON roles.id = user_event_roles.role_id
+                    GROUP BY events.id, users.id, roles.id) p_search
                     WHERE p_search.document @@ to_tsquery(?)`, searchValue)
       .then( (results) => {
-        console.log(results.rows)
         eventHelpers.normalizeData(results.rows)
         .then(results => {
+          console.log(results)
           res.json(results);
         });
       });

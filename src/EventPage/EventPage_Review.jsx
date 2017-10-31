@@ -70,7 +70,7 @@ export default class EventPage_Review extends Component {
         paidUser = true;
       }
     })
-      
+
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
         <div className="triangleTop"></div>
@@ -80,9 +80,8 @@ export default class EventPage_Review extends Component {
             { reviews }
           </ul><br/>
         </div>
+        <br/>
         { paidUser &&
-          <br/>
-
           <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
             <h4>Describe your experience:</h4>
             <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>

@@ -84,6 +84,22 @@ class NavBar extends Component {
     })
   }
 
+  glowingText = () => {
+    const element = $('.logo');
+    let mX, mY, distance;
+    $(document).mousemove(function(e) {  
+      mX = e.pageX;
+      mY = e.pageY;
+      distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2))); 
+      console.log(distance);   
+      $('.logo').css('text-shadow', '0px 0px ' + distance + 'px #000');
+    });
+  }
+
+  componentDidMount(){
+    this.glowingText();
+  }
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbarContainer">

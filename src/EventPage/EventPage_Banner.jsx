@@ -2,15 +2,10 @@ import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import EventPage_Map from './EventPage_Map.jsx';
 
-
-
-
 class EventPage_Banner extends Component {
   constructor(props){
     super(props);
   }
-
- 
 
   onToken = token  => {
     fetch('/api/payment/save-stripe-token', {
@@ -21,7 +16,7 @@ class EventPage_Banner extends Component {
       credentials: 'include',
       body: JSON.stringify({token: token, amount: this.props.price}),
     }).then(response => {
-      if (response.status === 200) {
+      if (response.status === 200) {  
         return fetch(`/api/events/${this.props.id}/book`, {
           credentials: 'include',
           method: 'POST'
@@ -33,6 +28,12 @@ class EventPage_Banner extends Component {
   }
 
   render() {
+    let paidUser = false;
+    this.props.guestList.forEach(guest => {
+      if (guest.id === this.props.currentUser.id) {
+        paidUser = true;
+      }
+    })
     let googleMap;
     if (this.props.googleMapKey) {
       googleMap = (
@@ -112,16 +113,22 @@ class EventPage_Banner extends Component {
                   <strong>Description</strong>
                   <p>{this.props.description}</p>
                 </div>
-                { this.props.stripePKey &&
-                <StripeCheckout token={this.onToken}
-                stripeKey={this.props.stripePKey}
-                image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
-                name={this.props.title}
-                amount={this.props.price * 100}
-                currency="CAD"
-                locale="auto"
-                bitcoin
-                />
+                { this.props.stripePKey && !paidUser &&
+                  <StripeCheckout token={this.onToken}
+                  stripeKey={this.props.stripePKey}
+                  image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
+                  name={this.props.title}
+                  amount={this.props.price * 100}
+                  currency="CAD"
+                  locale="auto"
+                  bitcoin
+                  />
+                }
+                { paidUser &&
+                  <div className="address">
+                    <strong>Address</strong>
+                    <p>{this.props.address}</p>
+                  </div>
                 }
               </div>
             </div>

@@ -31,11 +31,11 @@ class NavBar extends Component {
 
   onSearch = event => {
     event.preventDefault();
-    this.getSearchResults(this.state.searchString);
+    this.getSearchResults(this.state.searchString); 
     this.setState({ searchString: '' })
     this.refs.query.blur();
   }
-
+  
   getSearchResults = searchData => {
     const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
     $.ajax({
@@ -58,21 +58,19 @@ class NavBar extends Component {
       url: "/api/users/current"
     })
     .done(result => {
-      if (result !== 'no current user') {
-        this.setState({
-          currentUser: {
-            id: result.id,
-            first_name: result.first_name,
-            last_name: result.last_name
-          }
-        });
-      }
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name
+        }
+      });
     })
     .fail(err => {
-      console.error('Failed to getCurrentUser', err);
+      console.log('Failed to Logout', err);
     })
   }
-
+  
   handleLogout = event => {
     $.ajax({
       method: "POST",

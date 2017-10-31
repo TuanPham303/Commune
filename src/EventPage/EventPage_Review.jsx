@@ -64,6 +64,13 @@ export default class EventPage_Review extends Component {
       </li>
     ));
 
+    let paidUser = false;
+    this.props.guestList.forEach(guest => {
+      if (guest.id === this.props.currentUser.id) {
+        paidUser = true;
+      }
+    })
+      
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
         <div className="triangleTop"></div>
@@ -73,23 +80,25 @@ export default class EventPage_Review extends Component {
             { reviews }
           </ul><br/>
         </div>
-        <br/>
-
-        <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
-          <h4>Describe your experience:</h4>
-          <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
+        { paidUser &&
           <br/>
-          <h4>Click the stars to rate out of 5:</h4>
-          <div style={{'fontSize': '180%'}}>
-            <StarRatingComponent
-              name="rating"
-              starCount={5}
-              value={rating}
-              onStarClick={this.onStarClick.bind(this)}
-            />
-          </div>
-          <button className="btn btn-primary clickable" type="submit">Submit</button>
-        </form>
+
+          <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
+            <h4>Describe your experience:</h4>
+            <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
+            <br/>
+            <h4>Click the stars to rate out of 5:</h4>
+            <div style={{'fontSize': '180%'}}>
+              <StarRatingComponent
+                name="rating"
+                starCount={5}
+                value={rating}
+                onStarClick={this.onStarClick.bind(this)}
+              />
+            </div>
+            <button className="btn btn-primary clickable" type="submit">Submit</button>
+          </form>
+        }
       </div>
     );
   }

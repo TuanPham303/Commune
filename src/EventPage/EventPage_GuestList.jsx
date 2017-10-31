@@ -13,7 +13,6 @@ export default class EventPage_GuestList extends Component {
         {guest.first_name} {guest.last_name}
       </li>
     });
-
     return (
       <div className="container-fluid guessListContainer">
         <h3>Guests List</h3> 

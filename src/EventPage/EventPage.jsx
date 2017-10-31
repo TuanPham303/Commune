@@ -47,19 +47,20 @@ export default class EventPage extends Component {
     }
   }
 
-  getReviews(eventId = this.eventId) {
+  getReviews = (eventId = this.eventId) => {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
-
-  componentDidMount(){
-    this.getReviews(this.eventId);
+  
+  componentDidMount() {
+    this.getEvent();
+    this.getReviews();
     this.getCurrentUser();
     this.getGuestList(this.eventId);
-    this.getEvent(this.eventId);
+    this.publickeys()
   }
 
-  getEvent(id) {
+  getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {
         this.setState({ event })
@@ -117,7 +118,7 @@ export default class EventPage extends Component {
     }
   }
 
-  getGuestList(id) {
+  getGuestList = (id) => {
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {
       this.setState({
@@ -136,14 +137,6 @@ export default class EventPage extends Component {
     })
   }
 
-  componentDidMount() {
-    this.getEvent();
-    this.getReviews();
-    this.getCurrentUser();
-    this.getGuestList(this.eventId);
-    this.publickeys()
-  }
-
   render() {
     const { event, reviews, guestList } = this.state;
     if(!event) { return null; }
@@ -160,6 +153,7 @@ export default class EventPage extends Component {
           id={event.event_id}
           title={event.title}
           price={event.price}
+          address={event.address}
           capacity={event.capacity}
           date={this.eventDate}
           description={event.description}
@@ -169,6 +163,9 @@ export default class EventPage extends Component {
           getGuestList={this.getGuestList}
           stripePKey={this.state.stripePKey}
           googleMapKey={this.state.googleMapKey}
+          guestList={this.state.guestList}
+          currentUser={this.state.currentUser}
+          eventId={this.eventId}
          />
          <EventPage_Menu
           menu={event.menu_description}
@@ -180,6 +177,8 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
           currentUserId={this.state.currentUser.id}
+          guestList={this.state.guestList}
+          currentUser={this.state.currentUser}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />

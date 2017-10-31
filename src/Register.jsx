@@ -44,7 +44,7 @@ class Register extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('#closeRegi').click();
+      $('.closeButton').click();
     })
     .catch(err => {
       console.log('Failed to Login after register', err);
@@ -66,7 +66,7 @@ class Register extends Component {
             <div className="modal-header">
               <h5 className="modal-title" id="signupModalLabel">Join the Commun(e)ity</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span id="closeRegi" aria-hidden="true">&times;</span>
+                <span className="closeButton" aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">

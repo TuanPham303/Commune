@@ -88,7 +88,7 @@ class EventPage_Banner extends Component {
 
         <div className="eventDetail">
           <div className="eventTitle">
-            <h3>{this.props.title} (${this.props.price})</h3>
+            <h3>{this.props.title}</h3>
           </div>
           <div className="row">
             <div className="hostImages col-3">
@@ -101,18 +101,10 @@ class EventPage_Banner extends Component {
             </div>
             <div className="col-4">
               <div className="eventInfo">
-                <div className="date">
-                  <strong>Date</strong>
-                  <p>{this.props.date}</p>
-                </div>
-                <div className="capacity">
-                  <strong>Capacity</strong>
-                  <p>{this.props.capacity} people</p>
-                </div>
-                <div className="description">
-                  <strong>Description</strong>
-                  <p>{this.props.description}</p>
-                </div>
+                <p><i className="fa fa-usd" aria-hidden="true"></i> {this.props.price}</p>
+                <p><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.date}</p>
+                <p><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity}</p>
+                <p><i className="fa fa-info" aria-hidden="true"></i> {this.props.description}</p>
                 { this.props.stripePKey && !paidUser &&
                   <StripeCheckout token={this.onToken}
                   stripeKey={this.props.stripePKey}
@@ -125,10 +117,7 @@ class EventPage_Banner extends Component {
                   />
                 }
                 { paidUser &&
-                  <div className="address">
-                    <strong>Address</strong>
-                    <p>{this.props.address}</p>
-                  </div>
+                  <p><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.address}</p>
                 }
               </div>
             </div>

@@ -139,7 +139,7 @@ export default class EventPage extends Component {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGuestList();
+    this.getGuestList(this.eventId);
     this.publickeys()
   }
 

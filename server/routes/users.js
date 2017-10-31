@@ -42,16 +42,46 @@ module.exports = knex => {
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
-    let is_host= false;
-    let is_chef= false;
     let password = req.body.password;
     let avatar = req.file ? `/user-avatars/${req.file.filename}` : '/user-avatars/default-avatar.png'
 
-    userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password, avatar).then((user) => {
-      req.session.user = user[0];
-      res.json(user);
+    return new Promise((resolve, reject) => {
+      let errMsg = [];
+      if (!first_name) {
+        errMsg.push('firstNameErrMsg');
+      };
+      if (!last_name) {
+        errMsg.push('lastNameErrMsg');
+      };
+      if (!password) {
+        errMsg.push('passwordErrMsg');
+      };
+      if (!email) {
+        errMsg.push('missingEmailErrMsg');
+        resolve(errMsg);
+      } else {
+        userHelpers.checkEmailUnique(email)
+        .then(result => {
+          if (!result) {
+            errMsg.push('takenEmailErrMsg');
+          }
+          resolve(errMsg);
+        })
+      }
+    }).then((errMsg) => {
+      if (!errMsg.length) {
+        userHelpers.addUser(first_name, last_name, email, false, false, password, avatar)
+        .then((user) => {
+          req.session.user = user[0];
+          res.json(user);
+        })
+        .catch((error) => {
+          res.status(400).send(error);
+        });
+      } else {
+        res.status(400).send(errMsg);
+      };
     })
-    .catch((error) => console.error(error));
   });
 
   router.post('/upload', upload.single('avatar'), (req, res, next) => {

@@ -33,11 +33,15 @@ export default class NewEventForm extends Component {
 
     $.post('/api/events/new', newEventData)
     .then((id) => {
-      console.log(id);
       document.location.assign(`/events/${id}`);
     })
     .fail(err => {
-      console.log('Failed to create new event ', err);
+      $('.redErrMsg').addClass('hidden');
+      $('#newEventErrMsg').removeClass("hidden");
+      $('#newEventButton').removeClass('btn-primary').addClass('btn-danger');
+      err.responseJSON.forEach((error) => {
+        $(`#${error}`).removeClass("hidden");
+      })
     })
   }
 
@@ -62,15 +66,15 @@ export default class NewEventForm extends Component {
             <div className="modal-body">
               <form onSubmit={ this.handleNewEvent }>
                 <div className="form-group">
-                  <label>Event Title</label>
+                  <label>Event Title</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='titleErrMsg'>Required</label>
                   <input type="text" className="form-control" placeholder= 'Required' ref="eventTitle" value ={this.state.eventTitle} onChange={this.handleChange.bind(this, 'eventTitle')}></input>
                 </div>
                 <div className="form-group">
-                  <label>Address</label>
+                  <label>Address</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='addressErrMsg'>Required</label>
                   <input type="text" className="form-control" placeholder= 'Required' ref="address" value ={this.state.address} onChange={this.handleChange.bind(this, 'address')}></input>
                 </div>
                 <div className="form-group">
-                  <label>City</label>
+                  <label>City</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='cityErrMsg'>Required</label>
                   <input type="text" className="form-control" placeholder= 'Required' ref="city" value ={this.state.city} onChange={this.handleChange.bind(this, 'city')}></input>
                 </div>
                 <div className="form-group">
@@ -86,18 +90,19 @@ export default class NewEventForm extends Component {
                   <textarea type="text" className="form-control" ref="menu" value ={this.state.menu} onChange={this.handleChange.bind(this, 'menu')}></textarea>
                 </div>
                 <div className="form-group">
-                  <label>Price</label>
+                  <label>Price</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='priceErrMsg'>Must be greater than $0</label>
                   <input type="number" className="form-control" placeholder= 'Required' min="0" ref="price" value ={this.state.price} onChange={this.handleChange.bind(this, 'price')}></input>
                 </div>
                 <div className="form-group">
-                  <label>Capacity</label>
+                  <label>Capacity</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='capacityErrMsg'>Must be greater than 0</label>
                   <input type="number" className="form-control" placeholder= 'Required' min="0" ref="capacity" value ={this.state.capacity} onChange={this.handleChange.bind(this, 'capacity')}></input>
                 </div>
                 <div className="form-group">
                   <label>Image URL</label>
                   <input type="text" className="form-control" ref="image" value ={this.state.image} onChange={this.handleChange.bind(this, 'image')}></input>
                 </div>
-                <button type="submit" className="btn btn-primary clickable">Submit</button>
+                <button type="submit" className="btn btn-primary clickable" id='newEventButton'>Submit</button>
+                &nbsp;&nbsp;&nbsp;<span className='redErrMsg hidden' id='newEventErrMsg'>Error saving event. Please check your inputs!</span>
               </form>
             </div>
           </div>

@@ -8,6 +8,9 @@
   right: 0;
   left: -400%;
   width: 500%;
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
 }
 
 .dropdown-item.searchItem {

@@ -77,7 +77,7 @@ module.exports = knex => {
                     JOIN roles ON roles.id = user_event_roles.role_id
                     GROUP BY events.id, users.id, roles.id) p_search
                     WHERE p_search.document @@ to_tsquery(?)`, searchValue)
-      .then( (results) => {
+      .then(results => {
         eventHelpers.normalizeData(results.rows)
         .then(results => {
           console.log(results)

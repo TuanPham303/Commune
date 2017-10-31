@@ -29,8 +29,6 @@ class EventPage_Banner extends Component {
 
   render() {
     let paidUser = false;
-    console.log('this is guest list', this.props.guestList);
-    console.log('this is current user', this.props.currentUser);
     this.props.guestList.forEach(guest => {
       if (guest.id === this.props.currentUser.id) {
         paidUser = true;

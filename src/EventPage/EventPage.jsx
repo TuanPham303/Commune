@@ -173,6 +173,8 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
           currentUserId={this.state.currentUser.id}
+          guestList={this.state.guestList}
+          currentUser={this.state.currentUser}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />

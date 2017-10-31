@@ -47,6 +47,14 @@ export default class EventPage_Review extends Component {
         <strong>{review.first_name} {review.last_name}: </strong>{review.description} ({review.rating}/5)
       </li>
     ));
+
+    let paidUser = false;
+    this.props.guestList.forEach(guest => {
+      if (guest.id === this.props.currentUser.id) {
+        paidUser = true;
+      }
+    })
+
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
         <div className="triangleTop"></div>
@@ -56,21 +64,25 @@ export default class EventPage_Review extends Component {
             { reviews }
           </ul><br/>
         </div>
-        <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
-          <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea><br/>
-          <div className="input-group ratingWrap">
-            <label htmlFor="exampleSelect1" className="input-group-addon">Rate the meal</label>
-            <select className="form-control rating" onChange={this.onRatingChange} value={this.state.rating}>
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div><br/>
-          <button className="btn btn-primary clickable" type="submit">Submit</button>
-        </form>
+        { paidUser &&
+          <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
+            <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea><br/>
+            <div className="input-group ratingWrap">
+              <label htmlFor="exampleSelect1" className="input-group-addon">Rate the meal</label>
+              <select className="form-control rating" onChange={this.onRatingChange} value={this.state.rating}>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div><br/>
+            <button className="btn btn-primary clickable" type="submit">Submit</button>
+          </form>
+        }
+
+        
       </div>
     );
   }

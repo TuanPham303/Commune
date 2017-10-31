@@ -71,7 +71,15 @@ export default class EventPage extends Component {
   getEventImages = (id = this.eventId) => {
     $.get(`/api/events/${id}/images`)
     .then(images => {
-      this.setState({ images })
+      
+      if (images) {
+        this.setState({ images  })
+      } 
+      if (images.length === 0)  {
+        this.setState({
+          images: this.state.images.concat([{image: '/event-images/event_default.jpg'}])
+        })
+      }
     })
   }
 
@@ -118,7 +126,7 @@ export default class EventPage extends Component {
     this.getEventImages();
     setTimeout(() => {
       window.scrollTo(0, 180)
-    }, 500);
+    }, 600);
   }
 
   render() {

@@ -11,9 +11,14 @@ class NavBar_Events extends Component {
   render() {
     const navbarEvents = this.props.navbarEvents.map( navbarEvent => {
       let hosts = new Set();
+      let chefs = new Set();
       navbarEvent.hosts_and_chefs.forEach( person => {
-        if (person.role_name !== 'host') { return; }
-        hosts.add(`${person.first_name} ${person.last_name}`)
+        console.log(person);
+        if (person.role_name === 'host') {
+          hosts.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
+        } else if ((person.role_name === 'chef')) {
+          chefs.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
+        } else { return; }
       })
       return <NavBar_PreviewEvent
           key= { navbarEvent.event_id }
@@ -26,7 +31,8 @@ class NavBar_Events extends Component {
           date= { navbarEvent.date }
           description= { navbarEvent.description }
           menu= { navbarEvent.menu_description }
-          host={[...hosts].join(', ')} />
+          host={[...hosts]}
+          chef={[...chefs]} />
     });
     navbarEvents.length = 8; 
     return(

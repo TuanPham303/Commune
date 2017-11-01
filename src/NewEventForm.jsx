@@ -18,7 +18,6 @@ export default class NewEventForm extends Component {
   handleNewEvent = (e) => {
     const data = new FormData();
     const imageData= document.getElementById('fileinput').files;
-    console.log(imageData);
     const user = this.props.currentUser.id
     const role = 2;
     const title = this.state.eventTitle;
@@ -34,7 +33,6 @@ export default class NewEventForm extends Component {
       data.append('images', image)
     }
 
-    // data.append("images[]", imageData);
     data.append("user", user);
     data.append("role", role);
     data.append("title", title);
@@ -45,20 +43,8 @@ export default class NewEventForm extends Component {
     data.append("menu", menu);
     data.append("price", price);
     data.append("capacity", capacity);
-    console.log(data);
+
     e.preventDefault();
-      // const newEventData = {
-      //   users: [{user: this.props.currentUser.id, role: 2}], //
-      //   title: this.state.eventTitle,
-      //   address: this.state.address,
-      //   city: this.state.city, //
-      //   date: this.state.date,
-      //   description: this.state.description,
-      //   menu: this.state.menu,
-      //   price: this.state.price,
-      //   capacity: this.state.capacity,
-      //   image: this.state.image //
-      // }
 
     let resOK;
     fetch('/api/events/new', {
@@ -81,21 +67,6 @@ export default class NewEventForm extends Component {
         })
       }
     })
-    // .then((res) => {
-    //   res.json()
-    //   .then(id => {
-    //     console.log(id);
-    //     document.location.assign(`/events/${id}`);
-    //   })
-    // })
-    // .catch(err => {
-    //   $('.redErrMsg').addClass('hidden');
-    //   $('#newEventErrMsg').removeClass("hidden");
-    //   $('#newEventButton').removeClass('btn-primary').addClass('btn-danger');
-    //   err.responseJSON.forEach((error) => {
-    //     $(`#${error}`).removeClass("hidden");
-    //   })
-    // })
   }
 
   handleChange = key => {

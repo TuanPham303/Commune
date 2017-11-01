@@ -68,11 +68,7 @@ module.exports = function makeUserHelpers(knex) {
           return user;
         });
       })
-<<<<<<< HEAD
       .catch((error) => console.error("Invalid user register", error))
-=======
-      .catch((error) => console.error("Invalid register", error))
->>>>>>> origin/event-history
     )
   }
 
@@ -165,7 +161,6 @@ module.exports = function makeUserHelpers(knex) {
   }
 
   return {
-<<<<<<< HEAD
     findByEmail,
     findById,
     checkEmailUnique,
@@ -173,23 +168,10 @@ module.exports = function makeUserHelpers(knex) {
     addUser,
     becomeHost,
     findEventsByUserId,
+    findHostedEventsByUserId,
     findReviewsByUserId,
     findReviewsPostedByUserId,
+    getRatingbyUserId,
     becomeChef
-=======
-  findByEmail,
-  findById,
-  checkEmailUnique,
-  authenticateUser,
-  addUser,
-  becomeHost,
-  findEventsByUserId,
-  findHostedEventsByUserId,
-  findReviewsByUserId,
-  findReviewsPostedByUserId,
-  getRatingbyUserId,
-  becomeChef
-  // postReview
->>>>>>> origin/event-history
   };
 };

@@ -102,7 +102,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
             ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
             normalizedArray.push(newEventObj);
             const newUserObj = createUserObject(item)
-            if (!arrayIncludesUser(normalizedArray, newUserObj)) {
+            if (newUserObj.role_name !== 'guest' && !arrayIncludesUser(normalizedArray, newUserObj)) {
                 normalizedArray.push(newUserObj);
             }
           } else {

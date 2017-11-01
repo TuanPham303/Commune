@@ -103,55 +103,38 @@ class EventPage_Banner extends Component {
 
     return (
       <div className="eventBanner container-fluid">
-
-            <div className="row mx-auto my-auto">
-                <div id="recipeCarousel" className="carousel slide w-100 carousel-top" data-ride="carousel">
-                    <div className="carousel-inner" role="listbox">
-                        <div className="carousel-item carousel-item-top active">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=1" />
-                        </div>
-                        <div className="carousel-item carousel-item-top">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=2" />
-                        </div>
-                        <div className="carousel-item carousel-item-top">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=3" />
-                        </div>
-                        <div className="carousel-item carousel-item-top">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=4" />
-                        </div>
-                        <div className="carousel-item carousel-item-top">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=5" />
-                        </div>
-                        <div className="carousel-item carousel-item-top">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=6" />
-                        </div>
-                    </div>
-                    <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Next</span>
-                    </a>
-                </div>
+        <div className="row mx-auto my-auto">
+          <div id="recipeCarousel" className="carousel slide w-100 carousel-top" data-ride="carousel">
+            <div className="carousel-inner" role="listbox">
+              <div className="carousel-item carousel-item-top active">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=1" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=2" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=3" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=4" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=5" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=6" />
+              </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
 
         <div className="eventDetail">
           <div className="eventTitle">

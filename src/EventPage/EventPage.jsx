@@ -154,9 +154,6 @@ export default class EventPage extends Component {
     this.getGuestList(this.eventId);
     this.publickeys();
     this.getEventImages();
-    setTimeout(() => {
-      window.scrollTo(0, 180)
-    }, 600);
   }
 
   render() {

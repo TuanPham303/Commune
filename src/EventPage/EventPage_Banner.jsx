@@ -33,27 +33,27 @@ class EventPage_Banner extends Component {
     })
 
     $('.carousel-top .carousel-item-top').each(function(){
-      var next = $(this).next();
+      let next = $(this).next();
       if (!next.length) {
-      next = $(this).siblings(':first');
+        next = $(this).siblings(':first');
       }
       if ($('.carousel-top .carousel-item-top').length === 1){
         next = $(this);
         next.children(':first-child').clone().appendTo($(this));
       }
       next.children(':first-child').clone().appendTo($(this));
-
       if (next.next().length>0) {
-      next.next().children(':first-child').clone().appendTo($(this));
+        next.next().children(':first-child').clone().appendTo($(this));
       }
       else {
         $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
       }
     });
+
   }
 
   componentDidMount(){
-    this.carousel();
+    setTimeout(() => { this.carousel(); }, 250);
   }
 
   render() {
@@ -72,14 +72,14 @@ class EventPage_Banner extends Component {
         />
       )
     };
+
     const imageCarousel = this.props.images.map((image, i) => {
       return (
-        <div className={ i === 0 ? "carousel-item active image-container" : "carousel-item image-container"}>
-          <img className="d-block mx-auto w-75 image-caroursel-item" src={image.image} alt={`Image for Event #${this.props.id}`}></img>
+        <div key={image.id} className={ i === 0 ? "carousel-item carousel-item-top active" : "carousel-item carousel-item-top"}>
+          <img className="col-4 img-fluid" src={image.image}></img>
         </div>
       )
-    })
-
+    });
 
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
@@ -93,21 +93,21 @@ class EventPage_Banner extends Component {
       )
     });
 
-    let carouselImageControls;
-    if (this.props.images.length > 1) {
-      carouselImageControls = (
-        <span>
-          <a className="carousel-control-prev" href="#carouselImageControls" role="button" data-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="sr-only">Previous</span>
-          </a>
-          <a className="carousel-control-next" href="#carouselImageControls" role="button" data-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="sr-only">Next</span>
-          </a>
-        </span>
-      )
-    };
+    // let carouselImageControls;
+    // if (this.props.images.length > 1) {
+    //   carouselImageControls = (
+    //     <span>
+    //       <a className="carousel-control-prev" href="#carouselImageControls" role="button" data-slide="prev">
+    //         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+    //         <span className="sr-only">Previous</span>
+    //       </a>
+    //       <a className="carousel-control-next" href="#carouselImageControls" role="button" data-slide="next">
+    //         <span className="carousel-control-next-icon" aria-hidden="true"></span>
+    //         <span className="sr-only">Next</span>
+    //       </a>
+    //     </span>
+    //   )
+    // };
 
     let carouselControls;
     if (this.props.hosts_and_chefs.length > 1) {
@@ -126,21 +126,30 @@ class EventPage_Banner extends Component {
     };
 
     return (
-      <div className="eventBanner">
-        <div id="carouselImageControls" className="carousel slide image-carousel" data-ride="carousel">
-          <div className="carousel-inner" role='listbox'>
-            {imageCarousel}
+      <div className="eventBanner container-fluid">
+        <div className="row mx-auto my-auto">
+          <div id="recipeCarousel" className="carousel slide w-100 carousel-top" data-ride="carousel">
+            <div className="carousel-inner" role="listbox">
+              { imageCarousel }
+            </div>
+            <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
           </div>
-            {carouselImageControls}
         </div>
 
-        <div className="eventDetail container-fluid">
+        <div className="eventDetail">
           <div className="eventTitle">
             <h3>{this.props.title}</h3>
           </div>
           <div className="row">
             <div className="hostImages col-3">
-              <div id="carouselHostControls" className="carousel slide imagesSlider" data-ride="carousel">
+              <div id="carouselExampleControls" className="carousel slide imagesSlider" data-ride="carousel">
                 <div className="carousel-inner" role="listbox">
                   { hostCarousel }
                 </div>

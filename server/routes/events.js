@@ -14,7 +14,7 @@ const multer  = require('multer');
 const path = require('path');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(path.join(__dirname,"../../", 'public/event-images/'));
+    // console.log(path.join(__dirname,"../../", 'public/event-images/'));
     cb(null,path.join(__dirname, '../../', 'public/event-images/'))
   },
   filename: function (req, file, cb) {
@@ -64,7 +64,6 @@ module.exports = knex => {
       .then( (results) => {
         eventHelpers.normalizeDataSearch(results.rows)
         .then(results => {
-          console.log(results);
           res.json(results);
         });
       });
@@ -130,7 +129,7 @@ module.exports = knex => {
       errMsg.push('capacityErrMsg');
     }
 
-    if (!errMsg.length && rb.users) {
+    if (!errMsg.length && rb.user) {
       const details = {
         user: rb.user,
         role: rb.role,  // an array of objects with user_id and role_id
@@ -143,19 +142,24 @@ module.exports = knex => {
         capacity: rb.capacity,
       }
       eventHelpers.createEvent(details)
-      .then((id) => {
-        console.log("ehelp.js 103: ", id);
-        eventHelpers.createEventImages(id, req.files)
-        .then((id) => {
-          let eventId = JSON.stringify(id[0][0]);
+      .then((eventId) => {
+        eventHelpers.createEventImages(eventId, req.files)
+        .then(() => {
+          // let eventId = JSON.stringify(id[0][0]);
           res.json(eventId);
         })
       })
       .catch(err => {
+        console.error('Error creating event:', err);
         res.status(400).send('Error creating event.');
       })
     } else {
-      res.status(400).send(errMsg);
+      if (!errMsg.length) {
+        console.error('user not logged in, cannot create event');
+        res.status(401);
+      } else {
+        res.status(400).send(errMsg);
+      }
     }
   });
 
@@ -197,7 +201,6 @@ module.exports = knex => {
       .then(results => {
           eventHelpers.normalizeData(results)
           .then(results => {
-            console.log(results);
             Promise.all(results.map(function (event) {
               return new Promise(function (resolve, reject) {
                 eventHelpers.getFirstEventImage(event.event_id).then(function (imageObjArray) {

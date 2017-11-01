@@ -51,8 +51,6 @@ class Register extends Component {
         this.props.getCurrentUser();
         $('.closeButton').click();
       } else {
-        console.log('data', data);
-
         $('.redErrMsg').addClass('hidden');
         $('#registerErrMsg').removeClass("hidden");
         $('#registerButton').removeClass('btn-primary').addClass('btn-danger');

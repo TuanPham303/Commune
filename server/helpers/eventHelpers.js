@@ -34,12 +34,11 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         .join('roles', 'roles.id', '=', 'user_event_roles.role_id')
         .join('users', 'users.id', '=', 'user_events.user_id')
         .select('user_events.event_id', 'events.title', 'events.neighbourhood', 'events.event_date', 'events.location', 'events.address',
-                'events.description', 'events.menu_description', 'events.price', 'events.image_url', 'events.capacity',
+                'events.description', 'events.menu_description', 'events.price', 'events.capacity',
                 'user_events.user_id', 'roles.role_name', 'users.first_name', 'users.last_name', 'users.avatar')
         .where('events.id', compare, eventID)
         .whereIn('role_name', ['host', 'chef'])
         .then(results => {
-          console.log(results);
           resolve(results);
         });
     });
@@ -218,7 +217,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           .then(() => {
             getLocationDetails(Number(id), details.address)
             .then(() => {
-              console.log('am i resolving?');
               resolve(id);
             });
           });
@@ -286,12 +284,16 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
   function createEventImages(event_id, fileArr) {
     const promiseArr = [];
 
-    for (let file of fileArr) {
-      promiseArr.push(knex('event_images')
-      .insert({
-        event_id: event_id[0],
-        image: `/event-images/${file.filename}`
-      }).returning('event_id'));
+    if (fileArr.length) {
+      for (let file of fileArr) {
+        promiseArr.push(knex('event_images')
+        .insert({
+          event_id: event_id[0],
+          image: `/event-images/${file.filename}`
+        })
+        // .returning('event_id')
+        );
+      }
     }
 
     return Promise.all(promiseArr);
@@ -396,13 +398,10 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     getGuestlist,
     hasEditPermssion,
     updateEvent,
-<<<<<<< HEAD
     createEventImages,
     getAllEventImages,
-    getFirstEventImage
-=======
+    getFirstEventImage,
     searchQuery
->>>>>>> search-bar
   };
 }
 

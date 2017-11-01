@@ -53,13 +53,7 @@ export default class EventPage extends Component {
       .then(reviews => this.setState({ reviews }))
   }
 
-  componentDidMount() {
-    this.getEvent();
-    this.getReviews();
-    this.getCurrentUser();
-    this.getGuestList(this.eventId);
-    this.publickeys()
-  }
+
 
   getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
@@ -157,7 +151,8 @@ export default class EventPage extends Component {
     this.getEvent();
     this.getReviews();
     this.getCurrentUser();
-    this.getGuestList();
+    this.getGuestList(this.eventId);
+    this.publickeys();
     this.getEventImages();
     setTimeout(() => {
       window.scrollTo(0, 180)

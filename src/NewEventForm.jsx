@@ -59,26 +59,43 @@ export default class NewEventForm extends Component {
       //   capacity: this.state.capacity,
       //   image: this.state.image //
       // }
+
+    let resOK;
     fetch('/api/events/new', {
       method: 'POST',
       credentials: 'include',
       body: data
     })
-    .then((res) => {
-      res.json()
-      .then(id => {
-        console.log(id);
-        document.location.assign(`/events/${id}`);
-      })
+    .then((response) => {
+      resOK = response.ok;
+      return response.json();
+    }).then((data) => {
+      if (resOK) {
+        document.location.assign(`/events/${data}`);
+      } else {
+        $('.redErrMsg').addClass('hidden');
+        $('#newEventErrMsg').removeClass("hidden");
+        $('#newEventButton').removeClass('btn-primary').addClass('btn-danger');
+        data.forEach((error) => {
+          $(`#${error}`).removeClass("hidden");
+        })
+      }
     })
-    .catch(err => {
-      $('.redErrMsg').addClass('hidden');
-      $('#newEventErrMsg').removeClass("hidden");
-      $('#newEventButton').removeClass('btn-primary').addClass('btn-danger');
-      err.responseJSON.forEach((error) => {
-        $(`#${error}`).removeClass("hidden");
-      })
-    })
+    // .then((res) => {
+    //   res.json()
+    //   .then(id => {
+    //     console.log(id);
+    //     document.location.assign(`/events/${id}`);
+    //   })
+    // })
+    // .catch(err => {
+    //   $('.redErrMsg').addClass('hidden');
+    //   $('#newEventErrMsg').removeClass("hidden");
+    //   $('#newEventButton').removeClass('btn-primary').addClass('btn-danger');
+    //   err.responseJSON.forEach((error) => {
+    //     $(`#${error}`).removeClass("hidden");
+    //   })
+    // })
   }
 
   handleChange = key => {

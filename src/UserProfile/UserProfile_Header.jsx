@@ -33,9 +33,9 @@ class UserProfile_Header extends Component {
           </div>
           <div className="col-8">
             <div className="userInfo">
-              <h4><strong>{this.props.user.fisrt_name} {this.props.user.last_name}</strong></h4>
+              <h4><strong>{this.props.user.first_name} {this.props.user.last_name}</strong></h4>
               <p><strong>Bio: </strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta sapiente animi maiores dolorem vitae corrupti magnam quidem hic eos, illo iure maxime. Odio aspernatur autem quod impedit eaque explicabo dolorum!</p>
-              <p><strong>Rating: </strong>11/10</p>
+              <p><strong>Rating: </strong>{this.props.rating}</p>
             </div>
           </div>
         </div>

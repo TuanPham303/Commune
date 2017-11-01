@@ -101,6 +101,8 @@ class NavBar extends Component {
       distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2)));
       if(distance < 100){
         $('.logo').css('text-shadow', '0px 0px ' + distance + 'px #000');
+      } else {
+        $('.logo').css('text-shadow', 'none');
       }
     });
   }

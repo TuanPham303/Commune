@@ -23,6 +23,20 @@
   }
 }
 
+.hosted-event-header {
+  border-bottom: 2px solid rgb(158, 157, 157);
+}
+
+$text-color: #212529;
+
+.hosted-event {
+
+  & :hover {
+    color: lighten($text-color, 15%);
+  }
+}
+
+
 .reviews {
   margin-top: 80px;
   .review {

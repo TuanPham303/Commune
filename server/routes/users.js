@@ -100,6 +100,13 @@ module.exports = knex => {
     });
   });
 
+  router.get('/:id/events/hosted', (req, res) => {
+    userHelpers.findHostedEventsByUserId(req.params.id)
+    .then(result => {
+      res.json(result);
+    });
+  });
+
   router.get('/:id/events', (req, res) => {
     userHelpers.findEventsByUserId(req.params.id)
     .then(result => {
@@ -118,6 +125,13 @@ module.exports = knex => {
     userHelpers.findReviewsPostedByUserId(req.params.id)
     .then(result => {
       res.json(result);
+    });
+  });
+
+  router.get('/:id/rating', (req, res) => {
+    userHelpers.getRatingbyUserId(req.params.id)
+    .then(rating => {
+      res.json(rating[0].avg);
     });
   });
 

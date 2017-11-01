@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NavBar from '../NavBar.jsx';
 import UserProfile_Header from './UserProfile_Header.jsx';
 import UserProfile_Reviews from './UserProfile_Reviews.jsx';
+import UserProfile_Events from './UserProfile_Events.jsx';
 
 class UserProfile extends Component {
   constructor(props){
@@ -14,7 +15,8 @@ class UserProfile extends Component {
         last_name: '',
         is_host: false,
         is_chef: false
-      }
+      },
+      events: []
     }
   }
   getCurrentUser = () => {
@@ -45,7 +47,8 @@ class UserProfile extends Component {
         first_name: '',
         last_name: '',
         is_host: false,
-        is_chef: false
+        is_chef: false,
+        rating: ''
       }
     });
   }
@@ -53,24 +56,61 @@ class UserProfile extends Component {
   getUser = () => {
     $.get(`/api${this.props.location.pathname}`)
     .then(user => {
-      console.log(user)
+   
       this.setState({ user });
     }).fail(err => {
       console.error("failed to get user", err);
+    })
+  }
+  
+  getHostedEvents = () => {
+    fetch(`/api${this.props.location.pathname}/events/hosted`, {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then((res) => {
+      res.json()
+      .then(events => {
+        console.log(events);
+        this.setState({ events })
+      })
+    })
+    .catch(err => {
+      console.error('Failed to get hosted event ', err);
+    })  
+  }
+
+  getUserRating = () => {
+    fetch(`/api${this.props.location.pathname}/rating`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then(res => {
+      res.json()
+      .then(rating => {
+        if (!rating) {
+          this.setState({rating: 'N/A'})
+        } else {
+         this.setState({rating})
+        }
+      })
     })
   }
 
   componentDidMount(){
     this.getCurrentUser();
     this.getUser();
+    this.getHostedEvents();
+    this.getUserRating();
   }
 
   render() {
-    console.log('hello');
+ 
     return (
       <div className="wrapper">
         <NavBar getCurrentUser={this.getCurrentUser} clearUser={this.clearUser} currentUser={this.state.currentUser}/>
-        <UserProfile_Header user={this.state.user}/>
+        <UserProfile_Header user={this.state.user} rating={this.state.rating}/>
+        <UserProfile_Events events={this.state.events}/>
         <UserProfile_Reviews />
       </div>  
     );

@@ -154,7 +154,7 @@ class EventPage_Banner extends Component {
                 <p><i className="fa fa-usd" aria-hidden="true"></i> {this.props.price}</p>
                 <p><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.date}</p>
                 <p><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity}</p>
-                <p><i className="fa fa-info" aria-hidden="true"></i> {this.props.description}</p>
+                <p><i className="fa fa-info-circle" aria-hidden="true"></i> {this.props.description}</p>
                 { this.props.stripePKey && !paidUser &&
                   <StripeCheckout token={this.onToken}
                   stripeKey={this.props.stripePKey}
@@ -169,6 +169,7 @@ class EventPage_Banner extends Component {
                 { paidUser &&
                   <p><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.address}</p>
                 }
+                <button data-toggle="modal" data-target="#editEventModal">Edit Event</button>
               </div>
             </div>
             <div className="col-5 eventMap">

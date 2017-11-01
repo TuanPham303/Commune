@@ -78,7 +78,8 @@ module.exports = knex => {
   router.post('/:id/edit', (req, res) => {
     eventHelpers.queryDB(req.params.id)
       .then((eventData) => {
-        if (eventHelpers.hasEditPermssion(eventData, 10000)) {
+        console.log('this is event data',eventData[0].user_id);
+        if (eventHelpers.hasEditPermssion(eventData, eventData[0].user_id)) {
           eventHelpers.updateEvent(req.params.id, req.body)
           .then(() => {
             res.sendStatus(200);
@@ -140,6 +141,7 @@ module.exports = knex => {
       res.status(400).send(errMsg);
     }
   });
+
 
   // book an event for a user to attend as a guest
   // (add to user_events & user_event_roles tables)

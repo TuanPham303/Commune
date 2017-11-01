@@ -1,48 +1,62 @@
 import React, {Component} from 'react';
 
-export default class NewEventForm extends Component {
+export default class EditEventForm extends Component {
   constructor(props){
     super(props);
     this.state = {
-      eventTitle: '',
+      eventTitle: this.props.event.title,
       address: '',
       city: '',
       date: '',
-      description: '',
-      menu: '',
-      price: 0,
-      capacity: 0,
-      image: ''
+      description: this.props.event.description,
+      menu: this.props.event.menu_description,
+      price: this.props.event.price,
+      capacity: this.props.event.capacity,
+      image: this.props.event.image_url
     }
+  }
+
+  handleAddress = () => {
+    let fullAddress = this.props.event.address;
+    const address = fullAddress.substr(0, fullAddress.indexOf(','));
+    fullAddress = fullAddress.substr(fullAddress.indexOf(',') + 2);
+    const city = fullAddress.substr(0, fullAddress.indexOf(','));
+    this.setState({
+      address: address,
+      city: city
+    })
+  }
+
+  handleDate = () => {
+    const date = this.props.event.event_date.substr(0, this.props.event.event_date.indexOf('.'))
+    this.setState({
+      date: date
+    })
+  }
+
+  componentWillMount(){
+    this.handleAddress();
+    this.handleDate();
   }
 
   handleNewEvent = (e) => {
     e.preventDefault();
-      const newEventData = {
-        users: [{user: this.props.currentUser.id, role: 2}],
-        title: this.state.eventTitle,
-        address: this.state.address,
-        city: this.state.city,
-        date: this.state.date,
-        description: this.state.description,
-        menu: this.state.menu,
-        price: this.state.price,
-        capacity: this.state.capacity,
-        image: this.state.image
-      }
+    const newEventData = {
+      users: [{user: this.props.currentUser.id, role: 2}],
+      title: this.state.eventTitle,
+      address: this.state.address,
+      city: this.state.city,
+      date: this.state.date,
+      description: this.state.description,
+      menu: this.state.menu,
+      price: this.state.price,
+      capacity: this.state.capacity,
+      image: this.state.image
+    }
 
-    $.post('/api/events/new', newEventData)
-    .then((id) => {
-      document.location.assign(`/events/${id}`);
-    })
-    .fail(err => {
-      $('.redErrMsg').addClass('hidden');
-      $('#newEventErrMsg').removeClass("hidden");
-      $('#newEventButton').removeClass('btn-primary').addClass('btn-danger');
-      err.responseJSON.forEach((error) => {
-        console.log('this is error ',error);
-        $(`#${error}`).removeClass("hidden");
-      })
+    $.post(`/api/events/${this.props.event.event_id}/edit`, newEventData)
+    .then(() => {
+      document.location.assign(`/events/${this.props.event.event_id}`);
     })
   }
 
@@ -55,11 +69,11 @@ export default class NewEventForm extends Component {
 
   render(){
     return (
-      <div className="modal fade" id="newEventModal" tabIndex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
+      <div className="modal fade" id="editEventModal" tabIndex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="loginModalLabel">New Event</h5>
+              <h5 className="modal-title" id="loginModalLabel">Edit Event</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -68,7 +82,7 @@ export default class NewEventForm extends Component {
               <form onSubmit={ this.handleNewEvent }>
                 <div className="form-group">
                   <label>Event Title</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='titleErrMsg'>Required</label>
-                  <input type="text" className="form-control" placeholder= 'Required' ref="eventTitle" value ={this.state.eventTitle} onChange={this.handleChange.bind(this, 'eventTitle')}></input>
+                  <input type="text" className="form-control" placeholder= 'Required' ref="eventTitle" value={this.state.eventTitle} onChange={this.handleChange.bind(this, 'eventTitle')}></input>
                 </div>
                 <div className="form-group">
                   <label>Address</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='addressErrMsg'>Required</label>
@@ -92,7 +106,7 @@ export default class NewEventForm extends Component {
                 </div>
                 <div className="form-group">
                   <label>Price</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='priceErrMsg'>Must be greater than $0</label>
-                  <input type="number" className="form-control" placeholder= 'Required' min="0" ref="price" value ={this.state.price} onChange={this.handleChange.bind(this, 'price')}></input>
+                  <input type="number" className="form-control" placeholder= 'Required' min="0" ref="price" value={this.state.price} onChange={this.handleChange.bind(this, 'price')}></input>
                 </div>
                 <div className="form-group">
                   <label>Capacity</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='capacityErrMsg'>Must be greater than 0</label>

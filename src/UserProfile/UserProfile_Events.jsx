@@ -5,7 +5,6 @@ import StarRatingComponent from 'react-star-rating-component';
 class UserProfile_Events extends Component {
 
   eventRating = (event) => {
-    console.log(event.review_avg);
     if (isNaN(event.review_avg)) {
       return 'N/A'
     } else {
@@ -28,7 +27,7 @@ class UserProfile_Events extends Component {
 
     const events = this.props.events.map(event => {
       return (
-        <Link to={`/events/${event.event_id}`}className='row mb-2 hosted-event' style={{ textDecoration: 'none'}}>
+        <Link key={event.event_id} to={`/events/${event.event_id}`}className='row mb-2 hosted-event' style={{ textDecoration: 'none'}}>
           <div className='col-md-4 offset-md-3'>
             <h5>{event.title}</h5>
             <p>{event.description}</p>

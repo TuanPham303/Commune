@@ -120,6 +120,19 @@
   text-align: center;
 }
 
+.invisilink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.invisilink:hover {
+  color: inherit;
+}
+
+.hostlink:hover {
+  text-decoration: none;
+}
+
 .reviewContainer {
   margin: 100px 0;
   .reviewInputWrap {

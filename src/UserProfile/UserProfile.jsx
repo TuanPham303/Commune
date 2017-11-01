@@ -71,7 +71,6 @@ class UserProfile extends Component {
     .then((res) => {
       res.json()
       .then(events => {
-        console.log(events);
         this.setState({ events })
       })
     })

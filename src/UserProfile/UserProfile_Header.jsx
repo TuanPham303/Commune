@@ -10,26 +10,6 @@ class UserProfile_Header extends Component {
     }
   }
 
-  // uploadFile = event => {
-  //   event.preventDefault();
-  //   const data = new FormData();
-  //   const imagedata = document.querySelector('input[type="file"]').files[0];
-  //   console.log(imagedata);
-  //   data.append('avatar', imagedata);
-  //   console.log(data);
-  //   fetch('/api/users/upload', {
-  //     method: 'post',
-  //     credentials: 'include',
-  //     body: data
-  //   }).then(res => {
-  //     if (res.ok) {
-  //       alert("Worked");
-  //     } else {
-  //       alert("error");
-  //     }
-  //   })
-  // }
-
   handleSubmit = event => {
     const bioData = {
       bio: this.state.inputBio
@@ -41,7 +21,6 @@ class UserProfile_Header extends Component {
       data: bioData
     })
     .done(response => {
-      console.log(response);
       this.props.getUser();
     })
     .fail(err => {

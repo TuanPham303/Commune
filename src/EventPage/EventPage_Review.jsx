@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import StarRatingComponent from 'react-star-rating-component';
+import {Link} from 'react-router-dom';
 const uuid = require('uuid/v4');
 
 
@@ -54,12 +55,6 @@ export default class EventPage_Review extends Component {
 
     const reviews = this.props.reviews.map(review => (
       <li className="list-group-item" key={uuid()}>
-        <strong>
-          {review.first_name} {review.last_name}:
-        </strong>
-        &nbsp;
-        {review.description}
-        &nbsp;
         <StarRatingComponent
           name='displayRating'
           editing={false}
@@ -67,6 +62,14 @@ export default class EventPage_Review extends Component {
           value={Number(review.rating)}
           className="rating"
         />
+        &nbsp;&nbsp;
+        <Link to={`/users/${review.id}`} className="invisilink">
+          <strong>
+            {review.first_name} {review.last_name}:
+          </strong>
+        </Link>
+        &nbsp;
+        {review.description}
       </li>
     ));
 
@@ -79,7 +82,7 @@ export default class EventPage_Review extends Component {
 
     const reviewUser = this.props.guestList.map(guest => {
       return (<option key={guest.id}>
-        {guest.role_name} - {guest.first_name} {guest.last_name}
+        {guest.role_name[0].toUpperCase()}{guest.role_name.slice(1)} - {guest.first_name} {guest.last_name}
       </option> )
     })
 

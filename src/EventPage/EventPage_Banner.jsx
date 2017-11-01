@@ -24,6 +24,7 @@ class EventPage_Banner extends Component {
           method: 'POST'
         }).then(() => {
          this.props.getGuestList(this.props.id);
+         setTimeout(() => { this.carousel(); }, 500);
         })
       } else { return alert('Booking failed')}
     });

@@ -19,7 +19,7 @@ class NavBar extends Component {
 
   componentDidMount(){
     this.getCurrentUser();
-    // this.glowingText();
+    this.glowingText();
   }
 
   changeHandler = event => {
@@ -45,10 +45,17 @@ class NavBar extends Component {
         url: `/api/events/navsearch?search=${searchValue}`
       })
       .done(result => {
-        this.setState({
-          navbarEvents: result
-        })
-        $('#searchErrMsg').addClass('hidden');
+        if (result.length > 0) {
+          this.setState({
+            navbarEvents: result
+          })
+          $('#searchErrMsg').addClass('hidden');
+        } else {
+          this.setState({
+            navbarEvents: []
+          })
+          $('#searchErrMsg').removeClass('hidden');
+        }
       })
       .fail(error => {
         console.log("Invalid search, try again", error)
@@ -93,16 +100,16 @@ class NavBar extends Component {
     })
   }
 
-  // glowingText = () => {
-  //   const element = $('.logo');
-  //   let mX, mY, distance;
-  //   $(document).mousemove(function(e) {
-  //     mX = e.pageX;
-  //     mY = e.pageY;
-  //     distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2)));    
-  //     $('.logo').css('text-shadow', '0px 0px ' + distance + 'px #000');
-  //   });
-  // }
+  glowingText = () => {
+    const element = $('.logo');
+    let mX, mY, distance;
+    $(document).mousemove(function(e) {
+      mX = e.pageX;
+      mY = e.pageY;
+      distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2)));    
+      $('.logo').css('text-shadow', '0px 0px ' + distance + 'px #000');
+    });
+  }
 
   render() {
     return (

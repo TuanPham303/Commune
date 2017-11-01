@@ -79,7 +79,7 @@ export default class EventPage_Review extends Component {
 
     const reviewUser = this.props.guestList.map(guest => {
       return (<option key={guest.id}>
-        {guest.first_name} {guest.last_name}
+        {guest.role_name} - {guest.first_name} {guest.last_name}
       </option> )
     })
 
@@ -95,15 +95,17 @@ export default class EventPage_Review extends Component {
         <br/><br/>
         { paidUser &&
           <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
-            <h4>Describe your experience:</h4>
+            <h4>Leave a review:</h4>
             <div className="input-group ratingWrap mb-2">
-              <label htmlFor="exampleSelect1" className="input-group-addon">User</label>
+              <label htmlFor="exampleSelect1" className="input-group-addon">Select host/guest to review</label>
               <select className="form-control rating" >
                 { reviewUser }
               </select>
             </div>
-            <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
-            <div style={{'fontSize': '180%'}}>
+            <div className='form-group'>
+              <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Describe your experience..." onChange={this.onReviewChange} value={this.state.review}></textarea>
+            </div>
+            <div className='form-group' style={{'fontSize': '180%'}}>
               <h5>Rating:&nbsp;
                 <StarRatingComponent
                   name="rating"

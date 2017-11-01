@@ -121,26 +121,17 @@
 }
 
 .reviewContainer {
-  background-color: #f9f9f9;
-  padding-bottom: 100px;
-  .triangleTop {
-    width: 0;
-    height: 0;
-    border-bottom: 80px solid #f9f9f9;
-    border-right: 100vw solid #fff;
-  }
-  .reviewsWrap {
-    .reviews {
-      margin-top: 0;
-      li {
-        position: relative;
-        .rating {
-          position: absolute !important;
-          top: 50%;
-          right: 20px;
-          transform: translateY(-50%);
-        }
-      }
+  margin: 100px 0;
+  .reviewInputWrap {
+    margin-top: 50px;
+    .rating {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+      -webkit-appearance: none;
     }
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
   }
 }

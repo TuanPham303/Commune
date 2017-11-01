@@ -62,9 +62,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
             let newEventObj = Object.assign({}, item);
             ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
-            if (!newEventObj.image_url) {
-              newEventObj.image_url = '/event_default.jpg';
-            }
             newEventObj.hosts_and_chefs = [createUserObject(item)];
             normalizedArray.push(newEventObj);
           } else { // if event is in normalizedArray, reformat and add only host and chef data
@@ -116,7 +113,6 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           })
           .then(() => {
             console.log('Location details updated');
-            resolve();
           });
       })
       .catch((err) => {
@@ -139,20 +135,18 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           menu_description: details.menu,
           price: details.price,
           capacity: details.capacity,
-          image_url: details.image
         })
         .into('events')
         .returning('id')
         .then((id) => {
           new Promise((resolve, reject) => {
-            details.users.forEach((user) => {
-              addUserToEvent(user.user, Number(id), user.role);
-            });
+            addUserToEvent(details.user, Number(id), details.role);
             resolve();
           })
           .then(() => {
             getLocationDetails(Number(id), details.address)
             .then(() => {
+              console.log('am i resolving?');
               resolve(id);
             });
           });
@@ -217,9 +211,23 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  function createEventImages(event_id, fileArr) {
+    const promiseArr = [];
+
+    for (let file of fileArr) {
+      promiseArr.push(knex('event_images')
+      .insert({
+        event_id: event_id[0],
+        image: `/event-images/${file.filename}`
+      }).returning('event_id'));
+    }
+
+    return Promise.all(promiseArr);
+  }
+
   function getGuestlist(eventId) {
     return knex('users')
-    .select('users.first_name', 'users.last_name', 'users.id')
+    .select('users.first_name', 'users.last_name', 'users.id', 'users.email', 'users.avatar')
     .join('user_events', 'users.id', 'user_events.user_id')
     .where('user_events.event_id', eventId)
     // .then(users => users);
@@ -280,13 +288,26 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
               menu_description: eventData.menu,
               price: eventData.price,
               capacity: eventData.capacity,
-              image_url: eventData.image
               })
             .then(() => {
               resolve();
             });
         })
     });
+  }
+
+  function getFirstEventImage(id) {
+    return knex('event_images')
+    .where('event_id', id)
+    .limit(1)
+    .then((result) => result )
+  }
+
+  function getAllEventImages(id) {
+    return knex('event_images')
+    .select('image')
+    .where('event_id', id)
+    .then((result) => result )
   }
 
   return {
@@ -301,7 +322,10 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     getReviewsByEvent,
     getGuestlist,
     hasEditPermssion,
-    updateEvent
+    updateEvent,
+    createEventImages,
+    getAllEventImages,
+    getFirstEventImage
   };
 }
 

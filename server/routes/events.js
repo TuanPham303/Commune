@@ -10,6 +10,18 @@ const googleMapsClient     = require('@google/maps').createClient({
   key: process.env.GOOGLE_MAPS_API_KEY,
   Promise: Promise
 });
+const multer  = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    console.log(path.join(__dirname,"../../", 'public/event-images/'));
+    cb(null,path.join(__dirname, '../../', 'public/event-images/'))
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({ storage });
 
 module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
@@ -104,7 +116,8 @@ module.exports = knex => {
   // add new event (add to events table, add host to user_events, etc)
   // takes current_user (becomes host), title, address, date/time (optional),
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
-  router.post('/new', (req, res) => {
+  router.post('/new', upload.array('images'), (req, res) => {
+    console.log("req body: ", req.body, "req files: ", req.files);
     const rb = req.body;
 
     let errMsg = [];
@@ -126,7 +139,8 @@ module.exports = knex => {
 
     if (!errMsg.length && rb.users) {
       const details = {
-        users: rb.users, // an array of objects with user_id and role_id
+        user: rb.user,
+        role: rb.role,  // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
         date: rb.date,
@@ -134,11 +148,15 @@ module.exports = knex => {
         menu: rb.menu,
         price: rb.price,
         capacity: rb.capacity,
-        image: rb.image
       }
       eventHelpers.createEvent(details)
       .then((id) => {
-        res.status(201).send(id);
+        console.log("ehelp.js 103: ", id);
+        eventHelpers.createEventImages(id, req.files)
+        .then((id) => {
+          let eventId = JSON.stringify(id[0][0]);
+          res.json(eventId);
+        })
       })
       .catch(err => {
         res.status(400).send('Error creating event.');
@@ -186,10 +204,67 @@ module.exports = knex => {
       .then(results => {
           eventHelpers.normalizeData(results)
           .then(results => {
-            res.json(results);
+            console.log(results);
+            Promise.all(results.map(function (event) {
+              return new Promise(function (resolve, reject) {
+                eventHelpers.getFirstEventImage(event.event_id).then(function (imageObjArray) {
+                  // console.log('imageObj for event', event.event_id, JSON.stringify(imageObjArray));
+                  if (imageObjArray.length > 0) {
+                    resolve(imageObjArray[0].image);
+                  } else {
+                    resolve('/event-images/event_default.jpg');
+                  }
+                }).catch(function () {
+                  resolve('/event-images/event_default.jpg');
+                });
+              });
+            })).then(function (imageUrls) {
+              // Because results and imageUrls have the same length, we can use the index to map the
+              // event image url to each image
+              results.forEach(function (event, index) {
+                event.image_url = imageUrls[index];
+                // return event;
+              });
+              res.json(results);
+            });
+            //   event.image_url = eventHelpers.getFirstEventImage(event.event_id)
+            //   return
+            // })
+            // for (let event of results) {
+            //   eventHelpers.getFirstEventImage(event.event_id)
+            //   .then(imageObj => {
+            //     event.image_url = imageObj.image
+            //     console.log(event);
+            //   })
+            // }
+            // results.forEach(event => {
+            //   eventHelpers.getFirstEventImage(event.event_id)
+            //   .then(imageURL => {
+            //     event: {
+            //       image_url: imageURL
+            //     }
+            //   }).then(result => {
+            //     console.log(result[0]);
+            //   })
+            // })
+            // res.json(results);
           });
         });
   });
+
+  router.get('/:id/images', (req, res) => {
+    eventHelpers.getAllEventImages(req.params.id)
+    .then(images => {
+      res.json(images);
+    })
+  })
+
+  router.get('/:id/image', (req, res) => {
+    eventHelpers.getFirstEventImage(req.params.id)
+    .then(image => {
+      res.json(image);
+    })
+  })
 
   router.get('/:id/reviews', (req, res) => {
     eventHelpers.getReviewsByEvent(req.params.id)

@@ -85,14 +85,14 @@ export default class EventPage_Review extends Component {
             <h4>Describe your experience:</h4>
             <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
             <div style={{'fontSize': '180%'}}>
-              <h5>Rate the meal:&nbsp; 
+              <h5>Rate the meal:&nbsp;
                 <StarRatingComponent
                   name="rating"
                   starCount={5}
                   value={rating}
                   onStarClick={this.onStarClick.bind(this)}
                 />
-              </h5> 
+              </h5>
             </div>
             <button className="btn btn-primary clickable" type="submit">Submit</button>
           </form>

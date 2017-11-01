@@ -7,32 +7,70 @@ class UserProfile extends Component {
   constructor(props){
     super(props);
     this.state = {
-
+      user: {},
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      }
     }
+  }
+  getCurrentUser = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/current"
+    })
+    .done(result => {
+      this.setState({
+        currentUser: {
+          id: result.id,
+          first_name: result.first_name,
+          last_name: result.last_name,
+          is_host: result.is_host,
+          is_chef: result.is_chef
+        }
+      });
+    })
+    .fail(err => {
+      console.error('Failed to get current user', err);
+    })
+  }
+
+  clearUser = event => {
+    this.setState({
+      currentUser: {
+        id: null,
+        first_name: '',
+        last_name: '',
+        is_host: false,
+        is_chef: false
+      }
+    });
+  }
+
+  getUser = () => {
+    $.get(`/api${this.props.location.pathname}`)
+    .then(user => {
+      console.log(user)
+      this.setState({ user });
+    }).fail(err => {
+      console.error("failed to get user", err);
+    })
   }
 
   componentDidMount(){
-    const userDetail = () => {
-      $.ajax({
-        method: "GET",
-        url: "/api/users",
-        success: data => {
-          console.log('all users', data);
-          // this.setState({
-          //   previewEvents: this.state.previewEvents.concat(data)
-          // })
-        }
-      })
-    }
-    userDetail();
+    this.getCurrentUser();
+    this.getUser();
   }
 
   render() {
     console.log('hello');
     return (
       <div className="wrapper">
-        <NavBar />
-        <UserProfile_Header />
+        <NavBar getCurrentUser={this.getCurrentUser} clearUser={this.clearUser} currentUser={this.state.currentUser}/>
+        <UserProfile_Header user={this.state.user}/>
         <UserProfile_Reviews />
       </div>  
     );

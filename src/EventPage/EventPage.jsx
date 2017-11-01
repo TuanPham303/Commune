@@ -16,6 +16,7 @@ export default class EventPage extends Component {
   state = {
     event: undefined,
     reviews: [],
+    images: [],
     currentUser: {
       id: null,
       first_name: '',
@@ -51,7 +52,7 @@ export default class EventPage extends Component {
     $.get(`/api/events/${eventId}/reviews`)
       .then(reviews => this.setState({ reviews }))
   }
-  
+
   componentDidMount() {
     this.getEvent();
     this.getReviews();
@@ -86,7 +87,22 @@ export default class EventPage extends Component {
       }
     })
     .fail(err => {
-      console.error('Failed to Logout', err);
+      console.error('Failed to get current user', err);
+    })
+  }
+
+  getEventImages = (id = this.eventId) => {
+    $.get(`/api/events/${id}/images`)
+    .then(images => {
+
+      if (images) {
+        this.setState({ images  })
+      }
+      if (images.length === 0)  {
+        this.setState({
+          images: this.state.images.concat([{image: '/event-images/event_default.jpg'}])
+        })
+      }
     })
   }
 
@@ -137,8 +153,19 @@ export default class EventPage extends Component {
     })
   }
 
+  componentDidMount() {
+    this.getEvent();
+    this.getReviews();
+    this.getCurrentUser();
+    this.getGuestList();
+    this.getEventImages();
+    setTimeout(() => {
+      window.scrollTo(0, 180)
+    }, 600);
+  }
+
   render() {
-    const { event, reviews, guestList } = this.state;
+    const { event, reviews, guestList, images } = this.state;
     if(!event) { return null; }
     return (
       <div className='eventWrapper' id="bootstrap-overrides">
@@ -166,6 +193,7 @@ export default class EventPage extends Component {
           guestList={this.state.guestList}
           currentUser={this.state.currentUser}
           eventId={this.eventId}
+          images={images}
          />
          <EventPage_Menu
           menu={event.menu_description}
@@ -177,8 +205,8 @@ export default class EventPage extends Component {
           reviews={reviews}
           submitReview={this.submitReview}
           currentUserId={this.state.currentUser.id}
-          guestList={this.state.guestList}
           currentUser={this.state.currentUser}
+          guestList={guestList}
         />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />

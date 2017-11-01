@@ -10,7 +10,32 @@
   top: 5px;
 }
 
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.guestlist-item {
+  display: flex;
+  align-items: center;
+}
+
+.guestlist-name {
+  margin-bottom: 0;
+}
+
+.image-carousel {
+  background-color: #292d35;
+}
+
+.w-75{
+  width: 100%;
+  height: 75vh;
+}
+
 .eventBanner {
+  padding: 90px 0 0 0;
   padding-top: 100px;
   background-color: #f9f9f9;
   .image {

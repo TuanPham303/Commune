@@ -8,11 +8,21 @@
   right: 0;
   left: -400%;
   width: 500%;
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
 }
 
 .dropdown-item.searchItem {
   padding: 0 0;
   white-space: normal;
+  text-align: center;
+}
+
+.dropdown-item.searchItem:hover {
+  padding: 0 0;
+  white-space: normal;
+  text-decoration: none;
 }
 
 .form-control.navbar-searchbox {
@@ -24,3 +34,4 @@
 .dropdown-divider.navsearch-divider {
   border-top: 1px solid #c6cace;
 }
+

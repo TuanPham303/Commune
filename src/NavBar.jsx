@@ -38,18 +38,26 @@ class NavBar extends Component {
 
   getSearchResults = searchData => {
     const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
-    $.ajax({
-      method: "GET",
-      url: `/api/events/search?search=${searchValue}`
-    })
-    .done(result => {
-      this.setState({
-        navbarEvents: this.state.navbarEvents.concat(result),
+    if (this.state.searchString !== '') {
+      $.ajax({
+        method: "GET",
+        url: `/api/events/navsearch?search=${searchValue}`
       })
-    })
-    .fail(e => {
-      console.error('navbar search error', e);
-    });
+      .done(result => {
+        this.setState({
+          navbarEvents: result
+        })
+        $('#searchErrMsg').addClass('hidden');
+      })
+      .fail(error => {
+        console.log("Invalid search, try again", error)
+      });
+    } else {
+      this.setState({
+        navbarEvents: []
+      })
+      $('#searchErrMsg').removeClass('hidden');
+    }
   }
 
   getCurrentUser = () => {
@@ -122,6 +130,7 @@ class NavBar extends Component {
                   getSearchResults={this.getSearchResults}
                   getEvent={this.props.getEvent}
                 />
+                <span className='redErrMsg hidden' id='searchErrMsg'>No events found</span>
               </div>
             </form>
           </div>

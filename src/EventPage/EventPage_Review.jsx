@@ -30,7 +30,7 @@ export default class EventPage_Review extends Component {
     });
 
     const { review, rating } = this.state;
-    
+
 
     if(this.state.review === '' || this.state.rating === 0){
       this.state.emptyReviewOrRating = true;
@@ -77,6 +77,12 @@ export default class EventPage_Review extends Component {
       }
     })
 
+    const reviewUser = this.props.guestList.map(guest => {
+      return (<option key={guest.id}>
+        {guest.first_name} {guest.last_name}
+      </option> )
+    })
+
     return (
       <div className="container-fluid row justify-content-center reviewContainer">
         <div className="triangleTop"></div>
@@ -90,9 +96,15 @@ export default class EventPage_Review extends Component {
         { paidUser &&
           <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
             <h4>Describe your experience:</h4>
+            <div className="input-group ratingWrap mb-2">
+              <label htmlFor="exampleSelect1" className="input-group-addon">User</label>
+              <select className="form-control rating" >
+                { reviewUser }
+              </select>
+            </div>
             <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
             <div style={{'fontSize': '180%'}}>
-              <h5>Rate the meal:&nbsp;
+              <h5>Rating:&nbsp;
                 <StarRatingComponent
                   name="rating"
                   starCount={5}

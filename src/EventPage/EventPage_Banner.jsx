@@ -42,7 +42,7 @@ class EventPage_Banner extends Component {
         next.children(':first-child').clone().appendTo($(this));
       }
       next.children(':first-child').clone().appendTo($(this));
-      if (next.next().length>0) {
+      if (next.next().length > 0) {
         next.next().children(':first-child').clone().appendTo($(this));
       }
       else {
@@ -53,7 +53,7 @@ class EventPage_Banner extends Component {
   }
 
   componentDidMount(){
-    setTimeout(() => { this.carousel(); }, 250);
+    setTimeout(() => { this.carousel(); }, 400);
   }
 
   render() {

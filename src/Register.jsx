@@ -103,8 +103,8 @@ class Register extends Component {
                   <input type="password" ref="password" className="form-control" id="signupPassword" placeholder="Password" value ={this.state.password} onChange={this.handleChange.bind(this, 'password')}></input>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="signupPassword">Avatar</label>
-                  &nbsp;&nbsp;<input type="file" className="form-input-control" name='avatar'></input>
+                  <label htmlFor="signupAvatar">PROFILE PICTURE</label>
+                  <input type="file" className="form-input-control" name='avatar'></input>
                 </div>
                 <button type="submit" className="btn btn-primary clickable" id='registerButton'>Signup</button>
                 &nbsp;&nbsp;&nbsp;<span className='redErrMsg hidden' id='registerErrMsg'>Error creating user. Please check your inputs!</span>

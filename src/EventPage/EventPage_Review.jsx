@@ -10,7 +10,8 @@ export default class EventPage_Review extends Component {
     this.state = {
       review: "",
       rating: 0,
-      currentUserId: null
+      currentUserId: null,
+      emptyReviewOrRating: false
     }
   }
 
@@ -29,8 +30,14 @@ export default class EventPage_Review extends Component {
     });
 
     const { review, rating } = this.state;
-    this.props.submitReview(review, rating, this.props.currentUserId);
+    
 
+    if(this.state.review === '' || this.state.rating === 0){
+      this.state.emptyReviewOrRating = true;
+    } else {
+      this.state.emptyReviewOrRating = false;
+      this.props.submitReview(review, rating, this.props.currentUserId);
+    }
 
   }
 
@@ -95,6 +102,9 @@ export default class EventPage_Review extends Component {
               </h5> 
             </div>
             <button className="btn btn-primary clickable" type="submit">Submit</button>
+            { this.state.emptyReviewOrRating &&
+              <p style={{'color':'red'}}>Review and rating fields required</p>
+            }
           </form>
         }
       </div>

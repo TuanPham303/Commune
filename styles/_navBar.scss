@@ -11,6 +11,12 @@
   height: auto;
   max-height: 400px;
   overflow-x: hidden;
+  opacity: 0.95;
+}
+
+.navbar-brand.logo {
+  font-family: 'Pacifico', cursive;
+  font-size: xx-large;
 }
 
 .dropdown-item.searchItem {

@@ -1,7 +1,5 @@
 .userProfileHeader {
-  margin-top: 80px;
   height: 50vh;
-  border: 1px solid black;
   .avatar {
     height: 250px;
     width: 250px;
@@ -33,16 +31,13 @@
 
 $text-color: #212529;
 
-.hosted-event {
-
-  & :hover {
-    color: lighten($text-color, 15%);
-  }
+.hostedEvents {
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 
 .reviews {
-  margin-top: 80px;
   .review {
     margin: 10px 0;
     .avatar {
@@ -52,5 +47,5 @@ $text-color: #212529;
       overflow: hidden;
     }
   }
-  
+
 }

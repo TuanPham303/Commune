@@ -27,7 +27,7 @@ class UserProfile_Events extends Component {
 
     const events = this.props.events.map(event => {
       return (
-        <Link key={event.event_id} to={`/events/${event.event_id}`}className='row mb-2 hosted-event' style={{ textDecoration: 'none'}}>
+        <Link key={event.event_id} to={`/events/${event.event_id}`}className='row mb-2 hosted-event invisilink' >
           <div className='col-md-4 offset-md-3'>
             <h5>{event.title}</h5>
             <p>{event.description}</p>
@@ -44,7 +44,7 @@ class UserProfile_Events extends Component {
     })
 
     return (
-      <div className="container">
+      <div className="container hostedEvents">
         <h3>Hosted Events</h3>
         <div className='row hotsted-event-header'>
           <h5 className='col-md-4 offset-md-3'>Event</h5>

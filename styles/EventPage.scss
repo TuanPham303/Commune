@@ -101,18 +101,19 @@
   background-color: #f9f9f9;
   padding-top: 100px;
   text-align: center;
-  .triangleTop {
-    width: 0;
-    height: 0;
-    border-top: 80px solid #fff;
-    border-left: 100vw solid #f9f9f9;
-  }
-  .triangleBottom {
-    width: 0;
-    height: 0;
-    border-bottom: 80px solid #fff;
-    border-left: 100vw solid #f9f9f9;
-  }
+}
+
+.triangleTop {
+  width: 0;
+  height: 0;
+  border-top: 80px solid #fff;
+  border-left: 100vw solid #f9f9f9;
+}
+.triangleBottom {
+  width: 0;
+  height: 0;
+  border-bottom: 80px solid #fff;
+  border-left: 100vw solid #f9f9f9;
 }
 
 .guessListContainer {
@@ -126,11 +127,8 @@
 }
 
 .invisilink:hover {
-  color: inherit;
-}
-
-.hostlink:hover {
   text-decoration: none;
+  color: #848c97;
 }
 
 .reviewContainer {

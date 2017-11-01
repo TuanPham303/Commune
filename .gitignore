@@ -6,8 +6,8 @@ bundle.js
 bundle.js.map
 .vscode
 .env
-user-avatars
 event-images
+user-avatars
 
 ### PhpStorm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm

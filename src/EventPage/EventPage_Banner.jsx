@@ -28,9 +28,9 @@ class EventPage_Banner extends Component {
   }
 
   carousel(){
-    // $('#recipeCarousel').carousel({
-    //   interval: 10000
-    // })
+    $('#recipeCarousel').carousel({
+      interval: 10000
+    })
 
     $('.carousel-top .carousel-item-top').each(function(){
       var next = $(this).next();

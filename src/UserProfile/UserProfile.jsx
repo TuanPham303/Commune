@@ -40,6 +40,16 @@ class UserProfile extends Component {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    if(nextProps.location.pathname !== this.props.location.pathname) {
+      this.getCurrentUser();
+      this.getUser(nextProps.location.pathname);
+      this.getHostedEvents(nextProps.location.pathname);
+      this.getUserRating(nextProps.location.pathname);
+    }
+  }
+
   clearUser = event => {
     this.setState({
       currentUser: {
@@ -53,8 +63,9 @@ class UserProfile extends Component {
     });
   }
 
-  getUser = () => {
-    $.get(`/api${this.props.location.pathname}`)
+  getUser = (path) => {
+    console.log("pathname:", this.props.location.pathname)
+    $.get(`/api${path || this.props.location.pathname}`)
     .then(user => {
    
       this.setState({ user });
@@ -63,8 +74,8 @@ class UserProfile extends Component {
     })
   }
   
-  getHostedEvents = () => {
-    fetch(`/api${this.props.location.pathname}/events/hosted`, {
+  getHostedEvents = (path = this.props.location.pathname) => {
+    fetch(`/api${path}/events/hosted`, {
       method: 'GET',
       credentials: 'include',
     })
@@ -80,7 +91,7 @@ class UserProfile extends Component {
     })  
   }
 
-  getUserRating = () => {
+  getUserRating = (path = this.props.location.pathname) => {
     fetch(`/api${this.props.location.pathname}/rating`, {
       method: 'GET',
       credentials: 'include'

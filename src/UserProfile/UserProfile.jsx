@@ -109,7 +109,7 @@ class UserProfile extends Component {
     return (
       <div className="wrapper">
         <NavBar getCurrentUser={this.getCurrentUser} clearUser={this.clearUser} currentUser={this.state.currentUser}/>
-        <UserProfile_Header user={this.state.user} rating={this.state.rating}/>
+        <UserProfile_Header currentUser={this.state.currentUser} user={this.state.user} getUser={this.getUser} rating={this.state.rating}/>
         <UserProfile_Events events={this.state.events}/>
         <UserProfile_Reviews />
       </div>  

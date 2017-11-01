@@ -228,8 +228,10 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   function getGuestlist(eventId) {
     return knex('users')
-    .select('users.first_name', 'users.last_name', 'users.id', 'users.email', 'users.avatar')
+    .select('users.first_name', 'users.last_name', 'users.id', 'users.email', 'users.avatar', 'roles.role_name')
     .join('user_events', 'users.id', 'user_events.user_id')
+    .join('user_event_roles', 'user_events.id', 'user_event_roles.user_event_id')
+    .join('roles', 'user_event_roles.role_id', 'roles.id')
     .where('user_events.event_id', eventId)
     // .then(users => users);
   }

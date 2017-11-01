@@ -62,7 +62,7 @@ export default class EventPage_Review extends Component {
 
     const reviewUser = this.props.guestList.map(guest => {
       return (<option key={guest.id}>
-        {guest.first_name} {guest.last_name} 
+        {guest.role_name} - {guest.first_name} {guest.last_name} 
       </option> )
     })
 
@@ -90,7 +90,6 @@ export default class EventPage_Review extends Component {
           <div className="input-group ratingWrap">
             <label htmlFor="exampleSelect1" className="input-group-addon">User</label>
             <select className="form-control rating" >
-              <option> test </option>
               { reviewUser }
             </select>
           </div><br/>

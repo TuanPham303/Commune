@@ -13,7 +13,7 @@ export default class EventPage_GuestList extends Component {
       return <li className="list-group-item" key={guest.id}>
         <div className="guestlist-item">
           <img src={guest.avatar} alt="avatar" className="thumbnail"></img>
-          <Link to={`/users/${guest.id}`}className="guestlist-name">{guest.first_name} {guest.last_name} </Link>
+          <Link to={`/users/${guest.id}`}className="guestlist-name">{guest.role_name} - {guest.first_name} {guest.last_name} </Link>
         </div>
       </li>
     });

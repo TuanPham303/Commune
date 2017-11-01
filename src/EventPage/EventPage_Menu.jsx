@@ -8,13 +8,13 @@ class EventPage_Menu extends Component {
   }
 
   render() {
-    let menu;
-    if (this.props.menu) {
-      menu = (
-        <div className="container-fluid menuContainer">
-          <h3>MENU</h3>
-          <div className="row justify-content-center">
-            <div className="col-8">
+
+    return (
+      <div className="container-fluid menuContainer">
+        <div className="row">
+          <div className="col-12 justify-content-center">
+            <h3>MENU</h3>
+            <div className="col-12 ">
               <pre>
                 {this.props.menu}
               </pre>
@@ -22,12 +22,6 @@ class EventPage_Menu extends Component {
           </div>
           <div className="triangleBottom"></div>
         </div>
-      )
-    }
-
-    return (
-      <div>
-        { menu }
       </div>
     );
   }

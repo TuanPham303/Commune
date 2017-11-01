@@ -1,7 +1,7 @@
 .navbarContainer {
   height: 80px;
   position: relative;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 #dropdown-menu {
@@ -12,6 +12,17 @@
   max-height: 400px;
   overflow-x: hidden;
   opacity: 0.95;
+}
+
+.logo-photo {
+  width: 50px;
+  height: 50px;
+}
+
+.logo-bundle {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
 }
 
 .navbar-brand.logo {

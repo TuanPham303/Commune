@@ -11,13 +11,6 @@ class NavBar_Events extends Component {
   render() {
     const navbarEvents = this.props.navbarEvents.map( navbarEvent => {
       console.log(navbarEvent);
-      // navbarEvent.forEach( person => {
-      //   if (person.role_name === 'host') {
-      //     hosts.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
-      //   } else if (person.role_name === 'chef') {
-      //     chefs.add(`${person.first_name} ${person.last_name}`).add(`${person.user_id}`)
-      //   } else { return; }
-      // })
       return <NavBar_PreviewEvent
           key= { uuid() }
           title= { navbarEvent.title }

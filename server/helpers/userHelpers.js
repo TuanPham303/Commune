@@ -16,7 +16,7 @@ module.exports = function makeUserHelpers(knex) {
   //Find ID of user on login
   function findById(id) {
     return knex('users')
-      .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar')
+      .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar', 'bio')
       .where({id})
       .limit(1)
       .then(([user]) => user);
@@ -85,6 +85,63 @@ module.exports = function makeUserHelpers(knex) {
   }
 
 
+  function findHostedEventsByUserId(user_id) {
+    return knex('events')
+    .join('user_events', 'user_events.event_id', 'events.id')
+    .join('users', 'user_events.user_id', 'users.id')
+    .join('user_event_roles', 'user_event_roles.user_event_id', 'user_events.id')
+    .where({'users.id': user_id,
+            'user_event_roles.role_id': 2})
+    .then((events) => {
+
+      return Promise.all([
+        events,
+        Promise.all(events.map((event) => {
+          return knex('reviews')
+          .select(knex.raw('COUNT(rating) as review_count, AVG(rating) as review_avg '))
+          .join('user_events', 'reviews.user_event_id', 'user_events.id')
+          .join('events', 'events.id', 'user_events.id')
+          .where('events.id', event.event_id)
+        }))
+      ]);
+    })
+    .then(all => {
+      const events = all[0];
+      const reviews = all[1];
+      console.log('reviews length: ',reviews.length);
+      console.log('events length: ',events.length);
+
+      events.forEach((event, i) => {
+        event.review_count = reviews[i][0].review_count;
+
+        if (reviews[i][0].review_avg === null) {
+          event.review_avg = 'N/A';
+        } else {
+          event.review_avg = reviews[i][0].review_avg;
+        }
+      })
+      console.log(reviews);
+      console.log(events);
+      return events;
+
+    })
+  }
+
+  function addBio(id, bio) {
+    return knex('users')
+    .where('id', id)
+    .update({bio})
+  }
+
+  function getRatingbyUserId(id) {
+    return knex('reviews')
+    .join('user_events', 'user_events.id', 'reviews.user_event_id')
+    .join('users', 'users.id', 'user_events.user_id')
+    .where('users.id', id)
+    .avg('rating')
+    .then(result => result);
+  }
+
   function findEventsByUserId(user_id) {
     return knex('events')
     .join('user_events', 'user_events.event_id', 'events.id')
@@ -117,8 +174,11 @@ module.exports = function makeUserHelpers(knex) {
     addUser,
     becomeHost,
     findEventsByUserId,
+    findHostedEventsByUserId,
     findReviewsByUserId,
     findReviewsPostedByUserId,
-    becomeChef
+    getRatingbyUserId,
+    becomeChef,
+    addBio
   };
 };

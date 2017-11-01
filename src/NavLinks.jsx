@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 function NavLinks({ currentUser, handleLogout }) {
   const { id, first_name, last_name, is_host } = currentUser || {}; // cause jquery error when not logged in I think

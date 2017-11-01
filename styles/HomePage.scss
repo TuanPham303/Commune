@@ -112,6 +112,17 @@
   }
 }
 
+.description-p {
+  /* Wrapping URLs and Long single words*/
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+
+  /* Preserve linebreaks */
+  white-space: pre-wrap;
+}
+
 .hidden {
   display: none;
 }

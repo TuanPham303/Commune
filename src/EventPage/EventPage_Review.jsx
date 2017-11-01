@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import StarRatingComponent from 'react-star-rating-component';
+import {Link} from 'react-router-dom';
 const uuid = require('uuid/v4');
 
 
@@ -30,7 +31,7 @@ export default class EventPage_Review extends Component {
     });
 
     const { review, rating } = this.state;
-    
+
 
     if(this.state.review === '' || this.state.rating === 0){
       this.state.emptyReviewOrRating = true;
@@ -54,12 +55,6 @@ export default class EventPage_Review extends Component {
 
     const reviews = this.props.reviews.map(review => (
       <li className="list-group-item" key={uuid()}>
-        <strong>
-          {review.first_name} {review.last_name}:
-        </strong>
-        &nbsp;
-        {review.description}
-        &nbsp;
         <StarRatingComponent
           name='displayRating'
           editing={false}
@@ -67,6 +62,14 @@ export default class EventPage_Review extends Component {
           value={Number(review.rating)}
           className="rating"
         />
+        &nbsp;&nbsp;
+        <Link to={`/users/${review.id}`} className="invisilink">
+          <strong>
+            {review.first_name} {review.last_name}:
+          </strong>
+        </Link>
+        &nbsp;
+        {review.description}
       </li>
     ));
 
@@ -75,6 +78,12 @@ export default class EventPage_Review extends Component {
       if (guest.id === this.props.currentUser.id) {
         paidUser = true;
       }
+    })
+
+    const reviewUser = this.props.guestList.map(guest => {
+      return (<option key={guest.id}>
+        {guest.role_name[0].toUpperCase()}{guest.role_name.slice(1)} - {guest.first_name} {guest.last_name}
+      </option> )
     })
 
     return (
@@ -89,17 +98,25 @@ export default class EventPage_Review extends Component {
         <br/><br/>
         { paidUser &&
           <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
-            <h4>Describe your experience:</h4>
-            <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
-            <div style={{'fontSize': '180%'}}>
-              <h5>Rate the meal:&nbsp; 
+            <h4>Leave a review:</h4>
+            <div className="input-group ratingWrap mb-2">
+              <label htmlFor="exampleSelect1" className="input-group-addon">Select host/guest to review</label>
+              <select className="form-control rating" >
+                { reviewUser }
+              </select>
+            </div>
+            <div className='form-group'>
+              <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Describe your experience..." onChange={this.onReviewChange} value={this.state.review}></textarea>
+            </div>
+            <div className='form-group' style={{'fontSize': '180%'}}>
+              <h5>Rating:&nbsp;
                 <StarRatingComponent
                   name="rating"
                   starCount={5}
                   value={rating}
                   onStarClick={this.onStarClick.bind(this)}
                 />
-              </h5> 
+              </h5>
             </div>
             <button className="btn btn-primary clickable" type="submit">Submit</button>
             { this.state.emptyReviewOrRating &&

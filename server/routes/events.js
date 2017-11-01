@@ -43,39 +43,28 @@ module.exports = knex => {
   });
 
   // get details on all events that match the search term
+  router.get('/navsearch', (req, res) => {
+    let searchValue = req.query.search.split(' ').join(' | ')
+    if (searchValue.trim() === '') { //Checks if query is empty
+      res.status(400);
+    } else {
+      eventHelpers.searchQuery(searchValue)
+      .then( (results) => {
+        eventHelpers.normalizeDataSearch(results.rows)
+        .then(results => {
+          console.log(results);
+          res.json(results);
+        });
+      });
+    }
+  });
+
   router.get('/search', (req, res) => {
     let searchValue = req.query.search.split(' ').join(' | ')
     if (searchValue.trim() === '') { //Checks if query is empty
       res.status(400);
     } else {
-      knex
-      .raw(
-      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name, role_name, role_id
-      FROM ( SELECT events.id as event_id,
-                    events.title as title,
-                    events.description as description,
-                    events.price as price,
-                    events.capacity as capacity,
-                    events.neighbourhood as neighbourhood,
-                    events.address as address,
-                    users.id as user_id,
-                    users.first_name as first_name,
-                    users.last_name as last_name,
-                    roles.id as role_id,
-                    roles.role_name as role_name,
-                    to_tsvector(events.title)
-                    || to_tsvector(events.description)
-                    || to_tsvector(events.menu_description)
-                    || to_tsvector(coalesce(users.first_name, ''))
-                    || to_tsvector(coalesce(users.last_name, ''))
-                    || to_tsvector(coalesce((string_agg(events.neighbourhood, ' ')), '')) as document
-                    FROM events
-                    JOIN user_events ON events.id = user_events.event_id
-                    JOIN users ON users.id = user_events.user_id
-                    JOIN user_event_roles ON user_event_roles.user_event_id = user_events.id
-                    JOIN roles ON roles.id = user_event_roles.role_id
-                    GROUP BY events.id, users.id, roles.id) p_search
-                    WHERE p_search.document @@ to_tsquery(?)`, searchValue)
+      eventHelpers.searchQuery(searchValue)
       .then( (results) => {
         eventHelpers.normalizeData(results.rows)
         .then(results => {

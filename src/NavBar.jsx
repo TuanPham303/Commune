@@ -41,7 +41,7 @@ class NavBar extends Component {
     if (this.state.searchString !== '') {
       $.ajax({
         method: "GET",
-        url: `/api/events/search?search=${searchValue}`
+        url: `/api/events/navsearch?search=${searchValue}`
       })
       .done(result => {
         this.setState({

@@ -38,6 +38,7 @@ class HomePage extends Component {
       this.setState({
         previewEvents: result,
       })
+      
     })
     .fail(e => {
       console.error(e);

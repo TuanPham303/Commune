@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 
 class UserProfile_Header extends Component {
 
@@ -71,7 +72,7 @@ class UserProfile_Header extends Component {
           <p>This User has not created a bio yet.</p>
         </div>
       )
-    } 
+    }
     if (this.props.user.bio) {
       return (
         <div>
@@ -80,26 +81,35 @@ class UserProfile_Header extends Component {
         </div>
       )
     }
-    
+
   };
 
 
   render() {
-  
+
 
     return (
       <div className="container-fluid user-profile-header">
         <div className="userProfileHeader row">
           <div className="col-4">
             <div className="avatar">
-              <img src={this.props.user.avatar} alt="user-avatar"/>  
+              <img src={this.props.user.avatar} alt="user-avatar"/>
             </div>
           </div>
           <div className="col-6">
             <div className="userInfo">
               <h4><strong>{this.props.user.first_name} {this.props.user.last_name}</strong></h4>
               {this.userBio()}
-              <p><strong>Rating: </strong>{this.props.rating}</p>
+              <p><strong>Rating: </strong></p>
+              <StarRatingComponent
+                name='displayRating'
+                editing={false}
+                starCount={5}
+                renderStarIconHalf={() => <span style={{'color': '#ffb400'}}>½</span>}
+                value={Number(this.props.rating)}
+                emptyStarColor={'rgba(255, 255, 255, 0)'}
+                className="rating"
+              />
             </div>
           </div>
         </div>
@@ -107,7 +117,7 @@ class UserProfile_Header extends Component {
           <input type="file" name='avatar'></input>
           <input type="submit" value="upload"></input>
         </form> */}
-      </div>  
+      </div>
     );
   }
 }

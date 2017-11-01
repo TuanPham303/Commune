@@ -1,9 +1,28 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import StarRatingComponent from 'react-star-rating-component';
 
 class UserProfile_Events extends Component {
 
- 
+  eventRating = (event) => {
+    console.log(event.review_avg);
+    if (isNaN(event.review_avg)) {
+      return 'N/A'
+    } else {
+      return (
+        <StarRatingComponent
+          name='displayRating'
+          editing={false}
+          starCount={5}
+          renderStarIconHalf={() => <span style={{'color': '#ffb400'}}>½</span>}
+          value={Number(event.review_avg)}
+          emptyStarColor={'rgba(255, 255, 255, 0)'}
+          className="rating"
+        />
+      )
+    }
+  }
+
 
   render() {
 
@@ -19,7 +38,7 @@ class UserProfile_Events extends Component {
             <p>{event.review_count}</p>
           </div>
           <div className='col-md-2'>
-            <p>{event.review_avg}</p>
+            { this.eventRating(event) }
           </div>
         </Link>
       )
@@ -34,7 +53,7 @@ class UserProfile_Events extends Component {
           <h5 className='col-sm-2'>Rating</h5>
         </div>
         {events}
-      </div>  
+      </div>
     );
   }
 }

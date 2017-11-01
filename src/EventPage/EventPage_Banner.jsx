@@ -27,6 +27,31 @@ class EventPage_Banner extends Component {
     });
   }
 
+  carousel(){
+    // $('#recipeCarousel').carousel({
+    //   interval: 10000
+    // })
+    
+    $('.carousel .carousel-item').each(function(){
+        var next = $(this).next();
+        if (!next.length) {
+        next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+        
+        if (next.next().length>0) {
+        next.next().children(':first-child').clone().appendTo($(this));
+        }
+        else {
+          $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+        }
+    });
+  }
+
+  componentDidMount(){
+    this.carousel();
+  }
+
   render() {
     let paidUser = false;
     this.props.guestList.forEach(guest => {
@@ -74,17 +99,55 @@ class EventPage_Banner extends Component {
 
     return (
       <div className="eventBanner container-fluid">
-        <div className="row">
-          <div className="image col-4">
-            <img src={this.props.image} alt=""/>
-          </div>
-          <div className="image col-4">
-            <img src={this.props.image} alt=""/>
-          </div>
-          <div className="image col-4">
-            <img src={this.props.image} alt=""/>
-          </div>
-        </div>
+
+            <div className="row mx-auto my-auto">
+                <div id="recipeCarousel" className="carousel slide w-100" data-ride="carousel">
+                    <div className="carousel-inner" role="listbox">
+                        <div className="carousel-item active">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=1" />
+                        </div>
+                        <div className="carousel-item">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=2" />
+                        </div>
+                        <div className="carousel-item">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=3" />
+                        </div>
+                        <div className="carousel-item">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=4" />
+                        </div>
+                        <div className="carousel-item">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=5" />
+                        </div>
+                        <div className="carousel-item">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=6" />
+                        </div>
+                    </div>
+                    <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Previous</span>
+                    </a>
+                    <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div className="eventDetail">
           <div className="eventTitle">

@@ -90,8 +90,7 @@ class NavBar extends Component {
     $(document).mousemove(function(e) {  
       mX = e.pageX;
       mY = e.pageY;
-      distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2))); 
-      console.log(distance);   
+      distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2)));    
       $('.logo').css('text-shadow', '0px 0px ' + distance + 'px #000');
     });
   }

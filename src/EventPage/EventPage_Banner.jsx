@@ -28,9 +28,9 @@ class EventPage_Banner extends Component {
   }
 
   carousel(){
-    $('#recipeCarousel').carousel({
-      interval: 10000
-    })
+    // $('#recipeCarousel').carousel({
+    //   interval: 10000
+    // })
 
     $('.carousel-top .carousel-item-top').each(function(){
       var next = $(this).next();
@@ -110,8 +110,21 @@ class EventPage_Banner extends Component {
                         <div className="carousel-item carousel-item-top active">
                             <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=1" />
                         </div>
-                        
-                      
+                        <div className="carousel-item carousel-item-top">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=2" />
+                        </div>
+                        <div className="carousel-item carousel-item-top">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=3" />
+                        </div>
+                        <div className="carousel-item carousel-item-top">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=4" />
+                        </div>
+                        <div className="carousel-item carousel-item-top">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=5" />
+                        </div>
+                        <div className="carousel-item carousel-item-top">
+                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=6" />
+                        </div>
                     </div>
                     <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>

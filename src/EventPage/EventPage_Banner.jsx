@@ -55,7 +55,11 @@ class EventPage_Banner extends Component {
   componentDidMount(){
     this.carousel();
   }
-
+  get isHost(){
+    if (this.props.guestList.length > 0 && this.props.currentUser){
+      return this.props.guestList[0].id === this.props.currentUser.id
+    }
+  }
   render() {
     let paidUser = false;
     this.props.guestList.forEach(guest => {
@@ -100,7 +104,7 @@ class EventPage_Banner extends Component {
         </span>
       )
     };
-
+    
     return (
       <div className="eventBanner container-fluid">
         <div className="row mx-auto my-auto">
@@ -169,7 +173,9 @@ class EventPage_Banner extends Component {
                 { paidUser &&
                   <p><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.address}</p>
                 }
-                <button data-toggle="modal" data-target="#editEventModal">Edit Event</button>
+                { this.isHost &&
+                  <button className="btn btn-primary" data-toggle="modal" data-target="#editEventModal">Edit Event</button>
+                }
               </div>
             </div>
             <div className="col-5 eventMap">

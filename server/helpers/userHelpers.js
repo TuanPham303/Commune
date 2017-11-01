@@ -43,8 +43,9 @@ module.exports = function makeUserHelpers(knex) {
     return findByEmail(email)
       .then((user) => {
         if(!user) {
+          return true;
+        } else {
           return false;
-          return email;
         }
       })
   }
@@ -52,8 +53,7 @@ module.exports = function makeUserHelpers(knex) {
   //Add new user on register
   function addUser(first_name, last_name, email, is_host, is_chef, password, avatar) {
     return (
-      checkEmailUnique(email) //Is email unique?
-      .then(() => bcrypt.hash(password, 10))
+      bcrypt.hash(password, 10)
       .then((passwordDigest) => {
         return knex('users').insert({
           first_name: first_name,

@@ -28,23 +28,27 @@ class EventPage_Banner extends Component {
   }
 
   carousel(){
-    // $('#recipeCarousel').carousel({
-    //   interval: 10000
-    // })
-    
-    $('.carousel .carousel-item').each(function(){
-        var next = $(this).next();
-        if (!next.length) {
-        next = $(this).siblings(':first');
-        }
+    $('#recipeCarousel').carousel({
+      interval: 10000
+    })
+
+    $('.carousel-top .carousel-item-top').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+      next = $(this).siblings(':first');
+      }
+      if ($('.carousel-top .carousel-item-top').length === 1){
+        next = $(this);
         next.children(':first-child').clone().appendTo($(this));
-        
-        if (next.next().length>0) {
-        next.next().children(':first-child').clone().appendTo($(this));
-        }
-        else {
-          $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-        }
+      }
+      next.children(':first-child').clone().appendTo($(this));
+
+      if (next.next().length>0) {
+      next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
     });
   }
 
@@ -101,26 +105,13 @@ class EventPage_Banner extends Component {
       <div className="eventBanner container-fluid">
 
             <div className="row mx-auto my-auto">
-                <div id="recipeCarousel" className="carousel slide w-100" data-ride="carousel">
+                <div id="recipeCarousel" className="carousel slide w-100 carousel-top" data-ride="carousel">
                     <div className="carousel-inner" role="listbox">
-                        <div className="carousel-item active">
+                        <div className="carousel-item carousel-item-top active">
                             <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=1" />
                         </div>
-                        <div className="carousel-item">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=2" />
-                        </div>
-                        <div className="carousel-item">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=3" />
-                        </div>
-                        <div className="carousel-item">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=4" />
-                        </div>
-                        <div className="carousel-item">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=5" />
-                        </div>
-                        <div className="carousel-item">
-                            <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=6" />
-                        </div>
+                        
+                      
                     </div>
                     <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -27,6 +27,35 @@ class EventPage_Banner extends Component {
     });
   }
 
+  carousel(){
+    // $('#recipeCarousel').carousel({
+    //   interval: 10000
+    // })
+
+    $('.carousel-top .carousel-item-top').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+      next = $(this).siblings(':first');
+      }
+      if ($('.carousel-top .carousel-item-top').length === 1){
+        next = $(this);
+        next.children(':first-child').clone().appendTo($(this));
+      }
+      next.children(':first-child').clone().appendTo($(this));
+
+      if (next.next().length>0) {
+      next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+  }
+
+  componentDidMount(){
+    this.carousel();
+  }
+
   render() {
     let paidUser = false;
     this.props.guestList.forEach(guest => {
@@ -47,10 +76,10 @@ class EventPage_Banner extends Component {
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
-          <img className="d-block img-fluid" src={host.avatar}></img>
           <div className="hostDetail">
-            <h3>{host.first_name} {host.last_name}</h3>
-            <p>{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
+            <img className="d-block img-fluid" src={host.avatar}></img>
+            <h4 className="text-center">{host.first_name} {host.last_name}</h4>
+            <p className="text-center">{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
           </div>
         </div>
       )
@@ -74,15 +103,36 @@ class EventPage_Banner extends Component {
 
     return (
       <div className="eventBanner container-fluid">
-        <div className="row">
-          <div className="image col-4">
-            <img src={this.props.image} alt=""/>
-          </div>
-          <div className="image col-4">
-            <img src={this.props.image} alt=""/>
-          </div>
-          <div className="image col-4">
-            <img src={this.props.image} alt=""/>
+        <div className="row mx-auto my-auto">
+          <div id="recipeCarousel" className="carousel slide w-100 carousel-top" data-ride="carousel">
+            <div className="carousel-inner" role="listbox">
+              <div className="carousel-item carousel-item-top active">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=1" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=2" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=3" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=4" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=5" />
+              </div>
+              <div className="carousel-item carousel-item-top">
+                <img className="col-4 img-fluid" src="http://placehold.it/350x180?text=6" />
+              </div>
+            </div>
+            <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
           </div>
         </div>
 

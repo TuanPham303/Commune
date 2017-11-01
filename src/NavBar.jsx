@@ -31,11 +31,11 @@ class NavBar extends Component {
 
   onSearch = event => {
     event.preventDefault();
-    this.getSearchResults(this.state.searchString); 
+    this.getSearchResults(this.state.searchString);
     this.setState({ searchString: '' })
     this.refs.query.blur();
   }
-  
+
   getSearchResults = searchData => {
     const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
     if (this.state.searchString !== '') {
@@ -78,7 +78,7 @@ class NavBar extends Component {
       console.log('Failed to Logout', err);
     })
   }
-  
+
   handleLogout = event => {
     $.ajax({
       method: "POST",
@@ -90,6 +90,21 @@ class NavBar extends Component {
     .fail(err => {
       console.error('Failed to Logout', err);
     })
+  }
+
+  glowingText = () => {
+    const element = $('.logo');
+    let mX, mY, distance;
+    $(document).mousemove(function(e) {
+      mX = e.pageX;
+      mY = e.pageY;
+      distance = Math.floor(Math.sqrt(Math.pow(mX - (element.offset().left+(element.width()/2)), 2) + Math.pow(mY - (element.offset().top+(element.height()/2)), 2)));    
+      $('.logo').css('text-shadow', '0px 0px ' + distance + 'px #000');
+    });
+  }
+
+  componentDidMount(){
+    this.glowingText();
   }
 
   render() {

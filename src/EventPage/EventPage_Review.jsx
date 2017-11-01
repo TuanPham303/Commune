@@ -10,7 +10,8 @@ export default class EventPage_Review extends Component {
     this.state = {
       review: "",
       rating: 0,
-      currentUserId: null
+      currentUserId: null,
+      emptyReviewOrRating: false
     }
   }
 
@@ -29,8 +30,14 @@ export default class EventPage_Review extends Component {
     });
 
     const { review, rating } = this.state;
-    this.props.submitReview(review, rating, this.props.currentUserId);
+    
 
+    if(this.state.review === '' || this.state.rating === 0){
+      this.state.emptyReviewOrRating = true;
+    } else {
+      this.state.emptyReviewOrRating = false;
+      this.props.submitReview(review, rating, this.props.currentUserId);
+    }
 
   }
 
@@ -79,22 +86,25 @@ export default class EventPage_Review extends Component {
             { reviews }
           </ul><br/>
         </div>
-        <br/>
+        <br/><br/>
         { paidUser &&
           <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
             <h4>Describe your experience:</h4>
             <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea>
-            <br/>
-            <h4>Click the stars to rate out of 5:</h4>
             <div style={{'fontSize': '180%'}}>
-              <StarRatingComponent
-                name="rating"
-                starCount={5}
-                value={rating}
-                onStarClick={this.onStarClick.bind(this)}
-              />
+              <h5>Rate the meal:&nbsp; 
+                <StarRatingComponent
+                  name="rating"
+                  starCount={5}
+                  value={rating}
+                  onStarClick={this.onStarClick.bind(this)}
+                />
+              </h5> 
             </div>
             <button className="btn btn-primary clickable" type="submit">Submit</button>
+            { this.state.emptyReviewOrRating &&
+              <p style={{'color':'red'}}>Review and rating fields required</p>
+            }
           </form>
         }
       </div>

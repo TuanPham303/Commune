@@ -213,7 +213,6 @@ export default class EventPage extends Component {
         <NewEventForm currentUser={this.state.currentUser} />
         <BecomeHost getCurrentUser={this.getCurrentUser} />
       </div>
-
     );
   }
 }

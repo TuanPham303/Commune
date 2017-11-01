@@ -13,18 +13,19 @@ class HomePage extends Component {
   }
 
   componentDidMount(){
-    const previewEvents = () => {
-      $.ajax({
-        method: "GET",
-        url: "/api/events",
-        success: data => {
-          this.setState({
-            previewEvents: this.state.previewEvents.concat(data)
-          })
-        }
-      })
-    }
-    previewEvents();
+    this.previewEvents();
+  }
+
+  previewEvents = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/events",
+      success: data => {
+        this.setState({
+          previewEvents: this.state.previewEvents.concat(data)
+        })
+      }
+    })
   }
 
   getSearchResults = searchData => {
@@ -37,6 +38,7 @@ class HomePage extends Component {
       this.setState({
         previewEvents: result,
       })
+     document.getElementsByClassName('eventDescription')[0].scrollIntoView({ behavior: 'smooth'  });
     })
     .fail(e => {
       console.error(e);
@@ -54,7 +56,7 @@ class HomePage extends Component {
               You need an HTML5 enabled browser to view this video.
             </video>
         </div>
-        <HomePage_Banner getSearchResults={this.getSearchResults} />
+        <HomePage_Banner getSearchResults={this.getSearchResults} previewEvents={this.previewEvents} />
         <HomePage_Events
           previewEvents={this.state.previewEvents}
         />

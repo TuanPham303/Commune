@@ -75,6 +75,78 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     });
   }
 
+  // helper function for normalizeDataSearch
+  function arrayIncludesUser(array, data) {
+    const arrIndex = array.findIndex(x => x.user_id === data.user_id);
+    if (arrIndex === -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  // removes dupliacate event info when an event has multiple hosts/chefs
+  // accepts data in an array as formatted by queryDB
+  // formats for use in navbar search
+  function normalizeDataSearch(data) {
+    return new Promise((resolve, reject) => {
+      const normalizedArray = []
+      new Promise((resolve, reject) => {
+        data.forEach((item) => {
+          const arrIndex = normalizedArray.findIndex(x => x.event_id === item.event_id);
+          if (arrIndex === -1) { // if event isnt in normalizedArray, reformat host/chef data and add entire event
+            const newEventObj = Object.assign({}, item);
+            ['user_id', 'role_name', 'first_name', 'last_name'].forEach(i => delete newEventObj[i]);
+            normalizedArray.push(newEventObj);
+            const newUserObj = createUserObject(item)
+            if (newUserObj.role_name !== 'guest' && !arrayIncludesUser(normalizedArray, newUserObj)) {
+                normalizedArray.push(newUserObj);
+            }
+          } else {
+            const newUserObj = createUserObject(item);
+            if (newUserObj.role_name !== 'guest' && !arrayIncludesUser(normalizedArray, newUserObj)) {
+                normalizedArray.push(newUserObj);
+            }
+          };
+        });
+        resolve();
+      });
+      resolve(normalizedArray);
+    });
+  }
+
+  function searchQuery(searchValue) {
+    return knex
+      .raw(
+      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name, role_name, role_id
+      FROM ( SELECT events.id as event_id,
+                    events.title as title,
+                    events.description as description,
+                    events.price as price,
+                    events.capacity as capacity,
+                    events.neighbourhood as neighbourhood,
+                    events.address as address,
+                    users.id as user_id,
+                    users.first_name as first_name,
+                    users.last_name as last_name,
+                    roles.id as role_id,
+                    roles.role_name as role_name,
+                    to_tsvector(events.title)
+                    || to_tsvector(events.description)
+                    || to_tsvector(events.menu_description)
+                    || to_tsvector(coalesce(users.first_name, ''))
+                    || to_tsvector(coalesce(users.last_name, ''))
+                    || to_tsvector(coalesce((string_agg(events.neighbourhood, ' ')), '')) as document
+                    FROM events
+                    JOIN user_events ON events.id = user_events.event_id
+                    JOIN users ON users.id = user_events.user_id
+                    JOIN user_event_roles ON user_event_roles.user_event_id = user_events.id
+                    JOIN roles ON roles.id = user_event_roles.role_id
+                    WHERE roles.id != 1
+                    GROUP BY events.id, users.id, roles.id) p_search
+                    WHERE p_search.document @@ to_tsquery(?)`, searchValue)
+  }
+
   // 3 helper functions for getLocationDetals
   function findNeighborhood(data) {
     return data.types[0] === 'neighborhood';
@@ -314,6 +386,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     queryDB,
     postReview,
     normalizeData,
+    normalizeDataSearch,
     getLocationDetails,
     createEvent,
     userIsBooked,
@@ -323,9 +396,13 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     getGuestlist,
     hasEditPermssion,
     updateEvent,
+<<<<<<< HEAD
     createEventImages,
     getAllEventImages,
     getFirstEventImage
+=======
+    searchQuery
+>>>>>>> search-bar
   };
 }
 

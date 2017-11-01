@@ -27,6 +27,35 @@ class EventPage_Banner extends Component {
     });
   }
 
+  carousel(){
+    // $('#recipeCarousel').carousel({
+    //   interval: 10000
+    // })
+
+    $('.carousel-top .carousel-item-top').each(function(){
+      var next = $(this).next();
+      if (!next.length) {
+      next = $(this).siblings(':first');
+      }
+      if ($('.carousel-top .carousel-item-top').length === 1){
+        next = $(this);
+        next.children(':first-child').clone().appendTo($(this));
+      }
+      next.children(':first-child').clone().appendTo($(this));
+
+      if (next.next().length>0) {
+      next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+  }
+
+  componentDidMount(){
+    this.carousel();
+  }
+
   render() {
     let paidUser = false;
     this.props.guestList.forEach(guest => {

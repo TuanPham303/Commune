@@ -19,6 +19,7 @@ class NavBar extends Component {
 
   componentDidMount(){
     this.getCurrentUser();
+    this.glowingText();
   }
 
   changeHandler = event => {
@@ -44,10 +45,17 @@ class NavBar extends Component {
         url: `/api/events/navsearch?search=${searchValue}`
       })
       .done(result => {
-        this.setState({
-          navbarEvents: result
-        })
-        $('#searchErrMsg').addClass('hidden');
+        if (result.length > 0) {
+          this.setState({
+            navbarEvents: result
+          })
+          $('#searchErrMsg').addClass('hidden');
+        } else {
+          this.setState({
+            navbarEvents: []
+          })
+          $('#searchErrMsg').removeClass('hidden');
+        }
       })
       .fail(error => {
         console.log("Invalid search, try again", error)
@@ -103,14 +111,13 @@ class NavBar extends Component {
     });
   }
 
-  componentDidMount(){
-    this.glowingText();
-  }
-
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top navbarContainer">
-        <a className="navbar-brand logo" href="/">Commune</a>
+        <div className="logo-bundle">
+          <img className="logo-photo" src={"../croissant_logo4.png"} href="/" alt="Commune Logo"></img>
+          <a className="navbar-brand logo" href="/">Commune</a>
+        </div>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

@@ -45,7 +45,6 @@ export default class NewEventForm extends Component {
     data.append("capacity", capacity);
 
     e.preventDefault();
-
     let resOK;
     fetch('/api/events/new', {
       method: 'POST',

@@ -79,9 +79,32 @@ module.exports = knex => {
       .then( (results) => {
         eventHelpers.normalizeData(results.rows)
         .then(results => {
-          res.json(results);
+          console.log(results)
+          Promise.all(results.map(function (event) {
+              return new Promise(function (resolve, reject) {
+                eventHelpers.getFirstEventImage(event.event_id).then(function (imageObjArray) {
+                  // console.log('imageObj for event', event.event_id, JSON.stringify(imageObjArray));
+                  if (imageObjArray.length > 0) {
+                    resolve(imageObjArray[0].image);
+                  } else {
+                    resolve('/event-images/event_default.jpg');
+                  }
+                }).catch(function () {
+                  resolve('/event-images/event_default.jpg');
+                });
+              });
+            }))
+            .then(function (imageUrls) {
+              // Because results and imageUrls have the same length, we can use the index to map the
+              // event image url to each image
+              results.forEach(function (event, index) {
+                event.image_url = imageUrls[index];
+                // return event;
+              });
+              res.json(results);
+            });
         });
-      });
+      })
     }
   });
 
@@ -223,27 +246,6 @@ module.exports = knex => {
               });
               res.json(results);
             });
-            //   event.image_url = eventHelpers.getFirstEventImage(event.event_id)
-            //   return
-            // })
-            // for (let event of results) {
-            //   eventHelpers.getFirstEventImage(event.event_id)
-            //   .then(imageObj => {
-            //     event.image_url = imageObj.image
-            //     console.log(event);
-            //   })
-            // }
-            // results.forEach(event => {
-            //   eventHelpers.getFirstEventImage(event.event_id)
-            //   .then(imageURL => {
-            //     event: {
-            //       image_url: imageURL
-            //     }
-            //   }).then(result => {
-            //     console.log(result[0]);
-            //   })
-            // })
-            // res.json(results);
           });
         });
   });

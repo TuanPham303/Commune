@@ -53,8 +53,6 @@ export default class EventPage extends Component {
       .then(reviews => this.setState({ reviews }))
   }
 
-
-
   getEvent = (id) => {
     $.get(`/api/events/${id || this.eventId}`)
       .then(([event]) => {

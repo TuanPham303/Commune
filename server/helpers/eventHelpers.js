@@ -121,7 +121,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
   function searchQuery(searchValue) {
     return knex
       .raw(
-      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name, role_name, role_id
+      `SELECT event_id, user_id, title, description, price, capacity, neighbourhood, address, first_name, last_name, role_name, role_id, avatar
       FROM ( SELECT events.id as event_id,
                     events.title as title,
                     events.description as description,
@@ -132,6 +132,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
                     users.id as user_id,
                     users.first_name as first_name,
                     users.last_name as last_name,
+                    users.avatar as avatar,
                     roles.id as role_id,
                     roles.role_name as role_name,
                     to_tsvector(events.title)

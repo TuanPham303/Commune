@@ -90,19 +90,17 @@
             transform: translate(-50%, -50%);
           }
         }
-
         .avatar {
           height: 70px;
           width: 70px;
           border-radius: 50%;
           overflow: hidden;
+          .avatarImg {
+            height: 100%;
+          }
         }
-        .avatarImg {
-          height: 100%;
-        }
-
         .hostDetail {
-          padding-left: 25px;
+          padding: 0;
           p {
             position: absolute;
             top: 50%;

@@ -18,7 +18,6 @@ class HomePage extends Component {
         method: "GET",
         url: "/api/events",
         success: data => {
-          console.log('this is preview events ',data);
           data.forEach(event => {
             if(event.description.length > 100){
               event.description = event.description.substring(0, 140) + '...'

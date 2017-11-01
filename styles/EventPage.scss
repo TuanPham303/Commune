@@ -34,6 +34,10 @@
   height: 75vh;
 }
 
+.host-avatar {
+  border-radius: 7px;
+}
+
 .eventBanner {
   padding: 90px 0 0 0;
   padding-top: 100px;
@@ -42,14 +46,14 @@
   .carousel-inner .carousel-item-next {
     transform: translateX(33.33%);
   }
-  
-  .carousel-inner .carousel-item-left.active, 
+
+  .carousel-inner .carousel-item-left.active,
   .carousel-inner .carousel-item-prev {
     transform: translateX(-33.33%)
   }
-    
+
   .carousel-inner .carousel-item-right,
-  .carousel-inner .carousel-item-left{ 
+  .carousel-inner .carousel-item-left{
     transform: translateX(0);
   }
   .eventDetail {

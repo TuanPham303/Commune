@@ -135,6 +135,17 @@ module.exports = knex => {
     });
   });
 
+  router.post('/:id/bio', (req, res) => {
+    req.body
+    userHelpers.addBio(req.params.id, req.body.bio)
+    .then(result => {
+      console.log(result);
+      res.sendStatus(201);
+    })
+  })
+
+  
+
   // router.post('/:id/reviews', (req,res) => {
   //   let reviewerId = req.body.reviewerId;
   //   let eventId = req.body.eventId;

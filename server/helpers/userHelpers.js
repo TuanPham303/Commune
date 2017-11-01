@@ -16,7 +16,7 @@ module.exports = function makeUserHelpers(knex) {
     //Find ID of user on login
     function findById(id) {
       return knex('users')
-        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar')
+        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar', 'bio')
         .where({id})
         .limit(1)
         .then(([user]) => user);
@@ -129,6 +129,12 @@ module.exports = function makeUserHelpers(knex) {
     })
   }
 
+  function addBio(id, bio) {
+    return knex('users')
+    .where('id', id)
+    .update({bio})
+  }
+
   function getRatingbyUserId(id) {
     return knex('reviews')
     .join('user_events', 'user_events.id', 'reviews.user_event_id')
@@ -197,7 +203,8 @@ module.exports = function makeUserHelpers(knex) {
   findReviewsByUserId,
   findReviewsPostedByUserId,
   getRatingbyUserId,
-  becomeChef
+  becomeChef,
+  addBio
   // postReview
   };
 };

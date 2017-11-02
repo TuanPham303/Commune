@@ -138,7 +138,7 @@ export default class EventPage extends Component {
   submitReview = (description, rating, currentUserId) => {
     if (rating !== 0) {
       const review = {
-        reviewerId: currentUserId,
+        reviewer_id: currentUserId,
         user_id: currentUserId,
         rating,
         description

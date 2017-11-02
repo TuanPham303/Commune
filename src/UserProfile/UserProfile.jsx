@@ -91,7 +91,7 @@ class UserProfile extends Component {
   }
 
   getUserRating = (path = this.props.location.pathname) => {
-    fetch(`/api${this.props.location.pathname}/rating`, {
+    fetch(`/api${path}/rating`, {
       method: 'GET',
       credentials: 'include'
     })

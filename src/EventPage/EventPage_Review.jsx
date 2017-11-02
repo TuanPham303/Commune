@@ -6,17 +6,20 @@ export default class EventPage_Review extends Component {
   constructor(props) {
     super(props);
 
+ 
     this.state = {
       review: "",
       rating: 0,
-      currentUserId: null
+      currentUserId: null,
+      selectedUserId: ''
     }
   }
 
   componentDidMount(){
-
     this.getCurrentUser();
-
+    setTimeout(() => {
+      this.setState({ selectedUserId: this.props.guestList[0].id})
+    }, 500);
   }
 
   getCurrentUser = () => {
@@ -34,15 +37,23 @@ export default class EventPage_Review extends Component {
   handleReview = (e) => {
     e.preventDefault();
 
+    const { review, rating, currentUserId, selectedUserId } = this.state;
+    this.props.submitReview(review, rating, currentUserId, selectedUserId );
+
     this.setState({
       review: "",
-      rating: 0
+      rating: 0,
+      selectedUserId: ''
     });
 
-    const { review, rating, currentUserId } = this.state;
-    this.props.submitReview(review, rating, currentUserId);
-
-
+  }
+  handleSelect = e => {
+    for (let node of e.target.children) {
+      if (node.value === e.target.value) {
+        this.setState({ selectedUserId: node.getAttribute('data-id')});
+        return;
+      }
+    }
   }
 
   onReviewChange = (e) => {
@@ -61,8 +72,8 @@ export default class EventPage_Review extends Component {
     ));
 
     const reviewUser = this.props.guestList.map(guest => {
-      return (<option key={guest.id}>
-        {guest.role_name} - {guest.first_name} {guest.last_name} 
+      return (<option key={guest.id} data-id={guest.id}>
+        {guest.role_name} - {guest.first_name} {guest.last_name}
       </option> )
     })
 
@@ -74,7 +85,13 @@ export default class EventPage_Review extends Component {
             { reviews }
           </ul><br/>
         </div>
+        
         <form className="col-8 reviewInputWrap" onSubmit={this.handleReview}>
+       <div className='form-group'>
+          <div className='hidden'>
+            <span className='post-review'>Thank you for submitting a review</span>
+          </div>
+        </div>
           <textarea className="form-control" id="exampleTextarea" rows="3" placeholder="Type here..." onChange={this.onReviewChange} value={this.state.review}></textarea><br/>
           <div className="input-group ratingWrap">
             <label htmlFor="exampleSelect1" className="input-group-addon">Rate the meal</label>
@@ -89,7 +106,7 @@ export default class EventPage_Review extends Component {
           </div><br/>
           <div className="input-group ratingWrap">
             <label htmlFor="exampleSelect1" className="input-group-addon">User</label>
-            <select className="form-control rating" >
+            <select onChange={this.handleSelect} className="form-control rating" >
               { reviewUser }
             </select>
           </div><br/>

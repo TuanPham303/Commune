@@ -27,7 +27,8 @@ module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
 
   router.post('/:id/reviews', (req,res) => {
-    let reviewerId = req.body.reviewerId;
+    console.log(req.body);
+    let reviewerId = req.body.reviewer_id;
     let eventId = req.params.id;
     let userId = req.body.user_id;
     let rating = req.body.rating;

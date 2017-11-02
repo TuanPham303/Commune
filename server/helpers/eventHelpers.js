@@ -12,6 +12,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
         event_id: eventId
       })
       .then((userEvent) => {
+        console.log(userEvent);
         return knex('reviews')
         .insert({
           reviewer_id: reviewerId,
@@ -242,7 +243,8 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
     .join('user_events', 'user_events.id', 'reviews.user_event_id')
     .join('events', 'events.id', 'user_events.event_id')
     .join('users', 'users.id', 'reviews.reviewer_id')
-    .where('events.id', eventId)
+    .join('user_event_roles', 'user_event_roles.user_event_id', 'user_events.id')
+    .where({'events.id': eventId, 'user_event_roles.role_id': 2})
     .then((result) => result);
   }
   // returns if a user has edit permissions for an event

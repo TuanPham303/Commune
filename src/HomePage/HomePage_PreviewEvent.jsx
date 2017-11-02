@@ -21,9 +21,11 @@ class HomePage_PreviewEvent extends Component {
             <p className="col-3 text-center"><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity} </p>
             <p className="col-6 text-center"><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.neighbourhood} </p>
           </div>
-          <p className="description-p" style={{'paddingLeft':'10px'}}>{this.props.description}</p>
+          <div className="row">
+            <p className="description-p" style={{'paddingLeft':'10px'}}>{this.props.description}</p>
+          </div>
           <div className="hostAndDetailButton">
-            <div className="row">
+            <div className="row well-sm">
               <div className="col-7 row">
                 <div className="col-5">
                   <div className="avatar">

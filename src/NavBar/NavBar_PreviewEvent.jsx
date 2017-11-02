@@ -12,7 +12,7 @@ class NavBar_PreviewEvent extends Component {
         {this.props.user_id &&
           <Link to={`/users/${this.props.user_id}`} style={{ textDecoration: 'none' }}>
             <div key={this.props.user_id} className="dropdown-item searchItem" data-user-id={this.props.user_id}>
-              <div className="icon-identifier"><i className="fa fa-fire" aria-hidden="true"></i></div>
+              <div className="icon-identifier"><i className="fa fa-user" aria-hidden="true"></i></div>
               <div><b>{this.props.first_name} {this.props.last_name}</b></div>
             </div>
           </Link>

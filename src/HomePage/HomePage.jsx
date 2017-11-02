@@ -40,6 +40,11 @@ class HomePage extends Component {
       url: `/api/events/search?search=${searchValue}`
     })
     .done(result => {
+      result.forEach(event => {
+        if (event.description && event.description.length > 100) {
+          event.description = event.description.substring(0, 100) + '...'
+        }
+      })
       this.setState({
         previewEvents: result,
       })

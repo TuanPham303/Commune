@@ -28,7 +28,6 @@ export default class EventPage_GuestList extends Component {
           </div>
         </div>
       </div>
-
     );
   }
 }

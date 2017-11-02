@@ -16,7 +16,8 @@ class UserProfile extends Component {
         is_host: false,
         is_chef: false
       },
-      events: []
+      events: [],
+      reviews: []
     }
   }
   getCurrentUser = () => {
@@ -106,21 +107,33 @@ class UserProfile extends Component {
     })
   }
 
+  getReviews = () => {
+    $.get(`/api${this.props.location.pathname}/reviews`)
+    .then(reviews => {
+      this.setState({
+        reviews
+      })
+    })
+  }
+
   componentDidMount(){
     this.getCurrentUser();
     this.getUser();
     this.getHostedEvents();
     this.getUserRating();
+    this.getReviews();
   }
 
   render() {
-
+    console.log(this.state.reviews);
     return (
       <div className="wrapper">
         <NavBar getCurrentUser={this.getCurrentUser} clearUser={this.clearUser} currentUser={this.state.currentUser}/>
         <UserProfile_Header currentUser={this.state.currentUser} user={this.state.user} getUser={this.getUser} rating={this.state.rating}/>
         <UserProfile_Events events={this.state.events}/>
-        <UserProfile_Reviews />
+        <UserProfile_Reviews 
+          reviews={this.state.reviews}
+        />
       </div>
     );
   }

@@ -152,7 +152,7 @@ module.exports = function makeUserHelpers(knex) {
 
   function findReviewsByUserId(user_id) {
     return knex('reviews')
-    .select('reviews.description', 'reviews.rating', 'users.first_name', 'users.last_name')
+    .select('reviews.description', 'reviews.rating', 'users.first_name', 'users.last_name', 'users.avatar')
     .join('user_events', 'user_events.id', 'reviews.user_event_id')
     .join('users', 'users.id', 'reviews.reviewer_id')
     .where('user_events.user_id', user_id)

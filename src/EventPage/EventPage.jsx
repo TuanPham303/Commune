@@ -135,25 +135,24 @@ export default class EventPage extends Component {
     });
   }
 
-  submitReview = (description, rating, currentUserId) => {
-    if (rating !== 0) {
-      const review = {
-        reviewerId: currentUserId,
-        user_id: currentUserId,
-        rating,
-        description
-      };
+  submitReview = (description, rating, reviewer_id, user_id) => {
+    const review = {
+      reviewer_id,
+      user_id,
+      rating,
+      description
+    };
 
-      $.post(`/api/events/${this.eventId}/reviews`, review)
-        .then((res) => {
-          this.getReviews()
-          if (res === "Created") {
-            $('.hidden').removeClass('hidden').fadeOut(4000);
-          }
-        });
-    }
+    $.post(`/api/events/${this.eventId}/reviews`, review)
+    .then((res) => {
+      this.getReviews()
+      if (res === "Created") {
+        $('.hidden').removeClass('hidden').fadeOut(4000);
+      }
+    });
   }
-
+  
+  
   getGuestList = (id) => {
     $.get(`/api/events/${id}/guestlist`)
     .then( guestList => {

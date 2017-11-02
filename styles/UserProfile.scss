@@ -43,6 +43,9 @@ $text-color: #212529;
 .reviews {
   .review {
     margin: 10px 0;
+    .content {
+      position: relative;
+    }
     .avatar {
       height: 100px;
       width: 100px;

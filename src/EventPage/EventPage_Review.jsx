@@ -19,9 +19,7 @@ export default class EventPage_Review extends Component {
   }
 
   componentDidMount(){
-    this.setState({
-      currentUserId: this.props.currentUserId
-    })
+    this.getCurrentUser();
     setTimeout(() => {
       this.setState({ selectedUserId: this.props.guestList[0].id})
     }, 500);

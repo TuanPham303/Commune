@@ -144,7 +144,7 @@ class EventPage_Banner extends Component {
                 { this.props.stripePKey && !paidUser &&
                   <StripeCheckout token={this.onToken}
                   stripeKey={this.props.stripePKey}
-                  image="https://yt3.ggpht.com/-MlnvEdpKY2w/AAAAAAAAAAI/AAAAAAAAAAA/tOyTWDyUvgQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
+                  image="/user-avatars/default-avatar.png"
                   name={this.props.title}
                   amount={this.props.price * 100}
                   currency="CAD"

@@ -123,6 +123,30 @@
   white-space: pre-wrap;
 }
 
+.btn-success.details-button {
+  background-color: #c5700f;
+  border-color: #c5700f;
+}
+
+.btn-success.details-button:hover {
+  background-color: #c5700f;
+  border-color: #c5700f;
+}
+
+.btn-success.details-button:active {
+  background-color: #c5700f;
+  border-color: #c5700f;
+}
+
+.btn-success:not([disabled]):not(.disabled):active, .btn-success:not([disabled]):not(.disabled).active, .show > .btn-success.dropdown-toggle {
+  background-color: #c5700f;
+  border-color: #c5700f;
+}
+
+.preview-event-title {
+ font-size: x-large;
+}
+
 .hidden {
   display: none;
 }

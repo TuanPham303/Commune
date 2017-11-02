@@ -63,12 +63,33 @@ class UserProfile_Header extends Component {
 
   };
 
+  userRating = (event) => {
+    if (isNaN(this.props.rating)) {
+      return
+    } else {
+      return (
+        <span>
+          <p><strong>Rating: </strong></p>
+          <StarRatingComponent
+            name='displayRating'
+            editing={false}
+            starCount={5}
+            renderStarIconHalf={() => <span style={{'color': '#ffb400'}}>½</span>}
+            value={Number(this.props.rating)}
+            emptyStarColor={'rgba(255, 255, 255, 0)'}
+            className="rating"
+          />
+        </span>
+      )
+    }
+  }
+
 
   render() {
 
 
     return (
-      <div className="container-fluid user-profile-header">
+      <div className="container-fluid user-profile-header menuContainer">
         <div className="userProfileHeader row">
           <div className="col-4">
             <div className="avatar">
@@ -79,16 +100,7 @@ class UserProfile_Header extends Component {
             <div className="userInfo">
               <h4><strong>{this.props.user.first_name} {this.props.user.last_name}</strong></h4>
               {this.userBio()}
-              <p><strong>Rating: </strong></p>
-              <StarRatingComponent
-                name='displayRating'
-                editing={false}
-                starCount={5}
-                renderStarIconHalf={() => <span style={{'color': '#ffb400'}}>½</span>}
-                value={Number(this.props.rating)}
-                emptyStarColor={'rgba(255, 255, 255, 0)'}
-                className="rating"
-              />
+              {this.userRating()}
             </div>
           </div>
         </div>
@@ -96,6 +108,7 @@ class UserProfile_Header extends Component {
           <input type="file" name='avatar'></input>
           <input type="submit" value="upload"></input>
         </form> */}
+        <div className="triangleBottom"></div>
       </div>
     );
   }

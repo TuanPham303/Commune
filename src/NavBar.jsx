@@ -129,8 +129,8 @@ class NavBar extends Component {
           <NavLinks currentUser={this.props.currentUser} handleLogout={this.handleLogout}/>
         </div>
         <div className="btn-group search-button">
-          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" onClick={this.clickHandler} aria-haspopup="true" aria-expanded="false">
-            Search
+          <button type="button" className="btn btn-secondary dropdown-toggle dropdown-search-button" data-toggle="dropdown" onClick={this.clickHandler} aria-haspopup="true" aria-expanded="false">
+            <i className="fa fa-lightbulb-o" aria-hidden="true"></i><span className="search-word">Search</span>
           </button>
           <div className="dropdown-menu" id="dropdown-menu">
             <form className="px-4 py-3" onSubmit={this.onSearch} >

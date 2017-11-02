@@ -60,8 +60,8 @@ class HomePage extends Component {
       <div className="homeWrapper">
         <div className='fullscreen-bg'>
             <video autoPlay loop muted className="fullscreen-bg__video">
-              <source src="https://11-lvl3-pdl.vimeocdn.com/01/3260/3/91303466/242154421.mp4?expires=1509593511&token=0251a560f94d38356b569" type="video/mp4"/>
-              <source src="https://11-lvl3-pdl.vimeocdn.com/01/3260/3/91303466/242154421.mp4?expires=1509593511&token=0251a560f94d38356b569" type="video/webm"/>
+              <source src="https://11-lvl3-pdl.vimeocdn.com/01/3260/3/91303466/242154421.mp4?expires=1509646537&token=07e895c5d9a886a9050d4" type="video/mp4"/>
+              <source src="https://11-lvl3-pdl.vimeocdn.com/01/3260/3/91303466/242154421.mp4?expires=1509646537&token=07e895c5d9a886a9050d4" type="video/webm"/>
               <img alt="" src="https://d3mlfyygrfdi2i.cloudfront.net/Screen_Shot_2017-09-11_at_3.57.10_PM.png"/>
               You need an HTML5 enabled browser to view this video.
             </video>

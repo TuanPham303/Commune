@@ -73,7 +73,7 @@ class UserProfile extends Component {
       console.error("failed to get user", err);
     })
   }
-  
+
   getHostedEvents = (path = this.props.location.pathname) => {
     fetch(`/api${path}/events/hosted`, {
       method: 'GET',
@@ -122,6 +122,7 @@ class UserProfile extends Component {
     this.getHostedEvents();
     this.getUserRating();
     this.getReviews();
+    window.scrollTo(0, 0);
   }
 
   render() {

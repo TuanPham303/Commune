@@ -3,8 +3,10 @@ import React, {Component} from 'react';
 class UserProfile_Reviews extends Component {
   render() {
     return (
+    <span>
+      <div className="triangleTop"></div>
       <div className="container-fluid">
-        <div className="reviews row justify-content-center">
+        <div className="reviews row justify-content-center menuContainer">
           <div className="col-8">
             <h3>Reviews:</h3>
             <div className="row review">
@@ -49,11 +51,12 @@ class UserProfile_Reviews extends Component {
               </div>
               <hr/>
             </div><hr/>
-            
-            
+
+
           </div>
         </div>
-      </div>  
+      </div>
+    </span>
     );
   }
 }

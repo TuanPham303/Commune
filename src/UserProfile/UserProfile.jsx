@@ -67,7 +67,7 @@ class UserProfile extends Component {
     console.log("pathname:", this.props.location.pathname)
     $.get(`/api${path || this.props.location.pathname}`)
     .then(user => {
-   
+
       this.setState({ user });
     }).fail(err => {
       console.error("failed to get user", err);
@@ -82,13 +82,12 @@ class UserProfile extends Component {
     .then((res) => {
       res.json()
       .then(events => {
-        console.log(events);
         this.setState({ events })
       })
     })
     .catch(err => {
       console.error('Failed to get hosted event ', err);
-    })  
+    })
   }
 
   getUserRating = (path = this.props.location.pathname) => {
@@ -116,14 +115,14 @@ class UserProfile extends Component {
   }
 
   render() {
- 
+
     return (
       <div className="wrapper">
         <NavBar getCurrentUser={this.getCurrentUser} clearUser={this.clearUser} currentUser={this.state.currentUser}/>
         <UserProfile_Header currentUser={this.state.currentUser} user={this.state.user} getUser={this.getUser} rating={this.state.rating}/>
         <UserProfile_Events events={this.state.events}/>
         <UserProfile_Reviews />
-      </div>  
+      </div>
     );
   }
 }

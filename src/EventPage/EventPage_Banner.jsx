@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import EventPage_Map from './EventPage_Map.jsx';
+import {Link} from 'react-router-dom';
+const uuid = require('uuid/v4');
 
 class EventPage_Banner extends Component {
   constructor(props){
@@ -22,6 +24,7 @@ class EventPage_Banner extends Component {
           method: 'POST'
         }).then(() => {
          this.props.getGuestList(this.props.id);
+         setTimeout(() => { this.carousel(); }, 500);
         })
       } else { return alert('Booking failed')}
     });
@@ -42,7 +45,7 @@ class EventPage_Banner extends Component {
         next.children(':first-child').clone().appendTo($(this));
       }
       next.children(':first-child').clone().appendTo($(this));
-      if (next.next().length>0) {
+      if (next.next().length > 0) {
         next.next().children(':first-child').clone().appendTo($(this));
       }
       else {
@@ -53,7 +56,7 @@ class EventPage_Banner extends Component {
   }
 
   componentDidMount(){
-    setTimeout(() => { this.carousel(); }, 250);
+    setTimeout(() => { this.carousel(); }, 500);
   }
 
   render() {
@@ -75,7 +78,7 @@ class EventPage_Banner extends Component {
 
     const imageCarousel = this.props.images.map((image, i) => {
       return (
-        <div key={image.id} className={ i === 0 ? "carousel-item carousel-item-top active" : "carousel-item carousel-item-top"}>
+        <div key={uuid()} className={ i === 0 ? "carousel-item carousel-item-top active" : "carousel-item carousel-item-top"}>
           <img className="col-4 img-fluid" src={image.image}></img>
         </div>
       )
@@ -84,17 +87,19 @@ class EventPage_Banner extends Component {
     const hostCarousel = this.props.hosts_and_chefs.map((host, i) => {
       return (
         <div key={`${host.user_id}_${host.role_name}`} className={ i === 0 ? "carousel-item active" : "carousel-item"}>
-          <div className="hostDetail">
-            <img className="d-block img-fluid host-avatar" src={host.avatar}></img>
-            <h4 className="text-center">{host.first_name} {host.last_name}</h4>
-            <p className="text-center">{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
-          </div>
+          <Link to={`/users/${host.user_id}`} className="invisilink">
+            <div className="hostDetail">
+              <img className="d-block img-fluid host-avatar" src={host.avatar}></img>
+              <h4 className="text-center">{host.first_name} {host.last_name}</h4>
+              <p className="text-center">{host.role_name[0].toUpperCase() + host.role_name.slice(1)}</p>
+            </div>
+          </Link>
         </div>
       )
     });
 
     let carouselControls;
-    if (this.props.images.length > 1) {
+    if (this.props.hosts_and_chefs.length > 1) {
       carouselControls = (
         <span>
           <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -109,6 +114,22 @@ class EventPage_Banner extends Component {
       )
     };
 
+    let bannerControls;
+    if (this.props.images.length > 1) {
+      bannerControls = (
+        <span>
+          <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="sr-only">Previous</span>
+          </a>
+          <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="sr-only">Next</span>
+          </a>
+        </span>
+      )
+    };
+
     return (
       <div className="eventBanner container-fluid">
         <div className="row mx-auto my-auto">
@@ -116,14 +137,7 @@ class EventPage_Banner extends Component {
             <div className="carousel-inner" role="listbox">
               { imageCarousel }
             </div>
-            <a className="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span className="sr-only">Previous</span>
-            </a>
-            <a className="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
-              <span className="sr-only">Next</span>
-            </a>
+            { bannerControls }
           </div>
         </div>
 

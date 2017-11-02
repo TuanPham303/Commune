@@ -43,7 +43,7 @@ class HomePage extends Component {
       this.setState({
         previewEvents: result,
       })
-     document.getElementsByClassName('eventDescription')[0].scrollIntoView({ behavior: 'smooth'  });
+     document.getElementsByClassName('imgContainer')[0].scrollIntoView({ behavior: 'smooth'  });
     })
     .fail(e => {
       console.error(e);

@@ -69,7 +69,7 @@ class UserProfile_Header extends Component {
     } else {
       return (
         <span>
-          <p><strong>Rating: </strong></p>
+          <p><strong>Average Rating: </strong></p>
           <StarRatingComponent
             name='displayRating'
             editing={false}

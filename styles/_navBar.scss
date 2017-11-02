@@ -11,7 +11,7 @@
   height: auto;
   max-height: 400px;
   overflow-x: hidden;
-  opacity: 0.95;
+  opacity: 1;
 }
 
 .logo-photo {
@@ -42,10 +42,41 @@
   text-decoration: none;
 }
 
+.dropdown-toggle.dropdown-search-button {
+  background-color: #dc8115;
+  border-color: #dc8115;
+}
+
+.dropdown-toggle.dropdown-search-button:hover {
+  background-color: #dc8115;
+  border-color: #dc8115;
+}
+
+.btn-secondary:not([disabled]):not(.disabled):active, .btn-secondary:not([disabled]):not(.disabled).active, .show > .btn-secondary.dropdown-toggle.dropdown-search-button {
+  background-color: #dc8115;
+  border-color: #dc8115;
+
+  & .fa.fa-lightbulb-o {
+    padding-right: 10px;
+    font-size: medium;
+    color: yellow;
+  }
+}
+
+.fa.fa-lightbulb-o {
+  padding-right: 10px;
+  font-size: medium;
+}
+
+.search-word {
+  padding-right: 6px;
+}
+
+
 .form-control.navbar-searchbox {
   margin-bottom: 10px;
   height: 70px;
-  opacity: 0.92;
+  opacity: 1;
 }
 
 .dropdown-divider.navsearch-divider {

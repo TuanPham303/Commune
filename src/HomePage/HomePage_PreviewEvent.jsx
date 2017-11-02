@@ -14,14 +14,13 @@ class HomePage_PreviewEvent extends Component {
           <img src={this.props.image_url} className='eventImg'/>
         </div>
         <div className="eventDescription">
-          <p className="text-center"><b>{this.props.title}</b></p>
+          <p className="text-center preview-event-title"><b>{this.props.title}</b></p>
           <div className="row">
             <p className="col-3 text-center"><i className="fa fa-usd" aria-hidden="true"></i> {this.props.price}</p>  
             <p className="col-3 text-center"><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity} </p>
             <p className="col-6 text-center"><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.neighbourhood} </p>
           </div>
           <p className="description-p" style={{'paddingLeft':'10px'}}><i className="fa fa-info" aria-hidden="true"></i> {this.props.description} </p>
-          
           <div className="hostAndDetailButton">
             <div className="row">
               <div className="col-7 row">
@@ -36,7 +35,7 @@ class HomePage_PreviewEvent extends Component {
               </div>
               <div className="col-5 buttonWrap">
                 <Link to={`/events/${this.props.event_id}`}>
-                  <button className="btn btn-success clickable" data-event-id={this.props.event_id} onClick={this.handleEventDetail}>Details</button>
+                  <button className="btn btn-success clickable details-button" data-event-id={this.props.event_id} onClick={this.handleEventDetail}>Details</button>
                 </Link>
               </div>
             </div>

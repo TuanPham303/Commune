@@ -104,6 +104,7 @@
           padding: 0;
           p {
             position: absolute;
+            padding-left: 8px;
             top: 50%;
             transform: translateY(-50%);
           }
@@ -149,7 +150,7 @@
 }
 
 .preview-event-title {
- font-size: x-large;
+ font-size: large;
  margin-bottom: .1em;
 }
 

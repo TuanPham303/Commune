@@ -156,7 +156,7 @@ class EventPage_Banner extends Component {
                   <p><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.address}</p>
                 }
                 { this.isHost &&
-                  <button className="btn btn-primary" data-toggle="modal" data-target="#editEventModal">Edit Event</button>
+                  <button className="btn btn-primary" data-toggle="modal" style={{ 'display': 'none' }} data-target="#editEventModal">Edit Event</button>
                 }
               </div>
             </div>

@@ -10,8 +10,8 @@ exports.seed = function(knex, Promise) {
   ])
   .then(function () {
     return knex('users').insert([
-      {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', avatar: '/user-avatars/default-avatar.png', password_digest: bcrypt.hashSync('password', 10), is_host: true},
-      {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', avatar: '/user-avatars/default-avatar.png', password_digest: bcrypt.hashSync('password', 10), is_host: true, is_chef: true},
+      {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', avatar: '/user-avatars/girl_5.png', password_digest: bcrypt.hashSync('password', 10), is_host: true},
+      {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', avatar: '/user-avatars/girl_4.png', password_digest: bcrypt.hashSync('password', 10), is_host: true, is_chef: true},
       {id: 20001, first_name: 'Ryan', last_name: 'Pachune', email: 'rp@email.com', avatar: '/user-avatars/man_2.png', password_digest: bcrypt.hashSync('password', 10), is_host: true},
       {id: 20002, first_name: 'Mandy', last_name: 'Parsons', email: 'mp@email.com', avatar: '/user-avatars/girl_3.png', password_digest: bcrypt.hashSync('password', 10), is_host: true},
       {id: 20003, first_name: 'Reggie', last_name: 'Fasoon', email: 'rf@email.com', avatar: '/user-avatars/student.png', password_digest: bcrypt.hashSync('password', 10), is_host: true},

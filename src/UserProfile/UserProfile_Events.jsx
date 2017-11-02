@@ -32,8 +32,8 @@ class UserProfile_Events extends Component {
       }
       const convertedEventDate = moment(event.event_date).format('MMMM Do YYYY');
       return (
-        <div>
-          <Link key={event.event_id} to={`/events/${event.event_id}`} className='row mb-2 hosted-event invisilink' >
+        <div key={event.event_id}>
+          <Link to={`/events/${event.event_id}`} className='row mb-2 hosted-event invisilink' >
             <div className='col-md-4 offset-md-3'>
               <h5>{event.title}</h5>
               <p className="description-p">{event.description}</p>

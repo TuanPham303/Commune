@@ -1,6 +1,7 @@
 .userProfileHeader {
   height: 50vh;
   .avatar {
+    line-height: 250px;
     height: 250px;
     width: 250px;
     border-radius: 50%;
@@ -10,6 +11,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     img {
+      vertical-align: middle;
       width: 250px;
       height: auto;
     }

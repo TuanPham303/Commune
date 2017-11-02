@@ -72,7 +72,7 @@ exports.seed = function(knex, Promise) {
       {id: 50000, user_id: 20000, event_id: 10005},
       {id: 60000, user_id: 30000, event_id: 10006},
       {id: 70000, user_id: 20006, event_id: 10007},
-      {id: 80000, user_id: 20007, event_id: 10008},
+      {id: 80000, user_id: 20017, event_id: 10008},
       {id: 90000, user_id: 30000, event_id: 10009},
       {id: 100000, user_id: 20000, event_id: 10010},
       {id: 110000, user_id: 20007, event_id: 10011},
@@ -118,6 +118,30 @@ exports.seed = function(knex, Promise) {
       {id: 10000, reviewer_id: 20000, user_event_id: 10000, rating: 5, description: 'Really really loved this one - great host!'},
       {id: 20000, reviewer_id: 20001, user_event_id: 10000, rating: 1, description: 'Didn\'t care for it'},
       {id: 30000, reviewer_id: 30000, user_event_id: 10000, rating: 3, description: 'Just alright - had a good time though'}
+    ])
+  })
+  .then(function () {
+    return knex('event_images').insert([
+      {id: 10001, event_id: 10005, image: '/event-images/steak.jpg'},
+      {id: 10002, event_id: 10005, image: '/event-images/tomato-spinach-quiche.jpg'},
+      {id: 10003, event_id: 10005, image: '/event-images/squash-noodle-soup.jpg'},
+      {id: 10004, event_id: 10006, image: '/event-images/bbq-chicken-thighs.jpg'},
+      {id: 10005, event_id: 10007, image: '/event-images/bolongese-pasta.jpg'},
+      {id: 10006, event_id: 10007, image: '/event-images/carrots-artichokes.jpg'},
+      {id: 10007, event_id: 10007, image: '/event-images/smoked-salmon.jpg'},
+      {id: 10008, event_id: 10007, image: '/event-images/berry-skillet-cake.jpg'},
+      {id: 10009, event_id: 10008, image: '/event-images/diner-table.jpg'},
+      {id: 10010, event_id: 10010, image: '/event-images/pesto.jpg'},
+      {id: 10011, event_id: 10010, image: '/event-images/green-tomatoes.jpg'},
+      {id: 10012, event_id: 10010, image: '/event-images/fried-broccolli.jpg'},
+      {id: 10013, event_id: 10010, image: '/event-images/green-shrimp-soup.jpg'},
+      {id: 10014, event_id: 10012, image: '/event-images/poutine.jpg'},
+      {id: 10015, event_id: 10012, image: '/event-images/charcuterie.jpg'},
+      {id: 10016, event_id: 10012, image: '/event-images/charcuterie-2.jpg'},
+      {id: 10017, event_id: 10012, image: '/event-images/bbq-chicken-thighs.jpg'},
+      {id: 10018, event_id: 10012, image: '/event-images/pulled-pork.jpg'},
+      {id: 10019, event_id: 10012, image: '/event-images/sliced-bread.jpg'},
+      {id: 10020, event_id: 10012, image: '/event-images/apple-pie.jpg'},
     ])
   })
 };

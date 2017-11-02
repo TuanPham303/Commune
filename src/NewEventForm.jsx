@@ -117,7 +117,7 @@ export default class NewEventForm extends Component {
                   <input type="number" className="form-control" placeholder= 'Required' min="0" ref="price" value ={this.state.price} onChange={this.handleChange.bind(this, 'price')}></input>
                 </div>
                 <div className="form-group">
-                  <label>Capacity</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='capacityErrMsg'>Must be greater than 0</label>
+                  <label>Seats Available</label>&nbsp;&nbsp;<label className='redErrMsg hidden' id='capacityErrMsg'>Must be greater than 0</label>
                   <input type="number" className="form-control" placeholder= 'Required' min="0" ref="capacity" value ={this.state.capacity} onChange={this.handleChange.bind(this, 'capacity')}></input>
                 </div>
                 <div className="form-group">

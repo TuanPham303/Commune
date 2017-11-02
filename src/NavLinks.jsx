@@ -19,13 +19,13 @@ function NavLinks({ currentUser, handleLogout }) {
       return (
         <ul className="navbar-nav nav mr-auto navbar-float-right">
           <li className="nav-item">
-            <Link to={`/users/${id}`} className="nav-link" >Hello {first_name} {last_name}!</Link>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
+            <Link to={`/users/${id}`} className="nav-link" >{first_name} {last_name}</Link>
           </li>
           <li className="nav-item" data-toggle="modal" data-target="#newEventModal">
             <a className="nav-link clickable">New Event</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
           </li>
         </ul>
       )
@@ -33,13 +33,13 @@ function NavLinks({ currentUser, handleLogout }) {
     return(
       <ul className="navbar-nav mr-auto navbar-float-right">
         <li className="nav-item">
-          <div className="nav-link notClickable">Hello {first_name} {last_name}!</div>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
+          <div className="nav-link notClickable">{first_name} {last_name}</div>
         </li>
         <li className="nav-item" data-toggle="modal" data-target="#becomeHostModal">
           <a className="nav-link clickable">Become a Host</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
         </li>
       </ul>
     )

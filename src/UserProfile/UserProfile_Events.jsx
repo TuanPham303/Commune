@@ -39,10 +39,10 @@ class UserProfile_Events extends Component {
               <p className="description-p">{event.description}</p>
               <small>{convertedEventDate}</small>
             </div>
-            <div className='col-sm-1'>
+            <div className='col-sm-1 text-center'>
               <p>{event.review_count}</p>
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-2 text-center'>
               { this.eventRating(event) }
             </div>
           </Link>
@@ -55,9 +55,9 @@ class UserProfile_Events extends Component {
       <div className="container hostedEvents">
         <h3 className="text-center">Hosted Events</h3>
         <div className='row hotsted-event-header'>
-          <h5 className='col-md-4 offset-md-3 user-events-headers'><i className="fa fa-spoon"></i></h5>
-          <h5 className='col-sm-1 user-events-headers'><i className="fa fa-pencil"></i></h5>
-          <h5 className='col-sm-2 user-events-headers'><i className="fa fa-star"></i></h5>
+          <h5 className='col-md-4 offset-md-3 '><i className="fa fa-spoon"></i></h5>
+          <h5 className='col-sm-1 text-center user-events-headers'><i className="fa fa-pencil"></i></h5>
+          <h5 className='col-sm-2 text-center user-events-headers'><i className="fa fa-star"></i></h5>
         </div>
         {events}
       </div>

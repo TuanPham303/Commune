@@ -15,12 +15,13 @@ class HomePage_PreviewEvent extends Component {
         </div>
         <div className="eventDescription">
           <p className="text-center preview-event-title"><b>{this.props.title}</b></p>
+          <hr className="title-divider"></hr> 
           <div className="row">
             <p className="col-3 text-center"><i className="fa fa-usd" aria-hidden="true"></i> {this.props.price}</p>  
             <p className="col-3 text-center"><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity} </p>
             <p className="col-6 text-center"><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.neighbourhood} </p>
           </div>
-          <p className="description-p" style={{'paddingLeft':'10px'}}><i className="fa fa-info" aria-hidden="true"></i> {this.props.description} </p>
+          <p className="description-p" style={{'paddingLeft':'10px'}}>{this.props.description}</p>
           <div className="hostAndDetailButton">
             <div className="row">
               <div className="col-7 row">

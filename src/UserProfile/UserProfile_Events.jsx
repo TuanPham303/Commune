@@ -32,19 +32,22 @@ class UserProfile_Events extends Component {
       }
       const convertedEventDate = moment(event.event_date).format('MMMM Do YYYY');
       return (
-        <Link key={event.event_id} to={`/events/${event.event_id}`} className='row mb-2 hosted-event invisilink' >
-          <div className='col-md-4 offset-md-3' style={{'borderBottom': '1px solid #000'}}>
-            <h5>{event.title}</h5>
-            <p className="description-p">{event.description}</p>
-            <small>{convertedEventDate}</small>
-          </div>
-          <div className='col-sm-1'>
-            <p>{event.review_count}</p>
-          </div>
-          <div className='col-md-2'>
-            { this.eventRating(event) }
-          </div>
-        </Link>
+        <div>
+          <Link key={event.event_id} to={`/events/${event.event_id}`} className='row mb-2 hosted-event invisilink' >
+            <div className='col-md-4 offset-md-3'>
+              <h5>{event.title}</h5>
+              <p className="description-p">{event.description}</p>
+              <small>{convertedEventDate}</small>
+            </div>
+            <div className='col-sm-1'>
+              <p>{event.review_count}</p>
+            </div>
+            <div className='col-md-2'>
+              { this.eventRating(event) }
+            </div>
+          </Link>
+          <hr className="event-history-divider"></hr>
+        </div>
       )
     })
 

@@ -33,7 +33,7 @@ class UserProfile_Events extends Component {
       const convertedEventDate = moment(event.event_date).format('MMMM Do YYYY');
       return (
         <Link key={event.event_id} to={`/events/${event.event_id}`} className='row mb-2 hosted-event invisilink' >
-          <div className='col-md-4 offset-md-3'>
+          <div className='col-md-4 offset-md-3' style={{'borderBottom': '1px solid #000'}}>
             <h5>{event.title}</h5>
             <p className="description-p">{event.description}</p>
             <small>{convertedEventDate}</small>
@@ -50,7 +50,7 @@ class UserProfile_Events extends Component {
 
     return (
       <div className="container hostedEvents">
-        <h3>Hosted Events</h3>
+        <h3 className="text-center">Hosted Events</h3>
         <div className='row hotsted-event-header'>
           <h5 className='col-md-4 offset-md-3 user-events-headers'><i className="fa fa-spoon"></i></h5>
           <h5 className='col-sm-1 user-events-headers'><i className="fa fa-pencil"></i></h5>

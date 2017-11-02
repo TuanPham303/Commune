@@ -10,7 +10,7 @@ export default class EventPage_GuestList extends Component {
 
   render() {
     const guests = this.props.guestList.map(guest => {
-      return <li className="list-group-item" key={guest.id}>
+      return <li className="list-group-item guestList" key={guest.id}>
         <Link to={`/users/${guest.id}`} className="invisilink">
           <div className="guestlist-item">
             <img src={guest.avatar} alt="avatar" className="thumbnail"></img>&nbsp;

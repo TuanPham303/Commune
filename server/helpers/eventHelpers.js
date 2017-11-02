@@ -350,7 +350,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
           if (eventData.capacity < results[0].usersRegistered) {
             reject('You cannot have a capacity smaller than the number of users registered.');
           }
-          if (eventData.address || eventData.city) {
+          if (!eventData.address || !eventData.city) {
             reject('To update the location of your event, please provide both a street address and city.');
           }
           if (eventData.address && eventData.city) {

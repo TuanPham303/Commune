@@ -64,7 +64,6 @@ class UserProfile extends Component {
   }
 
   getUser = (path) => {
-    console.log("pathname:", this.props.location.pathname)
     $.get(`/api${path || this.props.location.pathname}`)
     .then(user => {
 

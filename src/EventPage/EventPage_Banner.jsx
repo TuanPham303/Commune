@@ -24,39 +24,20 @@ class EventPage_Banner extends Component {
           method: 'POST'
         }).then(() => {
          this.props.getGuestList(this.props.id);
-         setTimeout(() => { this.carousel(); }, 500);
+         setTimeout(() => { this.props.carousel(); }, 400);
         })
       } else { return alert('Booking failed')}
     });
   }
 
-  carousel(){
-    $('#recipeCarousel').carousel({
-      interval: 10000
-    })
-
-    $('.carousel-top .carousel-item-top').each(function(){
-      let next = $(this).next();
-      if (!next.length) {
-        next = $(this).siblings(':first');
-      }
-      if ($('.carousel-top .carousel-item-top').length === 1){
-        next = $(this);
-        next.children(':first-child').clone().appendTo($(this));
-      }
-      next.children(':first-child').clone().appendTo($(this));
-      if (next.next().length > 0) {
-        next.next().children(':first-child').clone().appendTo($(this));
-      }
-      else {
-        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-      }
-    });
-
+  componentDidMount(){
+    setTimeout(() => { this.props.carousel(); }, 400);
   }
 
-  componentDidMount(){
-    setTimeout(() => { this.carousel(); }, 500);
+  get isHost(){
+    if (this.props.guestList.length > 0 && this.props.currentUser){
+      return this.props.guestList[0].id === this.props.currentUser.id
+    }
   }
 
   render() {
@@ -159,7 +140,7 @@ class EventPage_Banner extends Component {
                 <p><i className="fa fa-usd" aria-hidden="true"></i> {this.props.price}</p>
                 <p><i className="fa fa-calendar" aria-hidden="true"></i> {this.props.date}</p>
                 <p><i className="fa fa-users" aria-hidden="true"></i> {this.props.capacity}</p>
-                <p><i className="fa fa-info" aria-hidden="true"></i> {this.props.description}</p>
+                <p><i className="fa fa-info-circle" aria-hidden="true"></i> {this.props.description}</p>
                 { this.props.stripePKey && !paidUser &&
                   <StripeCheckout token={this.onToken}
                   stripeKey={this.props.stripePKey}
@@ -173,6 +154,9 @@ class EventPage_Banner extends Component {
                 }
                 { paidUser &&
                   <p><i className="fa fa-map-marker" aria-hidden="true"></i> {this.props.address}</p>
+                }
+                { this.isHost &&
+                  <button className="btn btn-primary" data-toggle="modal" data-target="#editEventModal">Edit Event</button>
                 }
               </div>
             </div>

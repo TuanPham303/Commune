@@ -19,17 +19,13 @@ function NavLinks({ currentUser, handleLogout }) {
       return (
         <ul className="navbar-nav nav mr-auto navbar-float-right">
           <li className="nav-item">
-            <Link to={`/users/${id}`} className="nav-link">{first_name} {last_name}</Link>
+            <Link to={`/users/${id}`} className="nav-link" >Hello {first_name} {last_name}!</Link>
           </li>
           <li className="nav-item">
             <a className="nav-link clickable" onClick={handleLogout}>Logout</a>
           </li>
-          <li className="nav-item dropdown" >
-            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true" aria-expanded="false">Hosting</a>
-            <div className="dropdown-menu" style={{'border': 'none', 'backgroundColor': '#f8f9fa'}}>
-              <a className="dropdown-item" href="#!" data-toggle="modal" data-target="#newEventModal">Create Event</a>
-              <a className="dropdown-item" href="#!">Events History</a>
-            </div>
+          <li className="nav-item" data-toggle="modal" data-target="#newEventModal">
+            <a className="nav-link clickable">New Event</a>
           </li>
         </ul>
       )
@@ -37,7 +33,7 @@ function NavLinks({ currentUser, handleLogout }) {
     return(
       <ul className="navbar-nav mr-auto navbar-float-right">
         <li className="nav-item">
-          <Link to={`/users/${id}`} className="nav-link">{first_name} {last_name}</Link>
+          <div className="nav-link notClickable">Hello {first_name} {last_name}!</div>
         </li>
         <li className="nav-item">
           <a className="nav-link clickable" onClick={handleLogout}>Logout</a>

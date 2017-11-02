@@ -6,7 +6,7 @@ module.exports = function makeEventHelpers(knex, googleMapsClient) {
 
   function postReview(reviewerId, eventId, userId, rating, description) {
     return knex('user_events')
-      .select('id')
+      .select('user_events.id')
       .where({
         user_id: userId,
         event_id: eventId

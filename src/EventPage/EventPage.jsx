@@ -145,10 +145,11 @@ export default class EventPage extends Component {
       };
 
       $.post(`/api/events/${this.eventId}/reviews`, review)
-        .then(() => {
+        .then((res) => {
           this.getReviews()
-          console.log('asdf');
-          setTimeout(() => { this.carousel(); }, 400);
+          if (res === "Created") {
+            $('.hidden').removeClass('hidden').fadeOut(4000);
+          }
         });
     }
   }

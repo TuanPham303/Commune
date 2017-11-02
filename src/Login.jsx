@@ -29,7 +29,7 @@ class Login extends Component {
         password: ''
       })
       this.props.getCurrentUser();
-      $('.closeButton').click();
+      location.reload();
     })
     .fail(err => {
       $('#loginErrMsg').removeClass('hidden');

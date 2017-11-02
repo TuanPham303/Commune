@@ -95,6 +95,9 @@ class NavBar extends Component {
         this.props.clearUser()
       }
     })
+    .then(() => {
+      location.reload();
+    })
     .fail(err => {
       console.error('Failed to Logout', err);
     })

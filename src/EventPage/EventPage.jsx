@@ -84,6 +84,30 @@ export default class EventPage extends Component {
     })
   }
 
+  carousel(){
+    $('#recipeCarousel').carousel({
+      interval: 10000
+    })
+
+    $('.carousel-top .carousel-item-top').each(function(){
+      let next = $(this).next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      if ($('.carousel-top .carousel-item-top').length === 1){
+        next = $(this);
+        next.children(':first-child').clone().appendTo($(this));
+      }
+      next.children(':first-child').clone().appendTo($(this));
+      if (next.next().length > 0) {
+        next.next().children(':first-child').clone().appendTo($(this));
+      }
+      else {
+        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+      }
+    });
+  }
+
   getEventImages = (id = this.eventId) => {
     $.get(`/api/events/${id}/images`)
     .then(images => {
@@ -123,6 +147,8 @@ export default class EventPage extends Component {
       $.post(`/api/events/${this.eventId}/reviews`, review)
         .then(() => {
           this.getReviews()
+          console.log('asdf');
+          setTimeout(() => { this.carousel(); }, 400);
         });
     }
   }
@@ -185,6 +211,7 @@ export default class EventPage extends Component {
           currentUser={this.state.currentUser}
           eventId={this.eventId}
           images={images}
+          carousel={this.carousel}
          />
          <EventPage_Menu
           menu={event.menu_description}
@@ -203,7 +230,7 @@ export default class EventPage extends Component {
         <Register getCurrentUser={this.getCurrentUser} />
         <NewEventForm currentUser={this.state.currentUser} />
         <BecomeHost getCurrentUser={this.getCurrentUser} />
-        <EditEventForm 
+        <EditEventForm
           event={this.state.event}
           currentUser={this.state.currentUser}
         />

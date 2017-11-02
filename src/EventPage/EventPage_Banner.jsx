@@ -24,45 +24,22 @@ class EventPage_Banner extends Component {
           method: 'POST'
         }).then(() => {
          this.props.getGuestList(this.props.id);
-         setTimeout(() => { this.carousel(); }, 500);
+         setTimeout(() => { this.props.carousel(); }, 400);
         })
       } else { return alert('Booking failed')}
     });
   }
 
-  carousel(){
-    $('#recipeCarousel').carousel({
-      interval: 10000
-    })
-
-    $('.carousel-top .carousel-item-top').each(function(){
-      let next = $(this).next();
-      if (!next.length) {
-        next = $(this).siblings(':first');
-      }
-      if ($('.carousel-top .carousel-item-top').length === 1){
-        next = $(this);
-        next.children(':first-child').clone().appendTo($(this));
-      }
-      next.children(':first-child').clone().appendTo($(this));
-      if (next.next().length > 0) {
-        next.next().children(':first-child').clone().appendTo($(this));
-      }
-      else {
-        $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-      }
-    });
-
-  }
-
   componentDidMount(){
-    setTimeout(() => { this.carousel(); }, 500);
+    setTimeout(() => { this.props.carousel(); }, 400);
   }
+
   get isHost(){
     if (this.props.guestList.length > 0 && this.props.currentUser){
       return this.props.guestList[0].id === this.props.currentUser.id
     }
   }
+
   render() {
     let paidUser = false;
     this.props.guestList.forEach(guest => {

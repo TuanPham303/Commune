@@ -12,7 +12,8 @@ exports.seed = function(knex, Promise) {
     return knex('users').insert([
       {id: 10000, first_name: 'Darby', last_name: 'Doe', email: 'dd@example.com', avatar: '/user-avatars/default-avatar.png', password_digest: bcrypt.hashSync('password', 10), is_host: true},
       {id: 20000, first_name: 'Shandle', last_name: 'Smith', email: 'ss@example.com', avatar: '/user-avatars/default-avatar.png', password_digest: bcrypt.hashSync('password', 10), is_host: true, is_chef: true},
-      {id: 30000, first_name: 'Beruse', last_name: 'Jones', email: 'bj@example.com', avatar: '/user-avatars/default-avatar.png', password_digest: bcrypt.hashSync('password', 10),}
+      {id: 30000, first_name: 'Beruse', last_name: 'Jones', email: 'bj@example.com', avatar: '/user-avatars/default-avatar.png', password_digest: bcrypt.hashSync('password', 10),},
+      {id: 40000, first_name: 'Ryan', last_name: 'Pachune', avatar: '/users-avatars', password_digest: bcrypt.hashSync('password', 10), is_host: true},
     ])
   })
   .then(function () {

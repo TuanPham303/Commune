@@ -37,7 +37,7 @@ By ...
 12. Run the seed: `npm run knex seed:run`
   - Check the seeds file to see what gets seeded in the DB
 13. Run the server: `npm run local`
-14. Visit `http://localhost:8080/`
+14. Visit `http://localhost:3000/`
 
 ## Dependencies
 

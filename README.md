@@ -14,7 +14,9 @@ By ...
 
 ## Captures
 
-- To be added
+![Alt text](https://github.com/TuanPham303/Commune/blob/master/public/github-images/Screen%20Shot%202017-11-03%20at%2011.04.48%20AM.png?raw=true)
+![Alt text](https://github.com/TuanPham303/Commune/blob/master/public/github-images/Screen%20Shot%202017-11-03%20at%2011.06.33%20AM.png?raw=true)
+![Alt text](https://github.com/TuanPham303/Commune/blob/master/public/github-images/Screen%20Shot%202017-11-03%20at%2011.11.25%20AM.png?raw=true)
 
 ## Starting Up Commune
 

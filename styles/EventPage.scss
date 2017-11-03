@@ -2,14 +2,76 @@
   padding: 0;
 }
 
+.dv-star-rating-star {
+  margin-bottom: 0;
+}
+
+.dv-star-rating {
+  top: 5px;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.guestlist-item {
+  display: flex;
+  align-items: center;
+}
+
+.guestlist-name {
+  margin-bottom: 0;
+}
+
+.image-carousel {
+  background-color: #292d35;
+}
+
+.post-review {
+  background-color: skyblue;
+  color: White;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.w-75{
+  width: 100%;
+  height: 75vh;
+}
+
+.host-avatar {
+  border-radius: 7px;
+  width: 100%;
+}
+
 .eventBanner {
+  padding: 90px 0 0 0;
   padding-top: 100px;
-  .image {
-    img {
-      height: auto;
-      width: 100%;
-    }
+  background-color: #f9f9f9;
+
+  .carousel-inner .carousel-item-right.active,
+  .carousel-inner .carousel-item-next {
+    transform: translateX(33.33%);
   }
+
+  .carousel-inner .carousel-item-left.active,
+  .carousel-inner .carousel-item-prev {
+    transform: translateX(-33.33%)
+  }
+
+  .carousel-inner .carousel-item-right,
+  .carousel-inner .carousel-item-left{
+    transform: translateX(0);
+  }
+
   .eventDetail {
     margin-top: 80px;
     .eventTitle {
@@ -27,6 +89,11 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        .hostDetail {
+          h4 {
+            margin: 0;
+          }
+        }
       }
     }
     .eventInfo {
@@ -38,17 +105,64 @@
       width: 400px;
       height: 300px;
       margin: auto 0;
+      box-shadow: 2px 2px 3px #777;
+      padding: 0;
     }
   }
 }
 
 .menuContainer {
-  margin-top: 50px;
+  background-color: #f9f9f9;
+  padding-top: 100px;
+  padding-left: 0;
+  padding-right: 0;
   text-align: center;
+}
+.triangleTop {
+  width: 0;
+  height: 0;
+  border-top: 80px solid #fff;
+  border-left: 100vw solid #f9f9f9;
+}
+.triangleBottom {
+  width: 0;
+  height: 0;
+  border-bottom: 80px solid #fff;
+  border-left: 100vw solid #f9f9f9;
+}
+
+.guessListContainer {
+  margin: 50px 0;
+  text-align: center;
+  .guestList {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    &:hover {
+      box-shadow: 0 7px 14px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+    }
+  }
+}
+
+.invisilink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.invisilink:hover {
+  text-decoration: none;
+  color: #848c97;
 }
 
 .reviewContainer {
-  margin: 100px 0;
+  margin-top: 100px;
+  padding-bottom: 100px;
+  background-color: #f9f9f9;
+  .triangleTop {
+    width: 0;
+    height: 0;
+    border-top: 80px solid #fff;
+    border-left: 100vw solid #f9f9f9;
+  }
   .reviewInputWrap {
     margin-top: 50px;
     .rating {

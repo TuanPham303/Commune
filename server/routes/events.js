@@ -10,12 +10,25 @@ const googleMapsClient     = require('@google/maps').createClient({
   key: process.env.GOOGLE_MAPS_API_KEY,
   Promise: Promise
 });
+const multer  = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // console.log(path.join(__dirname,"../../", 'public/event-images/'));
+    cb(null,path.join(__dirname, '../../', 'public/event-images/'))
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({ storage });
 
 module.exports = knex => {
   const eventHelpers = eventHelpersFunction(knex, googleMapsClient);
 
   router.post('/:id/reviews', (req,res) => {
-    let reviewerId = req.body.reviewerId;
+    console.log(req.body);
+    let reviewerId = req.body.reviewer_id;
     let eventId = req.params.id;
     let userId = req.body.user_id;
     let rating = req.body.rating;
@@ -26,7 +39,7 @@ module.exports = knex => {
       return res.sendStatus(201);
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error('Error adding review:', error);
       return res.sendStatus(500);
     })
   });
@@ -43,26 +56,75 @@ module.exports = knex => {
   });
 
   // get details on all events that match the search term
-  router.get('/search', (req, res) => {
+  router.get('/navsearch', (req, res) => {
+    let searchValue = req.query.search.split(' ').join(' | ')
+    if (searchValue.trim() === '') { //Checks if query is empty
+      res.status(400);
+    } else {
+      eventHelpers.searchQuery(searchValue)
+      .then( (results) => {
+        eventHelpers.normalizeDataSearch(results.rows)
+        .then(results => {
+          res.json(results);
+        });
+      });
+    }
+  });
 
+  router.get('/search', (req, res) => {
+    let searchValue = req.query.search.split(' ').join(' | ')
+    if (searchValue.trim() === '') { //Checks if query is empty
+      res.status(400);
+    } else {
+      eventHelpers.searchQuery(searchValue)
+      .then( (results) => {
+        eventHelpers.normalizeData(results.rows)
+        .then(results => {
+          console.log(results)
+          Promise.all(results.map(function (event) {
+              return new Promise(function (resolve, reject) {
+                eventHelpers.getFirstEventImage(event.event_id).then(function (imageObjArray) {
+                  // console.log('imageObj for event', event.event_id, JSON.stringify(imageObjArray));
+                  if (imageObjArray.length > 0) {
+                    resolve(imageObjArray[0].image);
+                  } else {
+                    resolve('/event-images/event_default.jpg');
+                  }
+                }).catch(function () {
+                  resolve('/event-images/event_default.jpg');
+                });
+              });
+            }))
+            .then(function (imageUrls) {
+              // Because results and imageUrls have the same length, we can use the index to map the
+              // event image url to each image
+              results.forEach(function (event, index) {
+                event.image_url = imageUrls[index];
+                // return event;
+              });
+              res.json(results);
+            });
+        });
+      })
+    }
   });
 
   //update event
   router.post('/:id/edit', (req, res) => {
     eventHelpers.queryDB(req.params.id)
       .then((eventData) => {
-        if (eventHelpers.hasEditPermssion(eventData, 10000)) {
+        console.log('this is event data',eventData[0].user_id);
+        if (eventHelpers.hasEditPermssion(eventData, eventData[0].user_id)) {
           eventHelpers.updateEvent(req.params.id, req.body)
           .then(() => {
             res.sendStatus(200);
           })
           .catch(err => {
-            console.log(err);
+            console.error('Error updating event:', err);
             res.status(400).send(err);
           })
         }
         else {
-          console.log('no perms');
           res.status(400).send('You don\'t have permission');
         }
       })
@@ -71,11 +133,31 @@ module.exports = knex => {
   // add new event (add to events table, add host to user_events, etc)
   // takes current_user (becomes host), title, address, date/time (optional),
   //   description(optional), menu_description (optional), price, capacity, imageURL (optional)
-  router.post('/new', (req, res) => {
+  router.post('/new', upload.array('images'), (req, res) => {
+    console.log("req body: ", req.body, "req files: ", req.files);
     const rb = req.body;
-    if (rb.users && rb.title && rb.address && rb.city && rb.price && rb.capacity) {
+
+    let errMsg = [];
+    if (!rb.title) {
+      errMsg.push('titleErrMsg');
+    }
+    if (!rb.address) {
+      errMsg.push('addressErrMsg');
+    }
+    if (!rb.city) {
+      errMsg.push('cityErrMsg');
+    }
+    if (!(rb.price > 0)) {
+      errMsg.push('priceErrMsg');
+    }
+    if (!(rb.capacity > 0)) {
+      errMsg.push('capacityErrMsg');
+    }
+
+    if (!errMsg.length && rb.user) {
       const details = {
-        users: rb.users, // an array of objects with user_id and role_id
+        user: rb.user,
+        role: rb.role,  // an array of objects with user_id and role_id
         title: rb.title,
         address: `${rb.address} ${rb.city}`,
         date: rb.date,
@@ -83,19 +165,29 @@ module.exports = knex => {
         menu: rb.menu,
         price: rb.price,
         capacity: rb.capacity,
-        image: rb.image
       }
       eventHelpers.createEvent(details)
-      .then((id) => {
-        res.status(201).send(id);
+      .then((eventId) => {
+        eventHelpers.createEventImages(eventId, req.files)
+        .then(() => {
+          // let eventId = JSON.stringify(id[0][0]);
+          res.json(eventId);
+        })
       })
       .catch(err => {
-        res.status(400).send(err);
+        console.error('Error creating event:', err);
+        res.status(400).send('Error creating event.');
       })
     } else {
-      res.status(400).send('Please fill out the required fields');
+      if (!errMsg.length) {
+        console.error('user not logged in, cannot create event');
+        res.status(401);
+      } else {
+        res.status(400).send(errMsg);
+      }
     }
   });
+
 
   // book an event for a user to attend as a guest
   // (add to user_events & user_event_roles tables)
@@ -135,10 +227,45 @@ module.exports = knex => {
       .then(results => {
           eventHelpers.normalizeData(results)
           .then(results => {
-            res.json(results);
+            Promise.all(results.map(function (event) {
+              return new Promise(function (resolve, reject) {
+                eventHelpers.getFirstEventImage(event.event_id).then(function (imageObjArray) {
+                  // console.log('imageObj for event', event.event_id, JSON.stringify(imageObjArray));
+                  if (imageObjArray.length > 0) {
+                    resolve(imageObjArray[0].image);
+                  } else {
+                    resolve('/event-images/event_default.jpg');
+                  }
+                }).catch(function () {
+                  resolve('/event-images/event_default.jpg');
+                });
+              });
+            })).then(function (imageUrls) {
+              // Because results and imageUrls have the same length, we can use the index to map the
+              // event image url to each image
+              results.forEach(function (event, index) {
+                event.image_url = imageUrls[index];
+                // return event;
+              });
+              res.json(results);
+            });
           });
         });
   });
+
+  router.get('/:id/images', (req, res) => {
+    eventHelpers.getAllEventImages(req.params.id)
+    .then(images => {
+      res.json(images);
+    })
+  })
+
+  router.get('/:id/image', (req, res) => {
+    eventHelpers.getFirstEventImage(req.params.id)
+    .then(image => {
+      res.json(image);
+    })
+  })
 
   router.get('/:id/reviews', (req, res) => {
     eventHelpers.getReviewsByEvent(req.params.id)

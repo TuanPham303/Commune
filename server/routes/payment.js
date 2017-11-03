@@ -20,7 +20,7 @@ module.exports = knex => {
     })
     .then(charge => res.json(charge))
     .catch(err => {
-      console.log("Error:", err);
+      console.error("Error with stripe purchase:", err);
       res.status(500).send({error: "Purchase Failed"});
     });
   });

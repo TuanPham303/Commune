@@ -8,7 +8,7 @@ const multer  = require('multer');
 const path = require('path');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(path.join(__dirname,"../../", 'public/user-avatars/'));
+    // console.log(path.join(__dirname,"../../", 'public/user-avatars/'));
     cb(null,path.join(__dirname, '../../', 'public/user-avatars/'))
   },
   filename: function (req, file, cb) {
@@ -39,31 +39,64 @@ module.exports = knex => {
   });
 
   router.post("/register", upload.single('avatar'), (req, res) => {
-    console.log(req.body, req.file);
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
-    let is_host= false;
-    let is_chef= false;
     let password = req.body.password;
-    let avatar = `/user-avatars/${req.file.filename}`
+    let avatar = req.file ? `/user-avatars/${req.file.filename}` : '/user-avatars/default-avatar.png'
 
-    userHelpers.addUser(first_name, last_name, email, is_host, is_chef, password, avatar).then((user) => {
-      req.session.user = user[0];
-      res.json(user);
+    return new Promise((resolve, reject) => {
+      let errMsg = [];
+      if (!first_name) {
+        errMsg.push('firstNameErrMsg');
+      };
+      if (!last_name) {
+        errMsg.push('lastNameErrMsg');
+      };
+      if (!password) {
+        errMsg.push('passwordErrMsg');
+      };
+      if (!email) {
+        errMsg.push('missingEmailErrMsg');
+        resolve(errMsg);
+      } else {
+        userHelpers.checkEmailUnique(email)
+        .then(result => {
+          if (!result) {
+            errMsg.push('takenEmailErrMsg');
+          }
+          resolve(errMsg);
+        })
+      }
+    }).then((errMsg) => {
+      if (!errMsg.length) {
+        userHelpers.addUser(first_name, last_name, email, false, false, password, avatar)
+        .then((user) => {
+          req.session.user = user[0];
+          res.json(user);
+        })
+        .catch((error) => {
+          res.status(400).send(error);
+        });
+      } else {
+        res.status(400).send(errMsg);
+      };
     })
-    .catch((error) => console.error(error));
   });
 
   router.post('/upload', upload.single('avatar'), (req, res, next) => {
-    console.log(req.file);
+    console.log('file uploaded', req.file);
   })
-  
+
   router.get('/current', (req,res) => {
-    userHelpers.findById(req.session.user.id)
-    .then(user => {
-      res.json(user);
-    })
+    if (req.session.user) {
+      userHelpers.findById(req.session.user.id)
+      .then(user => {
+        res.json(user);
+      })
+    } else {
+      res.send('no current user')
+    }
   });
 
   // Update user's is_host boolean in DB to true
@@ -100,6 +133,13 @@ module.exports = knex => {
     });
   });
 
+  router.get('/:id/events/hosted', (req, res) => {
+    userHelpers.findHostedEventsByUserId(req.params.id)
+    .then(result => {
+      res.json(result);
+    });
+  });
+
   router.get('/:id/events', (req, res) => {
     userHelpers.findEventsByUserId(req.params.id)
     .then(result => {
@@ -120,6 +160,24 @@ module.exports = knex => {
       res.json(result);
     });
   });
+
+  router.get('/:id/rating', (req, res) => {
+    userHelpers.getRatingbyUserId(req.params.id)
+    .then(rating => {
+      res.json(rating[0].avg);
+    });
+  });
+
+  router.post('/:id/bio', (req, res) => {
+    req.body
+    userHelpers.addBio(req.params.id, req.body.bio)
+    .then(result => {
+      console.log(result);
+      res.sendStatus(201);
+    })
+  })
+
+  
 
   // router.post('/:id/reviews', (req,res) => {
   //   let reviewerId = req.body.reviewerId;

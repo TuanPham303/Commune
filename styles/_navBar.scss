@@ -1,4 +1,85 @@
 .navbarContainer {
-  height: 70px;
-  opacity: 0.92;
+  height: 80px;
+  position: relative;
+  opacity: 0.95;
 }
+
+#dropdown-menu {
+  right: 0;
+  left: -400%;
+  width: 500%;
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+  opacity: 1;
+}
+
+.logo-photo {
+  width: 50px;
+  height: 50px;
+}
+
+.logo-bundle {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.navbar-brand.logo {
+  font-family: 'Pacifico', cursive;
+  font-size: xx-large;
+}
+
+.dropdown-item.searchItem {
+  padding: 0 0;
+  white-space: normal;
+  text-align: center;
+}
+
+.dropdown-item.searchItem:hover {
+  padding: 0 0;
+  white-space: normal;
+  text-decoration: none;
+}
+
+.dropdown-toggle.dropdown-search-button {
+  background-color: #dc8115;
+  border-color: #dc8115;
+}
+
+.dropdown-toggle.dropdown-search-button:hover {
+  background-color: #dc8115;
+  border-color: #dc8115;
+}
+
+.btn-secondary:not([disabled]):not(.disabled):active, .btn-secondary:not([disabled]):not(.disabled).active, .show > .btn-secondary.dropdown-toggle.dropdown-search-button {
+  background-color: #dc8115;
+  border-color: #dc8115;
+
+  & .fa.fa-lightbulb-o {
+    padding-right: 10px;
+    font-size: medium;
+    color: yellow;
+  }
+}
+
+.fa.fa-lightbulb-o {
+  padding-right: 10px;
+  font-size: medium;
+}
+
+.search-word {
+  padding-right: 6px;
+}
+
+
+.form-control.navbar-searchbox {
+  margin-bottom: 10px;
+  height: 70px;
+  opacity: 1;
+}
+
+.dropdown-divider.navsearch-divider {
+  border-top: 1px solid #c6cace;
+}
+

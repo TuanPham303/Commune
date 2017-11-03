@@ -23,24 +23,42 @@ class App extends Component {
     }
   }
 
+  getSearchResults = searchData => {
+    const searchValue = searchData.replace(/&/g," ").replace(/  +/g, ' ')
+    $.ajax({
+      method: "GET",
+      url: `/api/events/search?search=${searchValue}`
+    })
+    .done(result => {
+      this.setState({
+        previewEvents: result,
+      })
+    })
+    .fail(e => {
+      console.error('app.jsx line 38', e);
+    });
+  }
+
   getCurrentUser = () => {
     $.ajax({
       method: "GET",
       url: "/api/users/current"
     })
     .done(result => {
-      this.setState({
-        currentUser: {
-          id: result.id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          is_host: result.is_host,
-          is_chef: result.is_chef
-        }
-      });
+      if (result !== 'no current user') {
+        this.setState({
+          currentUser: {
+            id: result.id,
+            first_name: result.first_name,
+            last_name: result.last_name,
+            is_host: result.is_host,
+            is_chef: result.is_chef
+          }
+        });
+      }
     })
     .fail(err => {
-      console.log('Failed to Logout', err);
+      console.error('Failed to Logout', err);
     })
   }
 
@@ -68,8 +86,6 @@ class App extends Component {
     });
   }
 
-
-
   render() {
     return (
       <div>
@@ -77,8 +93,9 @@ class App extends Component {
           currentUser={this.state.currentUser}
           clearUser={this.clearUser}
           getCurrentUser={this.getCurrentUser}
+          getSearchResults={this.getSearchResults}
         />
-        <HomePage />
+        <HomePage getSearchResults={this.getSearchResults} previewEvents={this.state.previewEvents} />
         <Login getCurrentUser={this.getCurrentUser} />
         <Register getCurrentUser={this.getCurrentUser} />
         <NewEventForm currentUser={this.state.currentUser}/>

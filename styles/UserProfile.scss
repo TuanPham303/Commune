@@ -1,8 +1,7 @@
 .userProfileHeader {
-  margin-top: 80px;
   height: 50vh;
-  border: 1px solid black;
   .avatar {
+    line-height: 250px;
     height: 250px;
     width: 250px;
     border-radius: 50%;
@@ -12,6 +11,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     img {
+      vertical-align: middle;
       width: 250px;
       height: auto;
     }
@@ -23,10 +23,35 @@
   }
 }
 
+.hosted-event-header {
+  border-bottom: 2px solid rgb(158, 157, 157);
+}
+
+.user-profile-header {
+ padding-top: 100px;
+}
+
+.event-history-divider {
+  width: 55%;
+}
+
+.user-event-headers {
+  text-align: center;
+}
+
+$text-color: #212529;
+
+.hostedEvents {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
 .reviews {
-  margin-top: 80px;
   .review {
     margin: 10px 0;
+    .content {
+      position: relative;
+    }
     .avatar {
       height: 100px;
       width: 100px;
@@ -34,5 +59,4 @@
       overflow: hidden;
     }
   }
-  
 }

@@ -8,7 +8,10 @@ const AnyReactComponent = ({ text }) => <div style={{
 
 export default class EventPage_Map extends Component {
   state = {
-    center: {lat: this.props.location.x, lng: this.props.location.y},
+    center: {
+      lat: this.props.location ? this.props.location.x : 0,
+      lng: this.props.location ? this.props.location.y : 0
+    },
     zoom: 13
   };
 
@@ -20,8 +23,8 @@ export default class EventPage_Map extends Component {
         defaultZoom={this.state.zoom}
       >
         <AnyReactComponent
-          lat={this.props.location.x}
-          lng={this.props.location.y}
+          lat={this.props.location ? this.props.location.x : 0}
+          lng={this.props.location ? this.props.location.y : 0}
         />
       </GoogleMapReact>
     );

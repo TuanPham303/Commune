@@ -13,40 +13,39 @@ module.exports = function makeUserHelpers(knex) {
       .then(([user]) => user);
   }
 
-    //Find ID of user on login
-    function findById(id) {
-      return knex('users')
-        .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar')
-        .where({id})
-        .limit(1)
-        .then(([user]) => user);
-    }
+  //Find ID of user on login
+  function findById(id) {
+    return knex('users')
+      .select('id', 'first_name', 'last_name', 'email', 'is_chef', 'is_host', 'avatar', 'bio')
+      .where({id})
+      .limit(1)
+      .then(([user]) => user);
+  }
 
   //Authenticate our user for login - email and password fields
-    function authenticateUser(email, password) {
-      return findByEmail(email)
-        .then((user) => {
-          console.log('log1:', user);
-          if(!user) return false;
-          return bcrypt.compare(password, user.password_digest)
-          .then((matches) => {
-            if(!matches) return false;
-            return user;
-          })
-          .then(user => {
-            console.log('log2:', user.id);
-            return findById(user.id);
-          })
-        });
-    }
+  function authenticateUser(email, password) {
+    return findByEmail(email)
+      .then((user) => {
+        if(!user) return false;
+        return bcrypt.compare(password, user.password_digest)
+        .then((matches) => {
+          if(!matches) return false;
+          return user;
+        })
+        .then(user => {
+          return findById(user.id);
+        })
+      });
+  }
 
   //Check if email is unique to database on register
   function checkEmailUnique(email) {
     return findByEmail(email)
       .then((user) => {
         if(!user) {
+          return true;
+        } else {
           return false;
-          return email;
         }
       })
   }
@@ -54,8 +53,7 @@ module.exports = function makeUserHelpers(knex) {
   //Add new user on register
   function addUser(first_name, last_name, email, is_host, is_chef, password, avatar) {
     return (
-      checkEmailUnique(email) //Is email unique?
-      .then(() => bcrypt.hash(password, 10))
+      bcrypt.hash(password, 10)
       .then((passwordDigest) => {
         return knex('users').insert({
           first_name: first_name,
@@ -64,13 +62,13 @@ module.exports = function makeUserHelpers(knex) {
           is_host: is_host,
           is_chef: is_chef,
           password_digest: passwordDigest,
-          avatar: !avatar ? '/user-avatars/default-avatar.png' : avatar
+          avatar: avatar
         }).returning(['id', 'first_name', 'last_name', 'email', 'is_host', 'is_chef'])
         .then((user)=> {
           return user;
         });
       })
-      .catch((error) => console.log("Invalid register", error))
+      .catch((error) => console.error("Invalid user register", error))
     )
   }
 
@@ -87,6 +85,63 @@ module.exports = function makeUserHelpers(knex) {
   }
 
 
+  function findHostedEventsByUserId(user_id) {
+    return knex('events')
+    .join('user_events', 'user_events.event_id', 'events.id')
+    .join('users', 'user_events.user_id', 'users.id')
+    .join('user_event_roles', 'user_event_roles.user_event_id', 'user_events.id')
+    .where({'users.id': user_id,
+            'user_event_roles.role_id': 2})
+    .then((events) => {
+
+      return Promise.all([
+        events,
+        Promise.all(events.map((event) => {
+          return knex('reviews')
+          .select(knex.raw('COUNT(rating) as review_count, AVG(rating) as review_avg '))
+          .join('user_events', 'reviews.user_event_id', 'user_events.id')
+          .join('events', 'events.id', 'user_events.id')
+          .where('events.id', event.event_id)
+        }))
+      ]);
+    })
+    .then(all => {
+      const events = all[0];
+      const reviews = all[1];
+      console.log('reviews length: ',reviews.length);
+      console.log('events length: ',events.length);
+
+      events.forEach((event, i) => {
+        event.review_count = reviews[i][0].review_count;
+
+        if (reviews[i][0].review_avg === null) {
+          event.review_avg = 'N/A';
+        } else {
+          event.review_avg = reviews[i][0].review_avg;
+        }
+      })
+      console.log(reviews);
+      console.log(events);
+      return events;
+
+    })
+  }
+
+  function addBio(id, bio) {
+    return knex('users')
+    .where('id', id)
+    .update({bio})
+  }
+
+  function getRatingbyUserId(id) {
+    return knex('reviews')
+    .join('user_events', 'user_events.id', 'reviews.user_event_id')
+    .join('users', 'users.id', 'user_events.user_id')
+    .where('users.id', id)
+    .avg('rating')
+    .then(result => result);
+  }
+
   function findEventsByUserId(user_id) {
     return knex('events')
     .join('user_events', 'user_events.event_id', 'events.id')
@@ -97,10 +152,10 @@ module.exports = function makeUserHelpers(knex) {
 
   function findReviewsByUserId(user_id) {
     return knex('reviews')
+    .select('reviews.description', 'reviews.rating', 'users.first_name', 'users.last_name', 'users.avatar')
     .join('user_events', 'user_events.id', 'reviews.user_event_id')
-    .join('users', 'users.id', 'user_events.user_id')
-    .join('events', 'events.id', 'user_events.event_id')
-    .where('users.id', user_id)
+    .join('users', 'users.id', 'reviews.reviewer_id')
+    .where('user_events.user_id', user_id)
     .then((result) => result);
   }
 
@@ -111,40 +166,19 @@ module.exports = function makeUserHelpers(knex) {
     .then((result) => result);
   }
 
-  function postReview(reviewerId, eventId, userId, rating, description) {
-    const postReviewPromise = new Promise((resolve, reject) => {
-      knex('user_events')
-      .select('id')
-      .where({
-        user_id: userId,
-        event_id: eventId
-      })
-      .then((userEvent) => {
-        knex('reviews')
-        .insert({
-          reviewer_id: reviewerId,
-          user_event_id: userEvent[0].id,
-          rating: rating,
-          description: description
-        }).then(() => {
-          resolve();
-        });
-      });
-    });
-    return postReviewPromise;
-  }
-
   return {
-  findByEmail,
-  findById,
-  checkEmailUnique,
-  authenticateUser,
-  addUser,
-  becomeHost,
-  findEventsByUserId,
-  findReviewsByUserId,
-  findReviewsPostedByUserId,
-  becomeChef
-  // postReview
+    findByEmail,
+    findById,
+    checkEmailUnique,
+    authenticateUser,
+    addUser,
+    becomeHost,
+    findEventsByUserId,
+    findHostedEventsByUserId,
+    findReviewsByUserId,
+    findReviewsPostedByUserId,
+    getRatingbyUserId,
+    becomeChef,
+    addBio
   };
 };

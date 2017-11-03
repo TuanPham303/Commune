@@ -1,59 +1,36 @@
 import React, {Component} from 'react';
+const uuid = require('uuid/v4');
 
 class UserProfile_Reviews extends Component {
   render() {
+    const reviews = this.props.reviews.map( review => {
+      return <div className="row review" key={uuid()}>
+      <div className="col-2">
+        <div className="avatar">
+          <img className="thumbnail" src={review.avatar} alt=""></img>
+        </div>
+      </div>
+      <div className="content col-10 text-left">
+        <div>
+          <p><strong>{review.first_name} {review.last_name}</strong>: {review.description}</p>
+        </div>
+      </div>
+      <hr/>
+    </div>
+    })
+
     return (
+    <span>
+      <div className="triangleTop"></div>
       <div className="container-fluid">
-        <div className="reviews row justify-content-center">
+        <div className="reviews row justify-content-center menuContainer">
           <div className="col-8">
             <h3>Reviews:</h3>
-            <div className="row review">
-              <div className="col-2">
-                <div className="avatar">
-                  <img src="https://s3.amazonaws.com/lighthouse-compass2/uploads/student/custom_avatar/1300/thumb_scottyface.jpg" alt=""/>
-                </div>
-              </div>
-              <div className="content col-10">
-                <div>
-                <h5>Coty</h5>
-                <p>Love her, AWESOME chef!!!</p>
-                </div>
-              </div>
-              <hr/>
-            </div><hr/>
-            <div className="row review">
-              <div className="col-2">
-                <div className="avatar">
-                  <img src="https://s3.amazonaws.com/lighthouse-compass2/uploads/student/custom_avatar/1300/thumb_scottyface.jpg" alt=""/>
-                </div>
-              </div>
-              <div className="content col-10">
-                <div>
-                <h5>Coty</h5>
-                <p>Love her, AWESOME chef!!!</p>
-                </div>
-              </div>
-              <hr/>
-            </div><hr/>
-            <div className="row review">
-              <div className="col-2">
-                <div className="avatar">
-                  <img src="https://s3.amazonaws.com/lighthouse-compass2/uploads/student/custom_avatar/1300/thumb_scottyface.jpg" alt=""/>
-                </div>
-              </div>
-              <div className="content col-10">
-                <div>
-                <h5>Coty</h5>
-                <p>Love her, AWESOME chef!!!</p>
-                </div>
-              </div>
-              <hr/>
-            </div><hr/>
-            
-            
+              { reviews }
           </div>
         </div>
-      </div>  
+      </div>
+    </span>
     );
   }
 }
